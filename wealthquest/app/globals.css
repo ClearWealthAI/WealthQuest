@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --gold: #E8A820;
+    --gold-dk: #B8820A;
+    --gold-bg: #FFF8E6;
+    --gold-bd: #F5D478;
+    --bg: #F8F6F1;
+    --bg2: #FFFFFF;
+    --bg3: #F0EDE6;
+    --border: #E4E0D8;
+    --text1: #1C1A16;
+    --text2: #6B6355;
+    --text3: #A89E90;
+    --green: #3A9E5C;
+    --green-bg: #EDFAF2;
+    --green-bd: #90D4AC;
+  }
+  body { background: #F8F6F1; color: #1C1A16; }
+}
+
+@layer utilities {
+  .bg-bg    { background-color: #F8F6F1; }
+  .bg-bg2   { background-color: #FFFFFF; }
+  .bg-bg3   { background-color: #F0EDE6; }
+  .bg-gold  { background-color: #E8A820; }
+  .bg-gold-bg { background-color: #FFF8E6; }
+  .bg-green-bg { background-color: #EDFAF2; }
+  .border-border { border-color: #E4E0D8; }
+  .border-gold  { border-color: #E8A820; }
+  .border-gold-bd { border-color: #F5D478; }
+  .border-green-bd { border-color: #90D4AC; }
+  .text-text1   { color: #1C1A16; }
+  .text-text2   { color: #6B6355; }
+  .text-text3   { color: #A89E90; }
+  .text-gold-dk { color: #B8820A; }
+  .text-green   { color: #3A9E5C; }
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-[#E8A820] text-[#1A1200] font-bold py-3 px-8 rounded-full
+           transition-all hover:-translate-y-0.5 hover:shadow-lg
+           disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer;
+  }
+  .btn-ghost {
+    @apply border border-[#E4E0D8] text-[#6B6355] font-semibold py-3 px-6
+           rounded-full transition-all hover:bg-[#F0EDE6] cursor-pointer;
+  }
+  .card {
+    @apply bg-white border border-[#E4E0D8] rounded-2xl p-5 shadow-sm;
+  }
+  .input {
+    @apply w-full px-4 py-3 bg-[#F8F6F1] border border-[#E4E0D8] rounded-xl
+           text-sm outline-none transition-all focus:border-[#E8A820];
+  }
+  .pill {
+    @apply inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full;
+  }
+}
