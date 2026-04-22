@@ -68,15 +68,28 @@ export default function Dashboard() {
       setStreakUpdated(streakChanged)
       setLoading(false)
 
-      // Check daily quest
-      const done = localStorage.getItem(todayKey)
-      if (done) setDailyAnswered(done as 'correct' | 'wrong')
+      // Check daily quest — use Supabase as source of truth, localStorage as fallback
+      const serverDone = (data as any)?.last_daily_quest === today
+      if (serverDone) {
+        setDailyAnswered('correct')
+        localStorage.setItem(todayKey, 'correct')
+      } else {
+        const done = localStorage.getItem(todayKey)
+        if (done) setDailyAnswered(done as 'correct' | 'wrong')
+      }
     }
     load()
   }, [router])
 
   async function answerDaily(idx: number) {
     if (dailyAnswered || !profile) return
+    // Double-check Supabase to prevent money glitch
+    const { data: fresh } = await supabase.from('profiles').select('last_daily_quest').eq('id', profile.id).single()
+    if ((fresh as any)?.last_daily_quest === today) {
+      setDailyAnswered('correct')
+      localStorage.setItem(todayKey, 'correct')
+      return
+    }
     const correct = dailyQuest.options[idx].correct
     setDailySelected(idx)
     setDailyAnswered(correct ? 'correct' : 'wrong')
@@ -86,8 +99,16 @@ export default function Dashboard() {
       const newXp = profile.xp + dailyQuest.xp
       const newGold = profile.gold + dailyQuest.gold
       const newLevel = newXp >= profile.level * XP_PER_LEVEL ? profile.level + 1 : profile.level
-      await supabase.from('profiles').update({ xp: newXp, gold: newGold, level: newLevel }).eq('id', profile.id)
+      await supabase.from('profiles').update({
+        xp: newXp,
+        gold: newGold,
+        level: newLevel,
+        last_daily_quest: today,
+      }).eq('id', profile.id)
       setProfile({ ...profile, xp: newXp, gold: newGold, level: newLevel })
+    } else {
+      // Still mark as done even if wrong
+      await supabase.from('profiles').update({ last_daily_quest: today }).eq('id', profile.id)
     }
   }
 
@@ -153,6 +174,25 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+
+        {/* SHOP BANNER TOP */}
+        <Link href="/shop" className="block mb-4">
+          <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] hover:shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #2a1a00, #4a3000, #2a1a00)', border: '1.5px solid rgba(232,168,32,0.5)' }}>
+            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
+            <div className="relative flex items-center justify-between">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: 'rgba(245,188,56,0.7)' }}>Gold Shop</div>
+                <div className="font-serif font-black text-lg" style={{ color: '#F5BC38' }}>🛒 Spend Your Gold</div>
+                <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Streak Freeze · XP Boost · Icon Skins · Hints</p>
+              </div>
+              <div className="text-right">
+                <div className="font-serif font-black text-2xl" style={{ color: '#F5BC38' }}>🪙 {profile.gold}</div>
+                <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>available</div>
+              </div>
+            </div>
+          </div>
+        </Link>
 
         {/* STREAK CARD */}
         <div className="card mb-4 border-2" style={{ borderColor: streakColor + '40', background: streakBg }}>
@@ -347,6 +387,21 @@ export default function Dashboard() {
             )
           })}
         </div>
+
+        {/* SHOP BANNER BOTTOM */}
+        <Link href="/shop" className="block mb-4">
+          <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01]"
+            style={{ background: 'linear-gradient(135deg, #2a1a00, #4a3000, #2a1a00)', border: '1.5px solid rgba(232,168,32,0.4)' }}>
+            <div className="relative flex items-center gap-3">
+              <div className="text-3xl">🛒</div>
+              <div className="flex-1">
+                <div className="font-serif font-black text-base" style={{ color: '#F5BC38' }}>Gold Shop</div>
+                <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Use your 🪙 {profile.gold} gold on boosts, icons and more</div>
+              </div>
+              <div className="text-gold font-bold text-sm" style={{ color: '#F5BC38' }}>Open →</div>
+            </div>
+          </div>
+        </Link>
 
         {/* Links */}
         <div className="grid grid-cols-3 gap-3">
