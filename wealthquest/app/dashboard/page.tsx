@@ -72,6 +72,26 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* World Map Banner */}
+        <Link href="/map" className="block mb-5">
+          <div className="rounded-2xl p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] hover:shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #0f2009 0%, #1a3a12 50%, #0f2009 100%)', border: '1px solid rgba(58,158,92,0.3)' }}>
+            <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
+            {/* Stars */}
+            <div className="absolute top-3 right-8 text-[8px] opacity-40">✦</div>
+            <div className="absolute top-6 right-16 text-[6px] opacity-30">✦</div>
+            <div className="absolute top-2 right-24 text-[10px] opacity-20">✦</div>
+            <div className="relative flex items-center justify-between">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(111,207,151,0.7)' }}>Explore</div>
+                <div className="font-serif font-black text-xl mb-1" style={{ color: '#F5BC38' }}>🗺️ World Map</div>
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>See your journey through the ETF Highlands</p>
+              </div>
+              <div className="text-4xl opacity-60">⚔️</div>
+            </div>
+          </div>
+        </Link>
+
         {/* Chapter I Banner */}
         <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-2xl p-5 mb-3 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
@@ -156,7 +176,13 @@ export default function Dashboard() {
         </div>
 
         {/* Links */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-3 gap-3">
+          <Link href="/map"
+            className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
+            <div className="text-2xl mb-1">🗺️</div>
+            <div className="font-bold text-sm text-text1">World Map</div>
+            <div className="text-xs text-text2 mt-0.5">Your journey</div>
+          </Link>
           <Link href="https://clearwealthai.com/clearwealthai-quiz.html" target="_blank"
             className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
             <div className="text-2xl mb-1">🎯</div>
