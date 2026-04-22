@@ -355,11 +355,10 @@ export default function Dashboard() {
             <div className="font-bold text-sm text-text1">World Map</div>
             <div className="text-xs text-text2 mt-0.5">Your journey</div>
           </Link>
-          <Link href="https://clearwealthai.com/clearwealthai-quiz.html" target="_blank"
-            className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
-            <div className="text-2xl mb-1">🎯</div>
-            <div className="font-bold text-sm text-text1">ETF Quiz</div>
-            <div className="text-xs text-text2 mt-0.5">Find your profile</div>
+          <Link href="/shop" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
+            <div className="text-2xl mb-1">🛒</div>
+            <div className="font-bold text-sm text-text1">Gold Shop</div>
+            <div className="text-xs text-text2 mt-0.5">Spend your gold</div>
           </Link>
           <Link href="/portfolio" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
             <div className="text-2xl mb-1">📊</div>
