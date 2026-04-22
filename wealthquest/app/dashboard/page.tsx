@@ -12,18 +12,63 @@ export default function Dashboard() {
   const [dailyQuest] = useState<DailyQuest>(() => getDailyQuest())
   const [dailyAnswered, setDailyAnswered] = useState<'correct' | 'wrong' | null>(null)
   const [dailySelected, setDailySelected] = useState<number | null>(null)
+  const [streakUpdated, setStreakUpdated] = useState(false)
 
-  // Check today's date key for daily quest completion
   const todayKey = `dq_${new Date().toISOString().slice(0, 10)}`
+  const today = new Date().toISOString().slice(0, 10)
 
   useEffect(() => {
     async function load() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) { router.push('/login'); return }
       const { data } = await supabase.from('profiles').select('*').eq('id', session.user.id).single()
-      setProfile(data)
+
+      // --- STREAK LOGIC ---
+      let streak = data?.streak || 0
+      let longest_streak = data?.longest_streak || 0
+      const last_login = data?.last_login
+
+      const yesterday = new Date()
+      yesterday.setDate(yesterday.getDate() - 1)
+      const yesterdayStr = yesterday.toISOString().slice(0, 10)
+
+      let streakChanged = false
+      if (last_login !== today) {
+        if (last_login === yesterdayStr) {
+          // Consecutive day — increment streak
+          streak = streak + 1
+        } else if (!last_login) {
+          // First login ever
+          streak = 1
+        } else {
+          // Missed a day — reset streak
+          streak = 1
+        }
+        longest_streak = Math.max(streak, longest_streak)
+
+        // Streak milestone bonus XP
+        let bonusXp = 0
+        let bonusMsg = ''
+        if (streak === 7) { bonusXp = 50; bonusMsg = '🔥 7-day streak! +50 XP bonus!' }
+        if (streak === 30) { bonusXp = 200; bonusMsg = '🔥 30-day streak! +200 XP bonus!' }
+        if (streak === 100) { bonusXp = 500; bonusMsg = '🔥 100-day streak! +500 XP bonus!' }
+
+        await supabase.from('profiles').update({
+          streak,
+          longest_streak,
+          last_login: today,
+          xp: (data?.xp || 0) + bonusXp,
+        }).eq('id', session.user.id)
+
+        streakChanged = true
+        if (bonusMsg) setTimeout(() => alert(bonusMsg), 1000)
+      }
+
+      setProfile({ ...data, streak, longest_streak })
+      setStreakUpdated(streakChanged)
       setLoading(false)
-      // Check if daily already done today
+
+      // Check daily quest
       const done = localStorage.getItem(todayKey)
       if (done) setDailyAnswered(done as 'correct' | 'wrong')
     }
@@ -38,16 +83,10 @@ export default function Dashboard() {
     localStorage.setItem(todayKey, correct ? 'correct' : 'wrong')
 
     if (correct) {
-      // Award XP and Gold
       const newXp = profile.xp + dailyQuest.xp
       const newGold = profile.gold + dailyQuest.gold
-      const newLevel = Math.floor(newXp / (profile.level * XP_PER_LEVEL)) >= 1
-        ? profile.level + 1 : profile.level
-      await supabase.from('profiles').update({
-        xp: newXp,
-        gold: newGold,
-        level: newLevel,
-      }).eq('id', profile.id)
+      const newLevel = newXp >= profile.level * XP_PER_LEVEL ? profile.level + 1 : profile.level
+      await supabase.from('profiles').update({ xp: newXp, gold: newGold, level: newLevel }).eq('id', profile.id)
       setProfile({ ...profile, xp: newXp, gold: newGold, level: newLevel })
     }
   }
@@ -67,8 +106,12 @@ export default function Dashboard() {
   const ch2Completed = profile.completed_quests?.filter((id: number) => id >= 101 && id <= 125).length || 0
   const ch1Total = CHAPTER_ONE.length
   const ch2Total = CHAPTER_TWO.length
-
+  const streak = profile.streak || 0
   const alreadyDoneToday = dailyAnswered !== null
+
+  // Streak color
+  const streakColor = streak >= 30 ? '#E8453A' : streak >= 7 ? '#E8A820' : '#F97316'
+  const streakBg = streak >= 30 ? 'rgba(232,69,58,0.1)' : streak >= 7 ? 'rgba(232,168,32,0.1)' : 'rgba(249,115,22,0.1)'
 
   return (
     <div className="min-h-screen bg-bg">
@@ -79,6 +122,11 @@ export default function Dashboard() {
           <span className="font-serif font-black text-base text-text1">Wealth Quest</span>
         </Link>
         <div className="flex items-center gap-2 text-sm">
+          {/* Streak pill in nav */}
+          <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold"
+            style={{ background: streakBg, color: streakColor }}>
+            🔥 {streak}
+          </div>
           <span className="text-yellow-600 font-bold">🪙 {profile.gold}</span>
           <Link href="/profile" className="w-8 h-8 rounded-full bg-gold-bg border border-gold-bd flex items-center justify-center text-lg">{profile.class_icon}</Link>
           <button onClick={signOut} className="text-text3 text-xs hover:text-text2">Exit</button>
@@ -86,8 +134,9 @@ export default function Dashboard() {
       </nav>
 
       <div className="max-w-2xl mx-auto px-4 py-6">
+
         {/* Player Card */}
-        <div className="card mb-5">
+        <div className="card mb-4">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-gold-bg border-2 border-gold-bd flex items-center justify-center text-4xl">{profile.class_icon}</div>
             <div className="flex-1">
@@ -105,8 +154,49 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* STREAK CARD */}
+        <div className="card mb-4 border-2" style={{ borderColor: streakColor + '40', background: streakBg }}>
+          <div className="flex items-center gap-3">
+            <div className="text-4xl" style={{ filter: streak === 0 ? 'grayscale(1)' : 'none' }}>🔥</div>
+            <div className="flex-1">
+              <div className="font-serif font-black text-2xl" style={{ color: streakColor }}>
+                {streak} {streak === 1 ? 'day' : 'days'}
+              </div>
+              <div className="text-xs text-text2">
+                {streak === 0 ? 'Start your streak by logging in daily!' :
+                 streak < 7 ? `${7 - streak} more days to reach the 7-day bonus! (+50 XP)` :
+                 streak < 30 ? `${30 - streak} more days to reach the 30-day bonus! (+200 XP)` :
+                 streak < 100 ? `${100 - streak} more days to reach the 100-day bonus! (+500 XP)` :
+                 '🏆 Legendary streak! You are unstoppable!'}
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-xs text-text3">Best</div>
+              <div className="font-bold text-sm text-text1">🔥 {profile.longest_streak || 0}</div>
+            </div>
+          </div>
+
+          {/* Streak milestones */}
+          <div className="flex gap-2 mt-3">
+            {[
+              { days: 7, xp: '+50 XP', label: '7d' },
+              { days: 30, xp: '+200 XP', label: '30d' },
+              { days: 100, xp: '+500 XP', label: '100d' },
+            ].map(m => (
+              <div key={m.days} className={`flex-1 rounded-xl py-2 text-center border ${streak >= m.days ? 'border-green-bd bg-green-bg' : 'border-border bg-white/50'}`}>
+                <div className="text-xs font-bold" style={{ color: streak >= m.days ? '#3A9E5C' : '#A89E90' }}>{m.label}</div>
+                <div className="text-xs" style={{ color: streak >= m.days ? '#3A9E5C' : '#A89E90' }}>{m.xp}</div>
+                {streak >= m.days && <div className="text-xs">✓</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Daily Quest Card */}
-        <div className="card mb-5 border-2" style={{ borderColor: alreadyDoneToday ? (dailyAnswered === 'correct' ? '#88D4A4' : '#F0D068') : '#F0D068', background: alreadyDoneToday && dailyAnswered === 'correct' ? '#EDFAF2' : '#FFFEF8' }}>
+        <div className="card mb-4 border-2" style={{
+          borderColor: alreadyDoneToday ? (dailyAnswered === 'correct' ? '#88D4A4' : '#F0D068') : '#F0D068',
+          background: alreadyDoneToday && dailyAnswered === 'correct' ? '#EDFAF2' : '#FFFEF8'
+        }}>
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center text-base">⚡</div>
             <div>
@@ -121,28 +211,20 @@ export default function Dashboard() {
 
           {alreadyDoneToday ? (
             <div className={`rounded-xl p-3 text-center text-sm font-bold ${dailyAnswered === 'correct' ? 'bg-green-bg text-green-700' : 'bg-gold-bg text-gold-dk'}`}>
-              {dailyAnswered === 'correct' ? '✅ Completed! Come back tomorrow for a new challenge.' : '📖 Come back tomorrow for a new challenge.'}
+              {dailyAnswered === 'correct' ? '✅ Completed! Come back tomorrow.' : '📖 Come back tomorrow for a new challenge.'}
             </div>
           ) : (
             <>
               <p className="text-sm font-semibold text-text1 mb-3">{dailyQuest.question}</p>
               <div className="flex flex-col gap-2">
                 {dailyQuest.options.map((opt, i) => (
-                  <button
-                    key={i}
-                    onClick={() => answerDaily(i)}
-                    disabled={dailyAnswered !== null}
+                  <button key={i} onClick={() => answerDaily(i)} disabled={dailyAnswered !== null}
                     className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
                       dailyAnswered !== null && dailySelected === i
-                        ? opt.correct
-                          ? 'border-green-500 bg-green-bg text-green-700'
-                          : 'border-red-400 bg-red-50 text-red-700'
-                        : dailyAnswered !== null && opt.correct
-                        ? 'border-green-500 bg-green-bg text-green-700'
+                        ? opt.correct ? 'border-green-500 bg-green-bg text-green-700' : 'border-red-400 bg-red-50 text-red-700'
+                        : dailyAnswered !== null && opt.correct ? 'border-green-500 bg-green-bg text-green-700'
                         : 'border-border bg-bg hover:border-gold-bd hover:bg-gold-bg cursor-pointer text-text1'
-                    }`}>
-                    {opt.text}
-                  </button>
+                    }`}>{opt.text}</button>
                 ))}
               </div>
               {dailyAnswered && (
@@ -155,13 +237,12 @@ export default function Dashboard() {
         </div>
 
         {/* World Map Banner */}
-        <Link href="/map" className="block mb-5">
+        <Link href="/map" className="block mb-4">
           <div className="rounded-2xl p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] hover:shadow-lg"
             style={{ background: 'linear-gradient(135deg, #0f2009 0%, #1a3a12 50%, #0f2009 100%)', border: '1px solid rgba(58,158,92,0.3)' }}>
             <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
             <div className="absolute top-3 right-8 text-[8px] opacity-40">✦</div>
             <div className="absolute top-6 right-16 text-[6px] opacity-30">✦</div>
-            <div className="absolute top-2 right-24 text-[10px] opacity-20">✦</div>
             <div className="relative flex items-center justify-between">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(111,207,151,0.7)' }}>Explore</div>
@@ -173,7 +254,23 @@ export default function Dashboard() {
           </div>
         </Link>
 
-        {/* Chapter I Banner */}
+        {/* Portfolio Simulator Banner */}
+        <Link href="/portfolio" className="block mb-4">
+          <div className="rounded-2xl p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] hover:shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%)', border: '1px solid rgba(59,122,216,0.3)' }}>
+            <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
+            <div className="relative flex items-center justify-between">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(100,160,255,0.7)' }}>New Feature</div>
+                <div className="font-serif font-black text-xl mb-1" style={{ color: '#60A5FA' }}>📊 Portfolio Simulator</div>
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Invest €10,000 virtual money — no risk, real learning</p>
+              </div>
+              <div className="text-4xl opacity-60">💰</div>
+            </div>
+          </div>
+        </Link>
+
+        {/* Chapter Banners */}
         <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-2xl p-5 mb-3 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
           <div className="relative">
@@ -191,7 +288,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Chapter II Banner */}
         <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 rounded-2xl p-5 mb-5 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
           <div className="relative">
@@ -230,8 +326,7 @@ export default function Dashboard() {
             const done = profile.completed_quests?.includes(q.id)
             const locked = i > 0 && !profile.completed_quests?.includes(QUESTS[i - 1].id)
             return (
-              <div key={q.id}
-                onClick={() => !locked && router.push(`/quest/${q.id}`)}
+              <div key={q.id} onClick={() => !locked && router.push(`/quest/${q.id}`)}
                 className={`card flex items-center gap-4 transition-all ${!locked ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-md hover:border-gold-bd' : 'opacity-60 cursor-default'} ${done ? 'border-green-bd bg-green-bg' : ''}`}>
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 ${done ? 'bg-green-bg' : locked ? 'bg-bg3' : 'bg-gold-bg'}`}>
                   {done ? '✅' : locked ? '🔒' : q.icon}
@@ -245,10 +340,7 @@ export default function Dashboard() {
                 </div>
                 <div className="text-right flex-shrink-0">
                   {done ? <div className="text-green font-bold text-sm">✓ Done</div> : (
-                    <>
-                      <div className="font-bold text-gold-dk text-sm">+{q.xp} XP</div>
-                      <div className="text-xs text-text3">+{q.gold} 🪙</div>
-                    </>
+                    <><div className="font-bold text-gold-dk text-sm">+{q.xp} XP</div><div className="text-xs text-text3">+{q.gold} 🪙</div></>
                   )}
                 </div>
               </div>
@@ -258,8 +350,7 @@ export default function Dashboard() {
 
         {/* Links */}
         <div className="grid grid-cols-3 gap-3">
-          <Link href="/map"
-            className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
+          <Link href="/map" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
             <div className="text-2xl mb-1">🗺️</div>
             <div className="font-bold text-sm text-text1">World Map</div>
             <div className="text-xs text-text2 mt-0.5">Your journey</div>
@@ -270,11 +361,10 @@ export default function Dashboard() {
             <div className="font-bold text-sm text-text1">ETF Quiz</div>
             <div className="text-xs text-text2 mt-0.5">Find your profile</div>
           </Link>
-          <Link href="https://clearwealthai.com/clearwealthai.html" target="_blank"
-            className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
+          <Link href="/portfolio" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
             <div className="text-2xl mb-1">📊</div>
-            <div className="font-bold text-sm text-text1">Calculator</div>
-            <div className="text-xs text-text2 mt-0.5">See your future wealth</div>
+            <div className="font-bold text-sm text-text1">Simulator</div>
+            <div className="text-xs text-text2 mt-0.5">Virtual investing</div>
           </Link>
         </div>
       </div>
