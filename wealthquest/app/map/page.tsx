@@ -7,31 +7,31 @@ import { CHAPTER_ONE, Quest } from '@/lib/quests'
 
 // Node positions for 25 quests on the map (x%, y%)
 const NODE_POSITIONS = [
-  { x: 18, y: 72 }, // 1 What is an ETF
-  { x: 28, y: 58 }, // 2 Stock Market
-  { x: 22, y: 43 }, // 3 Accumulating vs Distributing
-  { x: 35, y: 32 }, // 4 TER
-  { x: 48, y: 24 }, // 5 Compound Interest
-  { x: 60, y: 30 }, // 6 Open Broker
-  { x: 70, y: 20 }, // 7 Dollar Cost Averaging
-  { x: 80, y: 30 }, // 8 MSCI World
-  { x: 82, y: 44 }, // 9 Diversification
-  { x: 76, y: 57 }, // 10 Risk & Return
-  { x: 65, y: 63 }, // 11 3-Fund Portfolio
-  { x: 55, y: 70 }, // 12 Inflation
-  { x: 44, y: 63 }, // 13 Emergency Fund
-  { x: 35, y: 54 }, // 14 ETF vs Active
-  { x: 30, y: 68 }, // 15 Tax Basics
-  { x: 40, y: 78 }, // 16 Market Crashes
-  { x: 52, y: 82 }, // 17 Savings Rate
-  { x: 64, y: 78 }, // 18 ESG ETFs
-  { x: 74, y: 70 }, // 19 Investment Goals
-  { x: 80, y: 58 }, // 20 Tracking Portfolio  -- wait, this overlaps with 10
-  { x: 86, y: 68 }, // 21 Biggest Mistakes
-  { x: 76, y: 80 }, // 22 Bonds
+  { x: 14, y: 75 }, // 1  What is an ETF
+  { x: 24, y: 62 }, // 2  Stock Market
+  { x: 16, y: 48 }, // 3  Accumulating vs Distributing
+  { x: 28, y: 36 }, // 4  TER
+  { x: 42, y: 24 }, // 5  Compound Interest
+  { x: 56, y: 18 }, // 6  Open Broker
+  { x: 70, y: 14 }, // 7  Dollar Cost Averaging
+  { x: 82, y: 24 }, // 8  MSCI World
+  { x: 88, y: 38 }, // 9  Diversification
+  { x: 84, y: 52 }, // 10 Risk & Return
+  { x: 72, y: 60 }, // 11 3-Fund Portfolio
+  { x: 60, y: 66 }, // 12 Inflation
+  { x: 48, y: 60 }, // 13 Emergency Fund
+  { x: 36, y: 52 }, // 14 ETF vs Active
+  { x: 24, y: 74 }, // 15 Tax Basics
+  { x: 36, y: 82 }, // 16 Market Crashes
+  { x: 50, y: 78 }, // 17 Savings Rate
+  { x: 64, y: 74 }, // 18 ESG ETFs
+  { x: 76, y: 68 }, // 19 Investment Goals
+  { x: 86, y: 60 }, // 20 Tracking Portfolio
+  { x: 88, y: 74 }, // 21 Biggest Mistakes
+  { x: 76, y: 82 }, // 22 Bonds
   { x: 62, y: 88 }, // 23 ETF Factsheet
-  { x: 48, y: 90 }, // 24 ETF Savings Plan
-  { x: 34, y: 85 }, // 25 Chapter Complete
+  { x: 46, y: 88 }, // 24 ETF Savings Plan
+  { x: 30, y: 90 }, // 25 Chapter Complete 🏆
 ]
 
 export default function MapPage() {
