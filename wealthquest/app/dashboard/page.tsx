@@ -3,12 +3,18 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase, Profile } from '@/lib/supabase'
-import { QUESTS, CHAPTER_ONE, CHAPTER_TWO, LEVEL_NAMES, XP_PER_LEVEL } from '@/lib/quests'
+import { QUESTS, CHAPTER_ONE, CHAPTER_TWO, LEVEL_NAMES, XP_PER_LEVEL, getDailyQuest, DailyQuest } from '@/lib/quests'
 
 export default function Dashboard() {
   const router = useRouter()
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
+  const [dailyQuest] = useState<DailyQuest>(() => getDailyQuest())
+  const [dailyAnswered, setDailyAnswered] = useState<'correct' | 'wrong' | null>(null)
+  const [dailySelected, setDailySelected] = useState<number | null>(null)
+
+  // Check today's date key for daily quest completion
+  const todayKey = `dq_${new Date().toISOString().slice(0, 10)}`
 
   useEffect(() => {
     async function load() {
@@ -17,9 +23,34 @@ export default function Dashboard() {
       const { data } = await supabase.from('profiles').select('*').eq('id', session.user.id).single()
       setProfile(data)
       setLoading(false)
+      // Check if daily already done today
+      const done = localStorage.getItem(todayKey)
+      if (done) setDailyAnswered(done as 'correct' | 'wrong')
     }
     load()
   }, [router])
+
+  async function answerDaily(idx: number) {
+    if (dailyAnswered || !profile) return
+    const correct = dailyQuest.options[idx].correct
+    setDailySelected(idx)
+    setDailyAnswered(correct ? 'correct' : 'wrong')
+    localStorage.setItem(todayKey, correct ? 'correct' : 'wrong')
+
+    if (correct) {
+      // Award XP and Gold
+      const newXp = profile.xp + dailyQuest.xp
+      const newGold = profile.gold + dailyQuest.gold
+      const newLevel = Math.floor(newXp / (profile.level * XP_PER_LEVEL)) >= 1
+        ? profile.level + 1 : profile.level
+      await supabase.from('profiles').update({
+        xp: newXp,
+        gold: newGold,
+        level: newLevel,
+      }).eq('id', profile.id)
+      setProfile({ ...profile, xp: newXp, gold: newGold, level: newLevel })
+    }
+  }
 
   async function signOut() {
     await supabase.auth.signOut()
@@ -36,6 +67,8 @@ export default function Dashboard() {
   const ch2Completed = profile.completed_quests?.filter((id: number) => id >= 101 && id <= 125).length || 0
   const ch1Total = CHAPTER_ONE.length
   const ch2Total = CHAPTER_TWO.length
+
+  const alreadyDoneToday = dailyAnswered !== null
 
   return (
     <div className="min-h-screen bg-bg">
@@ -72,12 +105,60 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Daily Quest Card */}
+        <div className="card mb-5 border-2" style={{ borderColor: alreadyDoneToday ? (dailyAnswered === 'correct' ? '#88D4A4' : '#F0D068') : '#F0D068', background: alreadyDoneToday && dailyAnswered === 'correct' ? '#EDFAF2' : '#FFFEF8' }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center text-base">⚡</div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-gold-dk">Daily Quest</div>
+              <div className="font-bold text-sm text-text1">{dailyQuest.title}</div>
+            </div>
+            <div className="ml-auto text-right">
+              <div className="text-xs font-bold text-gold-dk">+{dailyQuest.xp} XP</div>
+              <div className="text-xs text-text3">+{dailyQuest.gold} 🪙</div>
+            </div>
+          </div>
+
+          {alreadyDoneToday ? (
+            <div className={`rounded-xl p-3 text-center text-sm font-bold ${dailyAnswered === 'correct' ? 'bg-green-bg text-green-700' : 'bg-gold-bg text-gold-dk'}`}>
+              {dailyAnswered === 'correct' ? '✅ Completed! Come back tomorrow for a new challenge.' : '📖 Come back tomorrow for a new challenge.'}
+            </div>
+          ) : (
+            <>
+              <p className="text-sm font-semibold text-text1 mb-3">{dailyQuest.question}</p>
+              <div className="flex flex-col gap-2">
+                {dailyQuest.options.map((opt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => answerDaily(i)}
+                    disabled={dailyAnswered !== null}
+                    className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium border-2 transition-all ${
+                      dailyAnswered !== null && dailySelected === i
+                        ? opt.correct
+                          ? 'border-green-500 bg-green-bg text-green-700'
+                          : 'border-red-400 bg-red-50 text-red-700'
+                        : dailyAnswered !== null && opt.correct
+                        ? 'border-green-500 bg-green-bg text-green-700'
+                        : 'border-border bg-bg hover:border-gold-bd hover:bg-gold-bg cursor-pointer text-text1'
+                    }`}>
+                    {opt.text}
+                  </button>
+                ))}
+              </div>
+              {dailyAnswered && (
+                <div className={`mt-3 p-3 rounded-xl text-sm ${dailyAnswered === 'correct' ? 'bg-green-bg text-green-700' : 'bg-gold-bg text-gold-dk'}`}>
+                  {dailyAnswered === 'correct' ? `✅ ${dailyQuest.correctFeedback}` : `💡 ${dailyQuest.wrongFeedback}`}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
         {/* World Map Banner */}
         <Link href="/map" className="block mb-5">
           <div className="rounded-2xl p-5 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] hover:shadow-lg"
             style={{ background: 'linear-gradient(135deg, #0f2009 0%, #1a3a12 50%, #0f2009 100%)', border: '1px solid rgba(58,158,92,0.3)' }}>
             <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
-            {/* Stars */}
             <div className="absolute top-3 right-8 text-[8px] opacity-40">✦</div>
             <div className="absolute top-6 right-16 text-[6px] opacity-30">✦</div>
             <div className="absolute top-2 right-24 text-[10px] opacity-20">✦</div>
