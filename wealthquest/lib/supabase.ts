@@ -16,4 +16,5 @@ export type Profile = {
   longest_streak: number
   last_login: string | null
   portfolio: any | null
+  inventory: Record<string, number>
 }
