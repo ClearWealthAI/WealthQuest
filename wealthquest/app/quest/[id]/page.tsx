@@ -769,44 +769,6 @@ function PsychologyChart() {
   )
 }
 
-// Quest 111: Home Bias
-function HomeBiasChart() {
-  const [show, setShow] = useState(false)
-  useEffect(() => { setTimeout(() => setShow(true), 300) }, [])
-  const countries = [
-    { name: 'Germany in Global Market', actual: 2.5, typical: 60, color: '#E8453A' },
-    { name: 'USA in Global Market', actual: 63, typical: 65, color: '#3B7AD8' },
-    { name: 'Japan in Global Market', actual: 6, typical: 40, color: '#E8A820' },
-  ]
-  return (
-    <div className="card mb-4 p-4">
-      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🗺️ Home Bias — What investors hold vs actual market size</div>
-      {countries.map(c => (
-        <div key={c.name} className="mb-3">
-          <div className="text-xs font-bold text-text1 mb-1">{c.name}</div>
-          <div className="flex gap-1 items-center mb-0.5">
-            <span className="text-[9px] w-16 text-text3">Actual share</span>
-            <div className="flex-1 h-3 bg-bg3 rounded-full overflow-hidden">
-              <div className="h-full rounded-full bg-green-500 transition-all duration-700"
-                style={{ width: show ? `${c.actual}%` : '0%' }}/>
-            </div>
-            <span className="text-[9px] w-8 text-right font-bold text-green-600">{c.actual}%</span>
-          </div>
-          <div className="flex gap-1 items-center">
-            <span className="text-[9px] w-16 text-text3">Typical held</span>
-            <div className="flex-1 h-3 bg-bg3 rounded-full overflow-hidden">
-              <div className="h-full rounded-full transition-all duration-700"
-                style={{ width: show ? `${c.typical}%` : '0%', background: c.color, transitionDelay: '200ms' }}/>
-            </div>
-            <span className="text-[9px] w-8 text-right font-bold" style={{ color: c.color }}>{c.typical}%</span>
-          </div>
-        </div>
-      ))}
-      <div className="mt-1 text-[10px] text-text3 text-center">Germany = 2.5% of global markets. Overweighting it means missing 97.5%</div>
-    </div>
-  )
-}
-
 // Quest 112: Multiple Income Streams
 function IncomeStreamsChart() {
   const streams = [
