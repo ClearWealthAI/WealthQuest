@@ -388,20 +388,29 @@ export default function Dashboard() {
           })}
         </div>
 
-        {/* SHOP BANNER BOTTOM */}
-        <Link href="/shop" className="block mb-4">
-          <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01]"
-            style={{ background: 'linear-gradient(135deg, #2a1a00, #4a3000, #2a1a00)', border: '1.5px solid rgba(232,168,32,0.4)' }}>
-            <div className="relative flex items-center gap-3">
-              <div className="text-3xl">🛒</div>
-              <div className="flex-1">
-                <div className="font-serif font-black text-base" style={{ color: '#F5BC38' }}>Gold Shop</div>
-                <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Use your 🪙 {profile.gold} gold on boosts, icons and more</div>
+        {/* SHOP + LEADERBOARD BANNERS */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <Link href="/shop">
+            <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.02] h-full"
+              style={{ background: 'linear-gradient(135deg, #2a1a00, #4a3000)', border: '1.5px solid rgba(232,168,32,0.4)' }}>
+              <div className="relative flex flex-col items-center text-center gap-1">
+                <div className="text-3xl">🛒</div>
+                <div className="font-serif font-black text-sm" style={{ color: '#F5BC38' }}>Gold Shop</div>
+                <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>🪙 {profile.gold} available</div>
               </div>
-              <div className="text-gold font-bold text-sm" style={{ color: '#F5BC38' }}>Open →</div>
             </div>
-          </div>
-        </Link>
+          </Link>
+          <Link href="/leaderboard">
+            <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.02] h-full"
+              style={{ background: 'linear-gradient(135deg, #0a0a2a, #1a1a4a)', border: '1.5px solid rgba(59,122,216,0.4)' }}>
+              <div className="relative flex flex-col items-center text-center gap-1">
+                <div className="text-3xl">🏆</div>
+                <div className="font-serif font-black text-sm" style={{ color: '#60A5FA' }}>Rankings</div>
+                <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>See top players</div>
+              </div>
+            </div>
+          </Link>
+        </div>
 
         {/* Links */}
         <div className="grid grid-cols-4 gap-2">
