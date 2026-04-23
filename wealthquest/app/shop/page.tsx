@@ -9,6 +9,7 @@ const SHOP_ITEMS = [
     id: 'streak_freeze',
     name: 'Streak Freeze',
     icon: '🧊',
+    img: '/streak-freeze.png',
     desc: 'Protect your streak for 1 day if you miss logging in.',
     price: 200,
     category: 'streak',
@@ -18,6 +19,7 @@ const SHOP_ITEMS = [
     id: 'xp_boost',
     name: 'XP Boost',
     icon: '⚡',
+    img: '/xp-boost.png',
     desc: 'Double XP from all quests for 24 hours.',
     price: 500,
     category: 'boost',
@@ -27,6 +29,7 @@ const SHOP_ITEMS = [
     id: 'hint',
     name: 'Quiz Hint',
     icon: '💡',
+    img: '/hint.png',
     desc: 'Eliminate 2 wrong answers in any quiz question.',
     price: 75,
     category: 'utility',
@@ -36,15 +39,17 @@ const SHOP_ITEMS = [
     id: 'portfolio_boost',
     name: 'Market Insight',
     icon: '🔮',
-    desc: 'See tomorrow\'s market direction (up/down) in the simulator.',
+    img: '/market-insight.png',
+    desc: "See tomorrow's market direction (up/down) in the simulator.",
     price: 350,
     category: 'simulator',
     max: 5,
   },
   {
     id: 'icon_knight',
-    name: 'Knight Icon',
+    name: 'Knight',
     icon: '🏰',
+    img: '/knight.png',
     desc: 'Unlock the legendary Knight character icon.',
     price: 1000,
     category: 'cosmetic',
@@ -52,8 +57,9 @@ const SHOP_ITEMS = [
   },
   {
     id: 'icon_dragon',
-    name: 'Dragon Icon',
+    name: 'Dragon',
     icon: '🐉',
+    img: '/dragon.png',
     desc: 'Unlock the rare Dragon character icon.',
     price: 2000,
     category: 'cosmetic',
@@ -61,8 +67,9 @@ const SHOP_ITEMS = [
   },
   {
     id: 'icon_wizard',
-    name: 'Wizard Icon',
+    name: 'Wizard',
     icon: '🧙',
+    img: '/wizard.png',
     desc: 'Unlock the mystical Wizard character icon.',
     price: 1500,
     category: 'cosmetic',
@@ -70,8 +77,9 @@ const SHOP_ITEMS = [
   },
   {
     id: 'icon_phoenix',
-    name: 'Phoenix Icon',
+    name: 'Phoenix',
     icon: '🦅',
+    img: '/phoenix.png',
     desc: 'Unlock the epic Phoenix character icon.',
     price: 3000,
     category: 'cosmetic',
@@ -237,30 +245,41 @@ export default function ShopPage() {
             const maxed = owned >= item.max
             const canAfford = profile.gold >= item.price
             return (
-              <div key={item.id} className={`card flex flex-col transition-all ${!maxed && canAfford ? 'hover:border-gold-bd hover:shadow-md' : ''}`}>
-                <div className="text-4xl mb-2">{item.icon}</div>
-                <div className="font-serif font-black text-sm text-text1 mb-1">{item.name}</div>
-                <div className="text-xs text-text2 flex-1 mb-3 leading-relaxed">{item.desc}</div>
-                {maxed && (
-                  <div className="text-xs font-bold text-green-600 mb-2">✓ Owned{item.max > 1 ? ` (${owned}/${item.max})` : ''}</div>
-                )}
-                {!maxed && owned > 0 && (
-                  <div className="text-xs text-text3 mb-2">{owned}/{item.max} owned</div>
-                )}
-                <button
-                  onClick={() => !maxed && handleBuy(item)}
-                  disabled={maxed || buying === item.id}
-                  className={`w-full py-2 rounded-xl text-xs font-bold transition-all ${
-                    maxed ? 'bg-bg3 text-text3 cursor-default' :
-                    !canAfford ? 'bg-bg3 text-text3 cursor-not-allowed' :
-                    buying === item.id ? 'bg-gold/50 text-white' :
-                    'bg-gold text-white hover:bg-yellow-500 active:scale-95'
-                  }`}>
-                  {maxed ? '✓ Owned' : buying === item.id ? '...' : `🪙 ${item.price} Gold`}
-                </button>
-                {!maxed && !canAfford && (
-                  <div className="text-xs text-center text-text3 mt-1">Need {item.price - profile.gold} more 🪙</div>
-                )}
+              <div key={item.id} className={`card flex flex-col transition-all overflow-hidden p-0 ${!maxed && canAfford ? 'hover:border-gold-bd hover:shadow-md' : ''}`}>
+                {/* Image */}
+                <div className="relative w-full aspect-square bg-bg3 overflow-hidden">
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className={`w-full h-full object-cover transition-all ${maxed ? '' : !canAfford ? 'grayscale opacity-50' : ''}`}
+                  />
+                  {maxed && (
+                    <div className="absolute top-2 right-2 bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">✓ Owned</div>
+                  )}
+                  {!maxed && owned > 0 && (
+                    <div className="absolute top-2 right-2 bg-gold text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{owned}/{item.max}</div>
+                  )}
+                </div>
+
+                {/* Info */}
+                <div className="p-3 flex flex-col flex-1">
+                  <div className="font-serif font-black text-sm text-text1 mb-1">{item.name}</div>
+                  <div className="text-xs text-text2 flex-1 mb-3 leading-relaxed">{item.desc}</div>
+                  <button
+                    onClick={() => !maxed && handleBuy(item)}
+                    disabled={maxed || buying === item.id}
+                    className={`w-full py-2 rounded-xl text-xs font-bold transition-all ${
+                      maxed ? 'bg-green-bg text-green-700 border border-green-bd cursor-default' :
+                      !canAfford ? 'bg-bg3 text-text3 cursor-not-allowed' :
+                      buying === item.id ? 'bg-gold/50 text-white' :
+                      'bg-gold text-white hover:bg-yellow-500 active:scale-95'
+                    }`}>
+                    {maxed ? '✓ Owned' : buying === item.id ? '...' : `🪙 ${item.price}`}
+                  </button>
+                  {!maxed && !canAfford && (
+                    <div className="text-[10px] text-center text-text3 mt-1">Need {item.price - profile.gold} more 🪙</div>
+                  )}
+                </div>
               </div>
             )
           })}
