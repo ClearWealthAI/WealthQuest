@@ -1263,24 +1263,66 @@ export default function QuestPage() {
         </div>
 
         {/* Complete / Result */}
-        {done ? (
-          <div className="card text-center mb-4">
-            <div className="text-5xl mb-3">🎉</div>
-            <div className="font-serif font-black text-xl text-text1 mb-1">Quest Complete!</div>
-            <div className="text-text2 text-sm mb-1">+{quest.xp} XP · +{quest.gold} 🪙 earned</div>
-            <div className="flex gap-3 mt-4 justify-center">
-              <button onClick={() => router.push('/map')}
-                className="flex-1 py-3 rounded-xl font-bold text-sm bg-bg3 text-text2 border border-border hover:border-gold-bd transition-all">
-                🗺️ World Map
-              </button>
-              <button onClick={() => router.push('/dashboard')}
-                className="flex-1 py-3 rounded-xl font-bold text-sm text-white transition-all"
-                style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)' }}>
-                Dashboard →
-              </button>
+        {done ? (() => {
+          // Find next quest
+          const currentIndex = QUESTS.findIndex(q => q.id === questId)
+          const nextQuest = QUESTS[currentIndex + 1]
+          const isLastQuest = !nextQuest
+
+          return (
+            <div className="card text-center mb-4">
+              <div className="text-5xl mb-3">🎉</div>
+              <div className="font-serif font-black text-xl text-text1 mb-1">Quest Complete!</div>
+              <div className="text-text2 text-sm mb-1">+{quest.xp} XP · +{quest.gold} 🪙 earned</div>
+
+              {/* Next quest preview */}
+              {nextQuest && (
+                <div className="mt-3 mb-1 p-3 bg-gold-bg border border-gold-bd rounded-xl text-left">
+                  <div className="text-[10px] font-bold text-gold-dk uppercase tracking-widest mb-1">Up Next</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">{nextQuest.icon}</span>
+                    <div>
+                      <div className="font-bold text-sm text-text1">{nextQuest.title}</div>
+                      <div className="text-xs text-text2">{nextQuest.desc}</div>
+                    </div>
+                    <div className="ml-auto text-xs font-bold text-gold-dk">+{nextQuest.xp} XP</div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-2 mt-3">
+                {/* Next quest — primary button */}
+                {nextQuest && (
+                  <button onClick={() => router.push(`/quest/${nextQuest.id}`)}
+                    className="w-full py-3 rounded-xl font-black text-sm text-[#1A1200] transition-all active:scale-95"
+                    style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)', boxShadow: '0 4px 16px rgba(232,168,32,0.4)' }}>
+                    ⚔️ Next Quest →
+                  </button>
+                )}
+
+                {/* Secondary buttons */}
+                <div className="flex gap-2">
+                  <button onClick={() => router.push('/map')}
+                    className="flex-1 py-2.5 rounded-xl font-bold text-sm bg-bg3 text-text2 border border-border hover:border-gold-bd transition-all">
+                    🗺️ Map
+                  </button>
+                  <button onClick={() => router.push('/dashboard')}
+                    className="flex-1 py-2.5 rounded-xl font-bold text-sm bg-bg3 text-text2 border border-border hover:border-gold-bd transition-all">
+                    🏠 Dashboard
+                  </button>
+                </div>
+
+                {/* Chapter complete message */}
+                {isLastQuest && (
+                  <div className="p-3 bg-green-bg border border-green-bd rounded-xl text-center">
+                    <div className="text-2xl mb-1">🏆</div>
+                    <div className="font-bold text-sm text-green-700">Chapter Complete! You've mastered all quests.</div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ) : (
+          )
+        })() : (
           <button onClick={completeQuest}
             disabled={!answered || completing}
             className={`w-full py-4 rounded-2xl font-black text-base transition-all ${answered ? 'text-[#1A1200] shadow-lg active:scale-95' : 'bg-bg3 text-text3 cursor-not-allowed'}`}
