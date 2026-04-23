@@ -429,9 +429,690 @@ function AccDistChart() {
   )
 }
 
+// ─── CHAPTER II VISUALS ───────────────────────────────────────────────────────
+
+// Quest 101: Welcome to Compound Sea — Chapter overview
+function ChapterTwoIntro() {
+  const topics = [
+    { icon: '💵', label: 'Dividends', color: '#3A9E5C' },
+    { icon: '🔥', label: 'FIRE', color: '#E8453A' },
+    { icon: '🔬', label: 'Factor Investing', color: '#3B7AD8' },
+    { icon: '🏢', label: 'REITs', color: '#9B59B6' },
+    { icon: '🧠', label: 'Behavioral Finance', color: '#E8A820' },
+    { icon: '🌏', label: 'Emerging Markets', color: '#F39C12' },
+    { icon: '🎨', label: 'Asset Allocation', color: '#E8453A' },
+    { icon: '🌤️', label: 'All Weather', color: '#3B7AD8' },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🌊 Chapter II — What you will master</div>
+      <div className="grid grid-cols-4 gap-2">
+        {topics.map(t => (
+          <div key={t.label} className="rounded-xl p-2 text-center" style={{ background: t.color + '15', border: `1.5px solid ${t.color}30` }}>
+            <div className="text-xl mb-1">{t.icon}</div>
+            <div className="text-[9px] font-bold" style={{ color: t.color }}>{t.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// Quest 102: Dividend Investing
+function DividendChart() {
+  const [show, setShow] = useState(false)
+  useEffect(() => { setTimeout(() => setShow(true), 300) }, [])
+  const portfolios = [
+    { size: 50000, yield: 3, income: 1500 },
+    { size: 100000, yield: 3, income: 3000 },
+    { size: 200000, yield: 3, income: 6000 },
+    { size: 500000, yield: 3, income: 15000 },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">💵 Annual Dividend Income at 3% Yield</div>
+      {portfolios.map(p => (
+        <div key={p.size} className="mb-2">
+          <div className="flex justify-between text-xs mb-1">
+            <span className="text-text2">€{(p.size/1000)}k portfolio</span>
+            <span className="font-bold text-green-700">€{p.income.toLocaleString()}/year passive</span>
+          </div>
+          <div className="h-5 bg-bg3 rounded-lg overflow-hidden">
+            <div className="h-full rounded-lg flex items-center justify-end pr-2 text-white text-[10px] font-bold transition-all duration-700"
+              style={{ width: show ? `${(p.income / 15000) * 100}%` : '0%', background: 'linear-gradient(90deg, #2d7a45, #3A9E5C)' }}>
+              €{(p.income/12).toFixed(0)}/mo
+            </div>
+          </div>
+        </div>
+      ))}
+      <div className="mt-2 p-2 bg-green-bg border border-green-bd rounded-lg text-xs text-center text-green-700 font-bold">
+        Dividends = income without selling a single share 🎯
+      </div>
+    </div>
+  )
+}
+
+// Quest 103: FIRE — 4% rule calculator
+function FIREChart() {
+  const [expenses, setExpenses] = useState(24000)
+  const fireNumber = expenses * 25
+  const monthly = expenses / 12
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🔥 Your FIRE Number Calculator</div>
+      <div className="mb-3">
+        <div className="flex justify-between text-xs mb-2">
+          <span className="text-text2">Annual expenses</span>
+          <span className="font-bold text-text1">€{expenses.toLocaleString()}</span>
+        </div>
+        <input type="range" min="10000" max="100000" step="1000" value={expenses}
+          onChange={e => setExpenses(parseInt(e.target.value))}
+          className="w-full accent-gold" />
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <div className="p-3 bg-gold-bg border border-gold-bd rounded-xl text-center">
+          <div className="text-xs text-gold-dk mb-1">FIRE Number (×25)</div>
+          <div className="font-serif font-black text-xl text-gold-dk">€{(fireNumber/1000).toFixed(0)}k</div>
+        </div>
+        <div className="p-3 bg-green-bg border border-green-bd rounded-xl text-center">
+          <div className="text-xs text-green-700 mb-1">Monthly income needed</div>
+          <div className="font-serif font-black text-xl text-green-700">€{monthly.toFixed(0)}</div>
+        </div>
+      </div>
+      <div className="mt-2 text-xs text-text3 text-center">Based on the 4% rule — withdraw 4% annually, portfolio lasts 30+ years</div>
+    </div>
+  )
+}
+
+// Quest 104: Factor Investing
+function FactorChart() {
+  const [show, setShow] = useState(false)
+  useEffect(() => { setTimeout(() => setShow(true), 300) }, [])
+  const factors = [
+    { name: 'Market (baseline)', premium: 0, color: '#A89E90' },
+    { name: 'Value', premium: 3.5, color: '#E8A820' },
+    { name: 'Size (Small Cap)', premium: 2.8, color: '#3B7AD8' },
+    { name: 'Momentum', premium: 4.2, color: '#E8453A' },
+    { name: 'Quality', premium: 3.1, color: '#3A9E5C' },
+    { name: 'Low Volatility', premium: 2.1, color: '#9B59B6' },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🔬 Historical Factor Premiums (vs market, annualized)</div>
+      {factors.map(f => (
+        <div key={f.name} className="mb-2">
+          <div className="flex justify-between text-xs mb-1">
+            <span className="text-text2">{f.name}</span>
+            <span className="font-bold" style={{ color: f.color }}>{f.premium > 0 ? `+${f.premium}%` : 'Baseline'}</span>
+          </div>
+          <div className="h-4 bg-bg3 rounded-full overflow-hidden">
+            <div className="h-full rounded-full transition-all duration-700"
+              style={{ width: show ? `${20 + (f.premium / 4.5) * 80}%` : '20%', background: f.color }} />
+          </div>
+        </div>
+      ))}
+      <p className="text-[10px] text-text3 mt-2">Source: Fama-French research. Past premiums ≠ guaranteed future returns.</p>
+    </div>
+  )
+}
+
+// Quest 105: REITs
+function REITChart() {
+  const types = [
+    { name: 'Residential', icon: '🏠', yield: 3.2, example: 'Apartments, student housing' },
+    { name: 'Commercial', icon: '🏢', yield: 4.1, example: 'Offices, coworking' },
+    { name: 'Industrial', icon: '🏭', yield: 3.8, example: 'Warehouses, logistics' },
+    { name: 'Healthcare', icon: '🏥', yield: 4.5, example: 'Hospitals, clinics' },
+    { name: 'Data Centers', icon: '💻', yield: 2.9, example: 'Cloud infrastructure' },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🏢 REIT Types & Typical Dividend Yields</div>
+      <div className="flex flex-col gap-2">
+        {types.map(t => (
+          <div key={t.name} className="flex items-center gap-2 p-2 rounded-xl bg-bg3 border border-border">
+            <span className="text-xl">{t.icon}</span>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-bold text-text1">{t.name}</div>
+              <div className="text-[10px] text-text3 truncate">{t.example}</div>
+            </div>
+            <div className="text-sm font-black text-green-700">{t.yield}%</div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-2 text-xs text-text3 text-center">REITs must pay 90%+ of taxable income as dividends by law</div>
+    </div>
+  )
+}
+
+// Quest 106: Behavioral Finance — biases
+function BiasChart() {
+  const biases = [
+    { name: 'Loss Aversion', emoji: '😰', impact: 'Sell at lows, miss recovery', severity: 90 },
+    { name: 'Recency Bias', emoji: '📰', impact: 'Chase recent winners', severity: 75 },
+    { name: 'Overconfidence', emoji: '🦁', impact: 'Trade too much, pay fees', severity: 65 },
+    { name: 'Confirmation Bias', emoji: '🔍', impact: 'Ignore warning signs', severity: 70 },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🧠 Cognitive Biases that cost investors money</div>
+      {biases.map(b => (
+        <div key={b.name} className="mb-3">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-base">{b.emoji}</span>
+            <div>
+              <div className="text-xs font-bold text-text1">{b.name}</div>
+              <div className="text-[10px] text-text3">{b.impact}</div>
+            </div>
+            <span className="ml-auto text-xs font-bold text-red-600">{b.severity}% harmful</span>
+          </div>
+          <div className="h-2 bg-bg3 rounded-full overflow-hidden">
+            <div className="h-full rounded-full bg-gradient-to-r from-red-300 to-red-600"
+              style={{ width: `${b.severity}%` }} />
+          </div>
+        </div>
+      ))}
+      <div className="p-2 bg-gold-bg border border-gold-bd rounded-lg text-xs text-gold-dk font-bold text-center mt-2">
+        💡 Solution: Automate everything. Write rules before the crash happens.
+      </div>
+    </div>
+  )
+}
+
+// Quest 107: Emerging Markets
+function EmergingMarketsChart() {
+  const countries = [
+    { name: 'China', pct: 30, color: '#E8453A' },
+    { name: 'India', pct: 20, color: '#F39C12' },
+    { name: 'Taiwan', pct: 17, color: '#3B7AD8' },
+    { name: 'S. Korea', pct: 13, color: '#3A9E5C' },
+    { name: 'Brazil', pct: 5, color: '#E8A820' },
+    { name: 'Other', pct: 15, color: '#A89E90' },
+  ]
+  let cum = 0
+  const r = 55, cx = 70, cy = 70
+  const slices = countries.map(c => {
+    const start = (cum / 100) * 2 * Math.PI - Math.PI / 2
+    cum += c.pct
+    const end = (cum / 100) * 2 * Math.PI - Math.PI / 2
+    const x1 = cx + r * Math.cos(start), y1 = cy + r * Math.sin(start)
+    const x2 = cx + r * Math.cos(end), y2 = cy + r * Math.sin(end)
+    return { ...c, d: `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${c.pct > 50 ? 1 : 0},1 ${x2},${y2} Z` }
+  })
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🌏 MSCI Emerging Markets — Country Weights</div>
+      <div className="flex items-center gap-3">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          {slices.map(s => <path key={s.name} d={s.d} fill={s.color} stroke="white" strokeWidth="2"/>)}
+          <circle cx={cx} cy={cy} r="28" fill="white"/>
+          <text x={cx} y={cy-4} textAnchor="middle" fontSize="9" fontWeight="bold" fill="#1C1A16">24</text>
+          <text x={cx} y={cy+8} textAnchor="middle" fontSize="7" fill="#6B6355">countries</text>
+        </svg>
+        <div className="flex flex-col gap-1.5">
+          {countries.map(c => (
+            <div key={c.name} className="flex items-center gap-2 text-xs">
+              <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ background: c.color }}/>
+              <span className="text-text2">{c.name}</span>
+              <span className="font-bold text-text1 ml-auto">{c.pct}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Quest 108: Asset Allocation
+function AssetAllocationChart() {
+  const [age, setAge] = useState(30)
+  const stocks = Math.max(110 - age, 20)
+  const bonds = 100 - stocks
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🎨 Age-based Asset Allocation</div>
+      <div className="mb-3">
+        <div className="flex justify-between text-xs mb-2">
+          <span className="text-text2">Your age</span>
+          <span className="font-bold text-text1">{age} years old</span>
+        </div>
+        <input type="range" min="20" max="75" step="1" value={age}
+          onChange={e => setAge(parseInt(e.target.value))}
+          className="w-full accent-gold" />
+      </div>
+      <div className="h-10 rounded-xl overflow-hidden flex mb-2">
+        <div className="h-full flex items-center justify-center text-white text-xs font-bold transition-all duration-500"
+          style={{ width: `${stocks}%`, background: 'linear-gradient(90deg, #2d7a45, #3A9E5C)' }}>
+          {stocks}% Stocks
+        </div>
+        <div className="h-full flex items-center justify-center text-white text-xs font-bold transition-all duration-500"
+          style={{ width: `${bonds}%`, background: 'linear-gradient(90deg, #7B5DB8, #9B59B6)' }}>
+          {bonds}% Bonds
+        </div>
+      </div>
+      <div className="text-xs text-text3 text-center">Rule: 110 − age = % in stocks. Adjust for your risk tolerance.</div>
+    </div>
+  )
+}
+
+// Quest 109: All Weather Portfolio
+function AllWeatherChart() {
+  const allocs = [
+    { name: 'Stocks', pct: 30, color: '#3A9E5C', season: 'Rising growth' },
+    { name: 'Long Bonds', pct: 40, color: '#9B59B6', season: 'Falling growth' },
+    { name: 'Mid Bonds', pct: 15, color: '#3B7AD8', season: 'Stability' },
+    { name: 'Gold', pct: 7.5, color: '#E8A820', season: 'Inflation hedge' },
+    { name: 'Commodities', pct: 7.5, color: '#F39C12', season: 'Inflation hedge' },
+  ]
+  let cum = 0
+  const r = 55, cx = 70, cy = 70
+  const slices = allocs.map(a => {
+    const start = (cum / 100) * 2 * Math.PI - Math.PI / 2
+    cum += a.pct
+    const end = (cum / 100) * 2 * Math.PI - Math.PI / 2
+    const x1 = cx + r * Math.cos(start), y1 = cy + r * Math.sin(start)
+    const x2 = cx + r * Math.cos(end), y2 = cy + r * Math.sin(end)
+    return { ...a, d: `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${a.pct > 50 ? 1 : 0},1 ${x2},${y2} Z` }
+  })
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🌤️ Ray Dalio's All Weather Portfolio</div>
+      <div className="flex items-center gap-3">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          {slices.map(s => <path key={s.name} d={s.d} fill={s.color} stroke="white" strokeWidth="2"/>)}
+          <circle cx={cx} cy={cy} r="28" fill="white"/>
+          <text x={cx} y={cy-4} textAnchor="middle" fontSize="8" fontWeight="bold" fill="#1C1A16">All</text>
+          <text x={cx} y={cy+8} textAnchor="middle" fontSize="8" fontWeight="bold" fill="#1C1A16">Weather</text>
+        </svg>
+        <div className="flex flex-col gap-1.5">
+          {allocs.map(a => (
+            <div key={a.name} className="flex items-center gap-2 text-xs">
+              <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ background: a.color }}/>
+              <div>
+                <div className="font-bold text-text1">{a.name} {a.pct}%</div>
+                <div className="text-[9px] text-text3">{a.season}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg text-[10px] text-blue-700 font-semibold text-center">
+        Historical return: ~7-8%/yr · Max drawdown: only −11% (vs −57% for pure stocks in 2008)
+      </div>
+    </div>
+  )
+}
+
+// Quest 110: Psychology of Money
+function PsychologyChart() {
+  const principles = [
+    { title: 'Reasonable > Rational', desc: 'A plan you follow beats a perfect plan you abandon', icon: '🎯' },
+    { title: 'Define "Enough"', desc: 'Knowing when to stop prevents endless risk-taking', icon: '⚖️' },
+    { title: 'Time is your edge', desc: 'Long horizon = your biggest competitive advantage', icon: '⏰' },
+    { title: 'Behavior > Intelligence', desc: 'Staying invested beats picking the right stocks', icon: '🧠' },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">💭 Morgan Housel's Key Principles</div>
+      <div className="flex flex-col gap-2">
+        {principles.map(p => (
+          <div key={p.title} className="flex items-start gap-2 p-2 rounded-xl bg-bg3 border border-border">
+            <span className="text-xl flex-shrink-0">{p.icon}</span>
+            <div>
+              <div className="text-xs font-bold text-text1">{p.title}</div>
+              <div className="text-[10px] text-text3">{p.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// Quest 111: Home Bias
+function HomeBiasChart() {
+  const [show, setShow] = useState(false)
+  useEffect(() => { setTimeout(() => setShow(true), 300) }, [])
+  const countries = [
+    { name: 'Germany in Global Market', actual: 2.5, typical: 60, color: '#E8453A' },
+    { name: 'USA in Global Market', actual: 63, typical: 65, color: '#3B7AD8' },
+    { name: 'Japan in Global Market', actual: 6, typical: 40, color: '#E8A820' },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🗺️ Home Bias — What investors hold vs actual market size</div>
+      {countries.map(c => (
+        <div key={c.name} className="mb-3">
+          <div className="text-xs font-bold text-text1 mb-1">{c.name}</div>
+          <div className="flex gap-1 items-center mb-0.5">
+            <span className="text-[9px] w-16 text-text3">Actual share</span>
+            <div className="flex-1 h-3 bg-bg3 rounded-full overflow-hidden">
+              <div className="h-full rounded-full bg-green-500 transition-all duration-700"
+                style={{ width: show ? `${c.actual}%` : '0%' }}/>
+            </div>
+            <span className="text-[9px] w-8 text-right font-bold text-green-600">{c.actual}%</span>
+          </div>
+          <div className="flex gap-1 items-center">
+            <span className="text-[9px] w-16 text-text3">Typical held</span>
+            <div className="flex-1 h-3 bg-bg3 rounded-full overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-700"
+                style={{ width: show ? `${c.typical}%` : '0%', background: c.color, transitionDelay: '200ms' }}/>
+            </div>
+            <span className="text-[9px] w-8 text-right font-bold" style={{ color: c.color }}>{c.typical}%</span>
+          </div>
+        </div>
+      ))}
+      <div className="mt-1 text-[10px] text-text3 text-center">Germany = 2.5% of global markets. Overweighting it means missing 97.5%</div>
+    </div>
+  )
+}
+
+// Quest 112: Multiple Income Streams
+function IncomeStreamsChart() {
+  const streams = [
+    { phase: 'Phase 1 (Age 20-30)', active: 3000, passive: 0, label: 'Salary only → invest aggressively' },
+    { phase: 'Phase 2 (Age 30-40)', active: 4000, passive: 500, label: 'Growing dividend income' },
+    { phase: 'Phase 3 (Age 40-50)', active: 4000, passive: 2000, label: 'Portfolio covers basics' },
+    { phase: 'Phase 4 (Age 50+)', active: 2000, passive: 5000, label: 'Work optional' },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🌊 Building Multiple Income Streams Over Time</div>
+      {streams.map(s => (
+        <div key={s.phase} className="mb-3">
+          <div className="text-[10px] font-bold text-text1 mb-0.5">{s.phase}</div>
+          <div className="text-[9px] text-text3 mb-1">{s.label}</div>
+          <div className="flex gap-1 h-5">
+            <div className="rounded-l-lg flex items-center justify-end pr-1 text-white text-[9px] font-bold"
+              style={{ width: `${(s.active / 7000) * 100}%`, background: '#3B7AD8', minWidth: s.active > 0 ? 30 : 0 }}>
+              €{(s.active/1000).toFixed(0)}k
+            </div>
+            {s.passive > 0 && <div className="rounded-r-lg flex items-center justify-end pr-1 text-white text-[9px] font-bold"
+              style={{ width: `${(s.passive / 7000) * 100}%`, background: '#3A9E5C' }}>
+              €{(s.passive/1000).toFixed(0)}k
+            </div>}
+          </div>
+        </div>
+      ))}
+      <div className="flex gap-3 mt-1 text-[10px] justify-center">
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-blue-500"/>Active (salary)</div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-green-600"/>Passive (investments)</div>
+      </div>
+    </div>
+  )
+}
+
+// Quest 113: Rebalancing
+function RebalancingChart() {
+  const [show, setShow] = useState(false)
+  useEffect(() => { setTimeout(() => setShow(true), 400) }, [])
+  const states = [
+    { label: 'Target', stocks: 80, bonds: 20 },
+    { label: 'After Bull Run', stocks: 90, bonds: 10 },
+    { label: 'After Rebalance', stocks: 80, bonds: 20 },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">⚖️ Why Rebalancing Matters</div>
+      {states.map((s, i) => (
+        <div key={s.label} className="mb-3">
+          <div className="text-xs font-bold text-text1 mb-1">{s.label}</div>
+          <div className="h-8 rounded-xl overflow-hidden flex">
+            <div className="h-full flex items-center justify-center text-white text-xs font-bold transition-all duration-700"
+              style={{ width: show ? `${s.stocks}%` : '50%', background: '#3A9E5C', transitionDelay: `${i * 150}ms` }}>
+              {s.stocks}% Stocks
+            </div>
+            <div className="h-full flex items-center justify-center text-white text-xs font-bold transition-all duration-700"
+              style={{ width: show ? `${s.bonds}%` : '50%', background: '#9B59B6', transitionDelay: `${i * 150}ms` }}>
+              {s.bonds}% Bonds
+            </div>
+          </div>
+          {s.label === 'After Bull Run' && (
+            <div className="text-[10px] text-red-500 mt-0.5 font-semibold">⚠️ Portfolio is now riskier than intended!</div>
+          )}
+          {s.label === 'After Rebalance' && (
+            <div className="text-[10px] text-green-600 mt-0.5 font-semibold">✓ Risk level restored to target</div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// Quest 115: Gold
+function GoldChart() {
+  const events = [
+    { year: '2008', gold: +5, stocks: -57 },
+    { year: '2011', gold: +10, stocks: -18 },
+    { year: '2020', gold: +25, stocks: -34 },
+    { year: '2022', gold: -1, stocks: -18 },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🥇 Gold vs Stocks during major crises</div>
+      {events.map(e => (
+        <div key={e.year} className="mb-3">
+          <div className="text-xs font-bold text-text1 mb-1">{e.year}</div>
+          <div className="flex gap-2 items-center mb-1">
+            <span className="text-[10px] w-10 text-text3">Stocks</span>
+            <div className="flex-1 h-4 bg-bg3 rounded overflow-hidden">
+              <div className="h-full rounded flex items-center justify-end pr-1 text-white text-[9px] font-bold"
+                style={{ width: `${Math.abs(e.stocks)}%`, background: '#E8453A' }}>
+                {e.stocks}%
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2 items-center">
+            <span className="text-[10px] w-10 text-text3">Gold</span>
+            <div className="flex-1 h-4 bg-bg3 rounded overflow-hidden">
+              <div className="h-full rounded flex items-center justify-end pr-1 text-white text-[9px] font-bold"
+                style={{ width: `${Math.abs(e.gold)}%`, background: e.gold >= 0 ? '#E8A820' : '#A89E90', minWidth: 20 }}>
+                {e.gold > 0 ? '+' : ''}{e.gold}%
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+      <div className="text-[10px] text-text3 text-center mt-1">Gold rises when stocks fall — portfolio insurance 🛡️</div>
+    </div>
+  )
+}
+
+// Quest 117: Sequence of Returns Risk
+function SequenceRiskChart() {
+  const goodSequence = [100000, 110000, 121000, 105000, 90000, 99000]
+  const badSequence = [100000, 65000, 52000, 57200, 62920, 69212]
+  const withdrawals = [4000, 4000, 4000, 4000, 4000]
+  const maxVal = 130000
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🎲 Same Returns, Different Order — Same €100k start, €4k/yr withdrawal</div>
+      <div className="flex gap-4 mb-3">
+        <div className="flex-1">
+          <div className="text-xs font-bold text-green-700 mb-2">Good start (gains first)</div>
+          {goodSequence.map((v, i) => (
+            <div key={i} className="flex items-center gap-1 mb-1">
+              <span className="text-[9px] text-text3 w-8">Yr {i}</span>
+              <div className="flex-1 h-3 bg-bg3 rounded-full overflow-hidden">
+                <div className="h-full rounded-full bg-green-500" style={{ width: `${(v / maxVal) * 100}%` }} />
+              </div>
+              <span className="text-[9px] font-bold text-green-700 w-12 text-right">€{(v/1000).toFixed(0)}k</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex-1">
+          <div className="text-xs font-bold text-red-600 mb-2">Bad start (losses first)</div>
+          {badSequence.map((v, i) => (
+            <div key={i} className="flex items-center gap-1 mb-1">
+              <span className="text-[9px] text-text3 w-8">Yr {i}</span>
+              <div className="flex-1 h-3 bg-bg3 rounded-full overflow-hidden">
+                <div className="h-full rounded-full bg-red-400" style={{ width: `${(v / maxVal) * 100}%` }} />
+              </div>
+              <span className="text-[9px] font-bold text-red-600 w-12 text-right">€{(v/1000).toFixed(0)}k</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="p-2 bg-gold-bg border border-gold-bd rounded-lg text-[10px] text-gold-dk font-bold text-center">
+        💡 Solution: Keep 1-2 years of expenses in cash to avoid selling during downturns
+      </div>
+    </div>
+  )
+}
+
+// Quest 120: Building a Million Euro Portfolio
+function MillionChart() {
+  const [monthly, setMonthly] = useState(300)
+  const years = 40
+  const result = monthly * 12 * ((Math.pow(1.07, years) - 1) / 0.07)
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">💎 Your Path to €1,000,000</div>
+      <div className="mb-3">
+        <div className="flex justify-between text-xs mb-2">
+          <span className="text-text2">Monthly investment</span>
+          <span className="font-bold text-text1">€{monthly}/month</span>
+        </div>
+        <input type="range" min="50" max="1000" step="50" value={monthly}
+          onChange={e => setMonthly(parseInt(e.target.value))}
+          className="w-full accent-gold" />
+      </div>
+      <div className="grid grid-cols-3 gap-2 mb-3">
+        <div className="p-2 bg-bg3 border border-border rounded-xl text-center">
+          <div className="text-[10px] text-text3">Invested</div>
+          <div className="font-bold text-sm text-text1">€{(monthly * 12 * years / 1000).toFixed(0)}k</div>
+        </div>
+        <div className="p-2 bg-gold-bg border border-gold-bd rounded-xl text-center">
+          <div className="text-[10px] text-gold-dk">Final Value</div>
+          <div className="font-serif font-black text-sm text-gold-dk">€{(result/1000).toFixed(0)}k</div>
+        </div>
+        <div className="p-2 bg-green-bg border border-green-bd rounded-xl text-center">
+          <div className="text-[10px] text-green-700">Gain</div>
+          <div className="font-bold text-sm text-green-700">×{(result / (monthly * 12 * years)).toFixed(1)}</div>
+        </div>
+      </div>
+      <div className="h-3 bg-bg3 rounded-full overflow-hidden">
+        <div className="h-full rounded-full bg-gradient-to-r from-gold to-yellow-300 transition-all duration-300"
+          style={{ width: `${Math.min((result / 1500000) * 100, 100)}%` }} />
+      </div>
+      <div className="text-[10px] text-text3 text-center mt-1">At 7% average annual return over 40 years</div>
+    </div>
+  )
+}
+
+// Quest 106: Behavioral Finance — DALBAR gap
+function BehavioralFinanceChart() {
+  const [show, setShow] = useState(false)
+  useEffect(() => { setTimeout(() => setShow(true), 300) }, [])
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🧠 DALBAR Study — 30 Year Average Annual Returns</div>
+      <div className="flex flex-col gap-3">
+        {[
+          { label: 'S&P 500 Index', ret: 10.6, color: '#3A9E5C' },
+          { label: 'Average Fund', ret: 8.2, color: '#3B7AD8' },
+          { label: 'Average Investor', ret: 3.9, color: '#E8453A' },
+        ].map(r => (
+          <div key={r.label}>
+            <div className="flex justify-between text-xs mb-1">
+              <span className="font-bold text-text1">{r.label}</span>
+              <span className="font-bold" style={{ color: r.color }}>{r.ret}% / year</span>
+            </div>
+            <div className="h-6 bg-bg3 rounded-lg overflow-hidden">
+              <div className="h-full rounded-lg flex items-center justify-end pr-2 text-white text-xs font-bold transition-all duration-1000"
+                style={{ width: show ? `${(r.ret / 10.6) * 100}%` : '0%', background: r.color }}>
+                {r.ret}%
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded-lg text-[10px] text-red-700 font-semibold text-center">
+        ⚠️ Investors earn 6.7% LESS than the index — purely due to emotional decisions
+      </div>
+    </div>
+  )
+}
+
+// Quest 116: Leverage — volatility decay
+function LeverageDecayChart() {
+  const days = [
+    { day: 'Start', normal: 100, lev2x: 100 },
+    { day: 'Day 1\n−10%', normal: 90, lev2x: 80 },
+    { day: 'Day 2\n+10%', normal: 99, lev2x: 96 },
+    { day: 'Day 3\n−10%', normal: 89.1, lev2x: 76.8 },
+    { day: 'Day 4\n+10%', normal: 98, lev2x: 92.2 },
+    { day: 'Day 5\n−10%', normal: 88.2, lev2x: 73.7 },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">⚡ Volatility Decay — Why 2x ETFs lose value over time</div>
+      <div className="flex items-end gap-1 h-24 mb-2">
+        {days.map((d, i) => (
+          <div key={i} className="flex-1 flex flex-col items-center gap-0.5">
+            <div className="w-full flex gap-0.5 items-end" style={{ height: '80px' }}>
+              <div className="flex-1 rounded-t" style={{ height: `${(d.normal / 100) * 80}px`, background: '#3A9E5C' }} />
+              <div className="flex-1 rounded-t" style={{ height: `${(d.lev2x / 100) * 80}px`, background: '#E8453A' }} />
+            </div>
+            <div className="text-[8px] text-text3 text-center leading-tight whitespace-pre-line">{d.day}</div>
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-3 text-xs justify-center mb-2">
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-green-600"/>Normal ETF</div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 rounded bg-red-500"/>2x Leveraged</div>
+      </div>
+      <div className="p-2 bg-red-50 border border-red-200 rounded-lg text-[10px] text-red-700 font-bold text-center">
+        ⚠️ Normal ETF: €88.2 · 2x Leveraged: €73.7 — despite identical daily moves!
+      </div>
+    </div>
+  )
+}
+
+// Quest 111: Home Bias (renamed from BiasChart)
+function HomeBiasChart() {
+  const [show, setShow] = useState(false)
+  useEffect(() => { setTimeout(() => setShow(true), 300) }, [])
+  const countries = [
+    { name: 'Germany — actual global share', actual: 2.5, typical: 60, color: '#E8453A' },
+    { name: 'USA — actual global share', actual: 63, typical: 65, color: '#3B7AD8' },
+    { name: 'Japan — actual global share', actual: 6, typical: 40, color: '#E8A820' },
+  ]
+  return (
+    <div className="card mb-4 p-4">
+      <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">🗺️ Home Bias — What investors hold vs actual market size</div>
+      {countries.map(c => (
+        <div key={c.name} className="mb-3">
+          <div className="text-xs font-bold text-text1 mb-1">{c.name}</div>
+          <div className="flex gap-1 items-center mb-0.5">
+            <span className="text-[9px] w-16 text-text3">Actual</span>
+            <div className="flex-1 h-3 bg-bg3 rounded-full overflow-hidden">
+              <div className="h-full rounded-full bg-green-500 transition-all duration-700"
+                style={{ width: show ? `${c.actual}%` : '0%' }} />
+            </div>
+            <span className="text-[9px] font-bold text-green-700 w-8">{c.actual}%</span>
+          </div>
+          <div className="flex gap-1 items-center">
+            <span className="text-[9px] w-16 text-text3">Avg held</span>
+            <div className="flex-1 h-3 bg-bg3 rounded-full overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-700"
+                style={{ width: show ? `${c.typical}%` : '0%', background: c.color, transitionDelay: '200ms' }} />
+            </div>
+            <span className="text-[9px] font-bold w-8" style={{ color: c.color }}>{c.typical}%</span>
+          </div>
+        </div>
+      ))}
+      <div className="mt-2 p-2 bg-gold-bg border border-gold-bd rounded-lg text-[10px] text-gold-dk font-bold text-center">
+        💡 Germany = only 2.5% of global markets. A German-only portfolio misses 97.5%!
+      </div>
+    </div>
+  )
+}
+
 // Map quest ID to visual component
 function QuestVisual({ questId }: { questId: number }) {
   switch (questId) {
+    // Chapter I
     case 3: return <AccDistChart />
     case 4: return <TERChart />
     case 5: return <CompoundChart />
@@ -444,6 +1125,22 @@ function QuestVisual({ questId }: { questId: number }) {
     case 16: return <CrashTimeline />
     case 17: return <SavingsRateChart />
     case 22: return <BondsChart />
+    // Chapter II
+    case 101: return <ChapterTwoIntro />
+    case 102: return <DividendChart />
+    case 103: return <FIREChart />
+    case 104: return <FactorChart />
+    case 105: return <REITChart />
+    case 106: return <BehavioralFinanceChart />
+    case 107: return <EmergingMarketsChart />
+    case 108: return <AssetAllocationChart />
+    case 109: return <AllWeatherChart />
+    case 110: return <PsychologyChart />
+    case 111: return <HomeBiasChart />
+    case 112: return <IncomeStreamsChart />
+    case 116: return <LeverageDecayChart />
+    case 117: return <SequenceRiskChart />
+    case 120: return <MillionChart />
     default: return null
   }
 }
