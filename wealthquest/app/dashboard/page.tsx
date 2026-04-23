@@ -404,21 +404,22 @@ export default function Dashboard() {
         </Link>
 
         {/* Links */}
-        <div className="grid grid-cols-3 gap-3">
-          <Link href="/map" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
+        <div className="grid grid-cols-4 gap-2">
+          <Link href="/map" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer p-3">
             <div className="text-2xl mb-1">🗺️</div>
-            <div className="font-bold text-sm text-text1">World Map</div>
-            <div className="text-xs text-text2 mt-0.5">Your journey</div>
+            <div className="font-bold text-xs text-text1">World Map</div>
           </Link>
-          <Link href="/shop" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
+          <Link href="/leaderboard" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer p-3">
+            <div className="text-2xl mb-1">🏆</div>
+            <div className="font-bold text-xs text-text1">Rankings</div>
+          </Link>
+          <Link href="/shop" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer p-3">
             <div className="text-2xl mb-1">🛒</div>
-            <div className="font-bold text-sm text-text1">Gold Shop</div>
-            <div className="text-xs text-text2 mt-0.5">Spend your gold</div>
+            <div className="font-bold text-xs text-text1">Shop</div>
           </Link>
-          <Link href="/portfolio" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer">
+          <Link href="/portfolio" className="card text-center hover:border-gold-bd hover:bg-gold-bg transition-all cursor-pointer p-3">
             <div className="text-2xl mb-1">📊</div>
-            <div className="font-bold text-sm text-text1">Simulator</div>
-            <div className="text-xs text-text2 mt-0.5">Virtual investing</div>
+            <div className="font-bold text-xs text-text1">Simulator</div>
           </Link>
         </div>
       </div>
