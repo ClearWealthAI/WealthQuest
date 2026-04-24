@@ -260,64 +260,214 @@ export const CHAPTER_ONE: Quest[] = [
     title: "Open Your First Broker Account", icon: "🏦", desc: "A step-by-step mission to get you set up with a real investing account.",
     tags: ["Action Quest", "10 min"], xp: 100, gold: 25,
     lesson: {
-      heading: "Your first real-world mission", intro: "Opening a broker account is the most important financial move most people never take. Today, you take it.",
+      heading: "Your first real-world mission",
+      intro: "Opening a broker account is the most important financial move most people never take. They mean to do it. They research it. They think about it. Then months pass and nothing happens. Today, you take action.",
       blocks: [
-        { label: "Choose your broker", heading: "Which broker is right for beginners?", body: "For European beginners, Trade Republic and Scalable Capital both let you start a savings plan from 1 euro per month with no order fees. Both are regulated, safe and trusted by millions of Europeans.", highlight: "Recommended for beginners: Trade Republic (mobile-first, ultra-simple) or Scalable Capital (more features, great ETF selection).", example: "What you need: A smartphone, your ID or passport, 10 minutes. That is it." },
-        { label: "Set up your Sparplan", heading: "The savings plan that builds wealth automatically", body: "Set up an automatic monthly savings plan. Choose your ETF, choose an amount, choose a date. Done. The money moves automatically every month.", highlight: "The single most powerful investing habit: automate it. Set it once and let compound interest run for decades.", example: "50 euros per month at 7% per year for 35 years = 97,000 euros from only 21,000 euros invested." }
+        {
+          label: "Choose your broker",
+          heading: "Which broker is right for beginners?",
+          body: "For European beginners, Trade Republic and Scalable Capital both let you start a savings plan from 1 euro per month with no order fees. Both are BaFin-regulated, insured and trusted by millions of Europeans. Trade Republic is mobile-first and ultra-simple — ideal if you want to set it up and forget it. Scalable Capital offers more features, a wider ETF selection and a desktop platform for those who want more control.",
+          highlight: "Recommended for beginners: Trade Republic (mobile-first, ultra-simple) or Scalable Capital (more features, great ETF selection). Both are free to open and have no monthly fees.",
+          example: "What you need: A smartphone or computer, your ID or passport, a German bank account (or EU equivalent), 10 minutes. That is it. No minimum investment. No experience required."
+        },
+        {
+          label: "Set up your Sparplan",
+          heading: "The savings plan that builds wealth automatically",
+          body: "A Sparplan (savings plan) is an automatic monthly instruction to your broker: on the 1st of every month, buy exactly this ETF for exactly this amount. The money leaves your account automatically, the ETF shares appear automatically, and compound interest begins working automatically. You do not have to think, decide or remember anything. Automation removes the biggest risk in investing: yourself.",
+          highlight: "The single most powerful investing habit: automate it. Set it once and let compound interest run for decades. The best investors are not more disciplined — they have simply designed systems that require no discipline.",
+          example: "50 euros per month at 7% per year for 35 years = 97,000 euros from only 21,000 euros invested. The other 76,000 euros was created purely by compound interest — generated automatically while you lived your life."
+        },
+        {
+          label: "Deep dive",
+          heading: "What actually happens when you place an order",
+          body: "When your savings plan executes, your broker sends an order to a stock exchange. The exchange matches your buy order with a sell order from another investor. Shares change hands at the current market price. The transaction settles within 2 business days — meaning the shares officially appear in your account. Your broker holds these shares in your name in a segregated custody account, completely separate from the broker's own assets. If the broker fails, your ETF shares are protected.",
+          highlight: "Your ETF shares are held in a segregated custody account — completely separate from the broker's own money. Even if Trade Republic or Scalable Capital went bankrupt tomorrow, your ETF investments would be safe and transferable to another broker.",
+          example: "Practical tip: Start with a small amount — even 25 euros per month — to get comfortable with the process. You can always increase your savings plan later. The most important step is simply starting."
+        }
       ],
-      quiz: { question: "What is the key advantage of setting up an automated monthly savings plan?", options: [{ text: "You can time the market perfectly every month", correct: false }, { text: "It removes emotion and ensures consistency through dollar-cost averaging", correct: true }, { text: "Brokers charge lower fees for automated plans", correct: false }, { text: "Automated plans always buy at the lowest price", correct: false }], correctFeedback: "Exactly! Automation removes emotion — the number one enemy of investors — and dollar-cost averages your purchases over time.", wrongFeedback: "Automation removes the temptation to time the market and ensures you invest consistently through ups and downs." }
+      quiz: {
+        question: "What is the key advantage of setting up an automated monthly savings plan?",
+        options: [
+          { text: "You can time the market perfectly every month", correct: false },
+          { text: "It removes emotion and ensures consistency through dollar-cost averaging", correct: true },
+          { text: "Brokers charge lower fees for automated plans", correct: false },
+          { text: "Automated plans always buy at the lowest price", correct: false }
+        ],
+        correctFeedback: "Exactly! Automation removes emotion — the number one enemy of investors — and ensures you invest consistently through all market conditions.",
+        wrongFeedback: "Automation removes the temptation to time the market and ensures you invest consistently through ups and downs. Consistency, not perfection, builds wealth."
+      }
     }
   },
   {
     id: 7, chapter: 1,
     title: "Dollar-Cost Averaging", icon: "📅", desc: "The strategy that removes the stress of market timing.",
-    tags: ["Strategy", "5 min"], xp: 65, gold: 13,
+    tags: ["Strategy", "8 min"], xp: 65, gold: 13,
     lesson: {
-      heading: "Invest regularly — regardless of price", intro: "Nobody knows when the market will go up or down. Dollar-cost averaging makes this uncertainty irrelevant.",
+      heading: "Invest regularly — regardless of price",
+      intro: "Nobody knows when the market will go up or down. Professional fund managers with teams of analysts and decades of experience cannot reliably predict short-term market movements. Dollar-cost averaging makes this uncertainty completely irrelevant.",
       blocks: [
-        { label: "What it means", heading: "Buy regularly, not perfectly", body: "Dollar-cost averaging means investing a fixed amount at regular intervals regardless of market conditions. When prices are high, you buy fewer shares. When prices are low, you buy more.", highlight: "DCA turns market volatility from an enemy into a friend. Falling markets mean you buy more shares at cheaper prices.", example: "Month 1: 200 euros at 10 euros per share = 20 shares. Month 2: 200 euros at 8 euros per share = 25 shares. Average cost: 9 euros." },
-        { label: "Why it works", heading: "The psychology behind the strategy", body: "Most investors try to time the market. Studies consistently show this strategy fails. DCA removes the decision entirely.", highlight: "Time in the market beats timing the market. Every time. DCA is the systematic way to ensure you always stay invested.", example: "Study: Investors who tried to time the market earned 1.9% per year less than those who invested regularly." }
+        {
+          label: "What it means",
+          heading: "Buy regularly, not perfectly",
+          body: "Dollar-cost averaging means investing a fixed amount of money at regular intervals — regardless of what the market is doing. When prices are high, your fixed amount buys fewer shares. When prices are low, the same amount buys more shares. Over time, your average purchase price is automatically smoothed out — typically lower than the average market price during the same period.",
+          highlight: "DCA turns market volatility from an enemy into a friend. Falling markets mean you automatically buy more shares at cheaper prices — without making any decision.",
+          example: "Month 1: €200 invested at €10/share = 20 shares bought. Month 2: Market falls. €200 at €8/share = 25 shares bought. Month 3: €200 at €6/share = 33 shares bought. Average cost: €7.69. Average market price: €8. DCA bought cheaper than the average price."
+        },
+        {
+          label: "Why it works",
+          heading: "The psychology and mathematics behind the strategy",
+          body: "Most investors try to time the market — waiting for the perfect moment to invest. This approach consistently fails for two reasons. First, nobody can reliably predict short-term market movements, not even professionals. Second, the emotional paralysis of waiting causes investors to miss significant returns while sitting in cash. DCA eliminates the timing decision entirely. You invest the same amount on the same date every month, regardless of news, fear, or market conditions.",
+          highlight: "Time in the market beats timing the market. Every time. A DALBAR study found that investors who tried to time the market earned 1.9% per year less than those who invested consistently — for decades.",
+          example: "The mathematical advantage: During the 2020 COVID crash, the MSCI World fell 34%. DCA investors who continued investing monthly bought shares at extremely low prices. When markets recovered 6 months later, those additional discounted shares had already gained 40-50%."
+        },
+        {
+          label: "Deep dive",
+          heading: "DCA vs lump sum — which is better?",
+          body: "Research shows that lump sum investing — putting all available cash in at once — actually outperforms DCA about 65% of the time, because markets trend upward and staying invested longer captures more growth. However, for most people, DCA is far superior in practice for two reasons: they do not have a lump sum available, they invest from monthly income. DCA is not a compromise — it is the optimal strategy for regular investors building wealth from income.",
+          highlight: "For regular investors who invest from monthly salary rather than a lump sum windfall, DCA is not just acceptable — it is the ideal, psychologically sustainable strategy that consistently beats attempting to time the market.",
+          example: "Practical setup: On the 1st of every month, your broker automatically buys €200 of IWDA. You never check the price. You never decide whether to invest. The system runs automatically for 30 years. This simple discipline, consistently applied, will produce extraordinary results."
+        }
       ],
-      quiz: { question: "What happens when you use dollar-cost averaging during a market decline?", options: [{ text: "You should stop investing until prices recover", correct: false }, { text: "You automatically buy more shares at cheaper prices", correct: true }, { text: "Your existing shares lose value permanently", correct: false }, { text: "You should switch to a different ETF", correct: false }], correctFeedback: "Correct! When prices fall, your fixed monthly investment buys more shares. This lowers your average cost.", wrongFeedback: "With DCA, falling prices are an opportunity. Your fixed investment buys more shares when they are cheap." }
+      quiz: {
+        question: "What happens when you use dollar-cost averaging during a market decline?",
+        options: [
+          { text: "You should stop investing until prices recover", correct: false },
+          { text: "You automatically buy more shares at cheaper prices, lowering your average cost", correct: true },
+          { text: "Your existing shares lose value permanently", correct: false },
+          { text: "You should switch to a different ETF", correct: false }
+        ],
+        correctFeedback: "Correct! When prices fall, your fixed monthly investment automatically buys more shares. This lowers your average cost and amplifies gains when prices recover.",
+        wrongFeedback: "With DCA, falling prices are an opportunity — not a threat. Your fixed investment buys more shares when they are cheap, improving your average cost automatically."
+      }
     }
   },
   {
     id: 8, chapter: 1,
     title: "The MSCI World Index", icon: "🌍", desc: "Meet the most popular ETF index for long-term investors.",
-    tags: ["Indices", "6 min"], xp: 65, gold: 13,
+    tags: ["Indices", "8 min"], xp: 65, gold: 13,
     lesson: {
-      heading: "The index that owns the world", intro: "If you could know only one index, it should be the MSCI World. It is the foundation of millions of investment portfolios.",
+      heading: "The index that owns the world",
+      intro: "If you could know only one index, it should be the MSCI World. It is the foundation of millions of investment portfolios around the globe — including those of pension funds, sovereign wealth funds and individual investors alike.",
       blocks: [
-        { label: "What it is", heading: "MSCI World explained", body: "The MSCI World Index tracks approximately 1,600 large and mid-cap companies across 23 developed countries. It covers roughly 85% of the free-float adjusted market capitalization in each country.", highlight: "The MSCI World has delivered an average annual return of approximately 10% since its inception in 1969.", example: "Top holdings: Apple around 5%, Microsoft around 4%, Amazon around 2%, Nvidia around 3%. The US makes up about 70% of the index." },
-        { label: "Popular ETFs", heading: "How to buy the MSCI World", body: "You cannot buy the MSCI World Index directly — you buy an ETF that tracks it. The most popular in Europe are from iShares, Xtrackers and Amundi.", highlight: "IWDA from iShares is one of the most popular ETFs in Europe with over 70 billion euros in assets and a TER of just 0.20%.", example: "Top MSCI World ETFs: IWDA from iShares at TER 0.20%, XDWD from Xtrackers at TER 0.19%, LCUW from Amundi at TER 0.12%." }
+        {
+          label: "What it is",
+          heading: "MSCI World explained",
+          body: "The MSCI World Index tracks approximately 1,600 large and mid-cap companies across 23 developed market countries. It covers roughly 85% of the free-float adjusted market capitalization in each country — meaning it captures the majority of investable wealth in the developed world in a single index. The index is maintained by MSCI (Morgan Stanley Capital International) and reviewed quarterly to add or remove companies that meet the criteria.",
+          highlight: "The MSCI World has delivered an average annual return of approximately 10% since its inception in 1969 — through oil crises, Cold War tensions, the Dot-com crash, the 2008 financial crisis, COVID and every other crisis imaginable.",
+          example: "Top 5 holdings: Apple ~5%, Microsoft ~4%, NVIDIA ~3%, Amazon ~2%, Alphabet ~2%. The US makes up about 70% of the index, followed by Japan ~6%, UK ~4%, France ~3%, Canada ~3%."
+        },
+        {
+          label: "Popular ETFs",
+          heading: "How to buy the MSCI World",
+          body: "You cannot buy the MSCI World Index directly — indices are just lists of companies. You buy an ETF that tracks it. The fund provider purchases all 1,600 companies in the correct proportions and packages them into a single tradeable share. The most popular MSCI World ETFs in Europe come from three providers: iShares (by BlackRock), Xtrackers (by DWS) and Amundi. All three track the same index with very similar performance.",
+          highlight: "IWDA from iShares is one of the most popular ETFs in Europe with over 70 billion euros in assets and a TER of just 0.20%. It is accumulating, Ireland-domiciled and physically replicated — the perfect combination.",
+          example: "Top MSCI World ETFs for European investors: IWDA (iShares, Acc, TER 0.20%), XDWD (Xtrackers, Acc, TER 0.19%), LCUW (Amundi, Acc, TER 0.12%). All track the same index. Pick the cheapest or the most familiar."
+        },
+        {
+          label: "Deep dive",
+          heading: "MSCI World vs S&P 500 — which is better?",
+          body: "The S&P 500 tracks the 500 largest US companies. The MSCI World tracks 1,600 companies across 23 countries. The US makes up ~70% of the MSCI World anyway, so performance has been very similar historically. The key difference: the MSCI World gives you geographic diversification — if the US market underperforms for a decade (as it did in 2000-2009), your non-US holdings provide balance. For maximum simplicity, either index is excellent. For maximum diversification, MSCI World.",
+          highlight: "There is no wrong choice between MSCI World and S&P 500 for a long-term investor. Both are excellent. The most important decision is not which to choose — it is to start and stay invested consistently.",
+          example: "2000-2009: The S&P 500 returned -1% per year. International stocks returned +2% per year. MSCI World investors with global exposure fared better. 2010-2023: US stocks massively outperformed. Neither decade predicts the next. Diversification protects against both scenarios."
+        }
       ],
-      quiz: { question: "Approximately how many companies does the MSCI World Index contain?", options: [{ text: "100 companies", correct: false }, { text: "500 companies", correct: false }, { text: "1,600 companies across 23 countries", correct: true }, { text: "10,000 companies worldwide", correct: false }], correctFeedback: "Correct! The MSCI World contains approximately 1,600 companies across 23 developed countries.", wrongFeedback: "The MSCI World contains approximately 1,600 companies across 23 developed countries." }
+      quiz: {
+        question: "Approximately how many companies does the MSCI World Index contain?",
+        options: [
+          { text: "100 companies", correct: false },
+          { text: "500 companies", correct: false },
+          { text: "1,600 companies across 23 developed countries", correct: true },
+          { text: "10,000 companies worldwide", correct: false }
+        ],
+        correctFeedback: "Correct! The MSCI World contains approximately 1,600 companies across 23 developed countries — covering about 85% of investable market cap in the developed world.",
+        wrongFeedback: "The MSCI World contains approximately 1,600 companies across 23 developed countries. It is the broadest, most diversified single-index option for European investors."
+      }
     }
   },
   {
     id: 9, chapter: 1,
     title: "Diversification — The Only Free Lunch", icon: "🥚", desc: "Understand why spreading your investments protects your wealth.",
-    tags: ["Risk", "5 min"], xp: 60, gold: 12,
+    tags: ["Risk", "8 min"], xp: 60, gold: 12,
     lesson: {
-      heading: "The only free lunch in investing", intro: "Diversification reduces your risk without reducing your expected returns.",
+      heading: "The only free lunch in investing",
+      intro: "Nobel Prize winner Harry Markowitz famously called diversification the only free lunch in investing. It is the one strategy that reduces your risk without reducing your expected returns. Understanding it deeply is fundamental to every investing decision you will ever make.",
       blocks: [
-        { label: "The concept", heading: "Spread your risk", body: "If you put all your money into one company and that company fails, you lose everything. If you spread your money across 1,600 companies, one failure barely affects you.", highlight: "A single stock can go to zero. A diversified index of 1,600 companies cannot.", example: "2001 Enron collapse: Employees with all savings in Enron stock lost everything. Those with diversified index funds were largely unaffected." },
-        { label: "Types of diversification", heading: "How to diversify properly", body: "True diversification means spreading across companies, sectors AND countries. A global ETF covering technology, healthcare, finance and consumer goods across dozens of countries is properly diversified.", highlight: "A single global ETF like the MSCI World achieves more diversification than most professional portfolios from 20 years ago.", example: "MSCI World sectors: Technology 25%, Financials 15%, Healthcare 13%, Consumer Discretionary 11%, Industrials 10%, Other 26%." }
+        {
+          label: "The concept",
+          heading: "Never put all your eggs in one basket",
+          body: "If you invest all your money in a single company and that company fails — through fraud, bankruptcy, disruption or bad management — you lose everything. If you spread your money across 1,600 companies, one failure barely moves the needle. The worst case for any single company in your diversified portfolio is a 0.06% impact. Your wealth cannot be destroyed by one bad outcome.",
+          highlight: "A single stock can go to zero. A diversified index of 1,600 companies across 23 countries cannot go to zero — it would require the complete collapse of the entire global economy.",
+          example: "2001: Enron was one of America's largest companies, considered extremely safe. It was fraudulent and collapsed to zero in weeks. Employees with 100% Enron stock in their pensions lost everything. Those with diversified index funds lost less than 0.1% of their portfolio from the same event."
+        },
+        {
+          label: "Types of diversification",
+          heading: "Company, sector, country — all three matter",
+          body: "True diversification means spreading risk across three dimensions simultaneously. Company diversification: owning many companies so no single failure is devastating. Sector diversification: owning technology, healthcare, finance, consumer goods and industrials so no single industry collapse is fatal. Geographic diversification: owning companies across multiple countries so no single economy's recession devastates your portfolio.",
+          highlight: "A single global ETF like the MSCI World automatically achieves all three types of diversification simultaneously — more diversification than most professional portfolios from 20 years ago, in a single purchase.",
+          example: "MSCI World sector breakdown: Technology 25%, Financials 15%, Healthcare 13%, Consumer Discretionary 11%, Industrials 10%, Communication 9%, Consumer Staples 7%, Energy 5%, Other 5%. No single sector can destroy your wealth."
+        },
+        {
+          label: "Deep dive",
+          heading: "The correlation secret — why diversification really works",
+          body: "Diversification works because different assets do not all move together at the same time. When technology stocks fall, healthcare stocks may hold steady. When European markets struggle, Asian markets may outperform. When stocks fall in a crisis, bonds often rise. This lack of perfect correlation — called negative or low correlation — means your portfolio as a whole is smoother and less volatile than any individual holding.",
+          highlight: "The mathematical magic of diversification: combining two assets that each have 20% volatility, if they are uncorrelated, produces a portfolio with only 14% volatility — not 20%. Risk literally disappears through diversification without sacrificing return.",
+          example: "Practical proof: During the 2008 financial crisis, the average individual stock fell 57%. A diversified MSCI World ETF fell 57% too — but recovered fully by 2013. Investors with single-stock concentration often faced permanent losses as their specific companies never recovered."
+        }
       ],
-      quiz: { question: "Why is a global ETF with 1,600 companies considered well diversified?", options: [{ text: "Because it is managed by professionals", correct: false }, { text: "Because it spreads risk across many companies, sectors and countries", correct: true }, { text: "Because it only invests in profitable companies", correct: false }, { text: "Because government regulations protect it", correct: false }], correctFeedback: "Exactly! Diversification across companies, sectors and countries means no single failure can significantly harm your portfolio.", wrongFeedback: "A global ETF reduces the impact of any single company or country performing badly." }
+      quiz: {
+        question: "Why is a global ETF with 1,600 companies considered well diversified?",
+        options: [
+          { text: "Because it is managed by professionals", correct: false },
+          { text: "Because it spreads risk across many companies, sectors and countries simultaneously", correct: true },
+          { text: "Because it only invests in profitable companies", correct: false },
+          { text: "Because government regulations protect it", correct: false }
+        ],
+        correctFeedback: "Exactly! Triple diversification — across companies, sectors AND countries — means no single failure can significantly harm your portfolio.",
+        wrongFeedback: "A global ETF achieves diversification across companies, sectors and countries simultaneously. No single failure — company, sector or country — can significantly damage your overall wealth."
+      }
     }
   },
   {
     id: 10, chapter: 1,
     title: "Risk and Return", icon: "⚖️", desc: "Understand the relationship between risk and potential reward.",
-    tags: ["Risk", "6 min"], xp: 65, gold: 13,
+    tags: ["Risk", "8 min"], xp: 65, gold: 13,
     lesson: {
-      heading: "No reward without risk", intro: "Every investment decision involves a trade-off between risk and potential return.",
+      heading: "No reward without risk",
+      intro: "Every investment decision involves a fundamental trade-off between risk and potential return. Understanding this relationship is not optional — it is the foundation of every intelligent financial decision. Most people either take too much risk without understanding it, or too little risk and pay a huge price in lost wealth.",
       blocks: [
-        { label: "The relationship", heading: "Higher risk, higher potential return", body: "Safe investments like savings accounts offer low returns because the risk of losing money is very low. Stocks offer higher potential returns because there is real risk of loss in the short term.", highlight: "Risk is not something to eliminate — it is something to manage and be compensated for.", example: "Risk spectrum: Cash savings at 0 to 1% with minimal risk, Government bonds at 2 to 4%, Diversified ETFs at 6 to 10% long-term, Individual stocks with higher variance." },
-        { label: "Time reduces risk", heading: "Why long-term investing is safer", body: "The longer you stay invested, the lower your risk of loss. Over 20 years, the probability of profit with a global ETF has historically been very high.", highlight: "Historical data shows that over any 15-year period, a diversified global ETF has never delivered a negative return.", example: "Historical data: Over 1 year, markets have fallen about 30% of the time. Over 20 years — rarely negative." }
+        {
+          label: "The relationship",
+          heading: "Higher risk demands higher potential return",
+          body: "The relationship between risk and return is one of the most reliable rules in finance. Safe investments — like German government bonds or savings accounts — pay low returns because investors know they will get their money back. Risky investments — like stocks — must offer higher potential returns to attract investors who might lose money. If stocks only returned 2% like savings accounts, nobody would accept the risk of investing in them.",
+          highlight: "Risk is not something to eliminate — it is something to understand, manage and be compensated for. The goal is not zero risk — it is the right amount of risk for your timeline, rewarded with appropriate returns.",
+          example: "The risk-return spectrum: Cash savings account 0-1% return, minimal risk. Government bonds 2-4%, very low risk. Corporate bonds 3-6%, low-medium risk. Diversified global ETF 7-10% long-term average, medium short-term risk. Individual stocks: higher variance. Cryptocurrency: extreme variance."
+        },
+        {
+          label: "Time reduces risk",
+          heading: "Why long-term investing is fundamentally safer",
+          body: "Here is the most important and counterintuitive insight about risk: the longer your investment horizon, the lower your actual risk of losing money in a diversified ETF. Over 1 year, stock markets have fallen about 30% of the time. Over 5 years, they have fallen about 12% of the time. Over 15 years, a diversified global ETF has historically never delivered a negative total return. Time literally eliminates the risk of loss in a diversified portfolio.",
+          highlight: "Historical data shows that over any 15-year period since 1970, a diversified global ETF has never delivered a negative return. The longer your horizon, the closer your actual risk approaches zero.",
+          example: "Risk by holding period (MSCI World historical data): 1 year = 30% chance of loss. 5 years = 12% chance of loss. 10 years = 4% chance of loss. 15 years = approximately 0% chance of loss. 20 years = 0% recorded losses in history. Time is the ultimate risk reducer."
+        },
+        {
+          label: "Deep dive",
+          heading: "Volatility vs permanent loss — the crucial distinction",
+          body: "The biggest misunderstanding most investors have about risk is confusing temporary volatility with permanent loss. When the MSCI World falls 30% in a crisis, that is volatility — a temporary fluctuation in price. It becomes permanent loss only if you sell at the low. Investors who held through every major market crash in history have never permanently lost money in a diversified global index. The only way to permanently lose money in a diversified ETF is to sell during a crash.",
+          highlight: "Volatility is normal, temporary and ultimately irrelevant for long-term investors who do not sell. Permanent loss requires a selling decision. Your greatest risk as a long-term investor is not market volatility — it is your own reaction to volatility.",
+          example: "2008 crisis: Investor A holds through the 57% decline. By 2013, fully recovered. By 2023, up 300% from the pre-crisis peak. Investor B panic sells at the bottom in March 2009 and waits for stability before reinvesting in 2012. Misses the entire 100%+ recovery and permanently locks in massive losses."
+        }
       ],
-      quiz: { question: "Why do stocks offer higher potential returns than savings accounts?", options: [{ text: "Banks are corrupt and pay artificially low rates", correct: false }, { text: "Higher potential return compensates for the higher short-term risk", correct: true }, { text: "Stocks are regulated to pay higher returns", correct: false }, { text: "Savings accounts are limited by law", correct: false }], correctFeedback: "Correct! Higher returns are compensation for accepting higher risk.", wrongFeedback: "Risk and return are inseparable. Higher potential returns always come with higher risk." }
+      quiz: {
+        question: "Why do stocks offer higher potential returns than savings accounts?",
+        options: [
+          { text: "Banks are corrupt and pay artificially low rates", correct: false },
+          { text: "Higher potential return compensates investors for accepting higher short-term risk", correct: true },
+          { text: "Stocks are regulated to pay higher returns by law", correct: false },
+          { text: "Savings accounts are deliberately limited by government", correct: false }
+        ],
+        correctFeedback: "Correct! Higher returns exist to compensate investors for accepting higher risk. This risk-return trade-off is one of the most fundamental and reliable principles in finance.",
+        wrongFeedback: "Risk and return are inseparable. Stocks offer higher potential returns because investors must be compensated for accepting the risk of short-term losses. Without that compensation, no rational investor would hold stocks."
+      }
     }
   },
   {
@@ -325,194 +475,644 @@ export const CHAPTER_ONE: Quest[] = [
     title: "The 3-Fund Portfolio", icon: "🗂️", desc: "The simplest diversified portfolio used by millions of smart investors.",
     tags: ["Portfolio", "8 min"], xp: 80, gold: 20,
     lesson: {
-      heading: "The legendary 3-fund portfolio", intro: "Most investors overcomplicate things. The 3-fund portfolio is beautifully simple.",
+      heading: "The legendary 3-fund portfolio",
+      intro: "Most investors overcomplicate investing. They buy dozens of funds, chase performance, constantly tinker and end up with worse results than someone who simply held three simple ETFs. The 3-fund portfolio is the antidote to complexity — beautifully simple, globally diversified and proven to outperform the vast majority of professional portfolios over time.",
       blocks: [
-        { label: "The strategy", heading: "Three funds. Global coverage. Done.", body: "The 3-fund portfolio uses just three ETFs: a developed markets fund like MSCI World, an emerging markets fund like MSCI Emerging Markets and optionally a bond fund for stability.", highlight: "A classic allocation: 80% MSCI World plus 20% Emerging Markets. Over 3,000 companies across 47 countries.", example: "Coverage: MSCI World = 1,600 companies in 23 developed countries. MSCI EM = 1,400 more in 24 developing economies." },
-        { label: "Rebalancing", heading: "Once a year: rebalance", body: "Over time, one fund grows faster than another and your allocation drifts. Once a year, sell a little of the overperformer and buy the underperformer to restore your target split.", highlight: "Rebalancing annually takes 15 minutes and is one of the most effective portfolio management techniques.", example: "Example: Target 80/20. After a year: 85/15. Sell 5% of MSCI World, buy 5% Emerging Markets. Done." }
+        {
+          label: "The strategy",
+          heading: "Three funds. The entire world. Done.",
+          body: "The 3-fund portfolio uses just three ETFs to cover virtually the entire investable universe. Fund 1: A developed markets ETF like MSCI World — 1,600 companies across 23 developed economies. Fund 2: An emerging markets ETF like MSCI Emerging Markets — 1,400 companies across 24 developing economies. Fund 3 (optional): A global bond ETF for stability as you age. Together, these three funds give you exposure to over 3,000 companies across 47 countries.",
+          highlight: "Classic allocation for a growth investor: 80% MSCI World plus 20% Emerging Markets. This single combination gives you more diversification than most professional portfolios — managed in 15 minutes per year.",
+          example: "Total coverage: MSCI World = 1,600 companies in 23 developed countries (US, Europe, Japan, Australia etc). MSCI EM = 1,400 companies in 24 developing economies (China, India, Brazil, Taiwan etc). Combined: essentially the entire global stock market."
+        },
+        {
+          label: "Rebalancing",
+          heading: "Once a year: rebalance in 15 minutes",
+          body: "Over time, different funds grow at different rates and your allocation drifts from your target. Once a year — ideally on a fixed date like your birthday — check your allocation. If stocks have surged and you have drifted from 80/20 to 88/12, sell some stocks and buy emerging markets to restore your target. This simple annual discipline automatically enforces buying what is cheap and selling what is expensive — the fundamental principle of successful investing.",
+          highlight: "Annual rebalancing takes 15 minutes, costs almost nothing if done through your savings plan, and is one of the most effective portfolio management techniques available to individual investors.",
+          example: "Example: Target 80% MSCI World / 20% Emerging Markets. After a strong US bull market: 88% MSCI World / 12% EM. Sell 8% of MSCI World, buy 8% Emerging Markets. Target restored. You have automatically bought low (EM was underperforming) and sold high (MSCI World was overperforming)."
+        },
+        {
+          label: "Deep dive",
+          heading: "Why simpler usually wins in investing",
+          body: "The research on portfolio complexity is clear: adding more funds beyond a well-diversified core almost never improves returns, but reliably increases costs, complexity and behavioral risk. The more funds you own, the more decisions you face, the more opportunities to make emotional mistakes. The legendary Bogleheads community — followers of Vanguard founder Jack Bogle — have documented decades of evidence that simple three-fund portfolios outperform complex multi-fund strategies after costs and behavioral errors.",
+          highlight: "Jack Bogle, founder of Vanguard and inventor of the index fund, held a two-fund portfolio his entire life: US stocks and US bonds. Complexity is the enemy of excellent long-term results.",
+          example: "The complexity trap: An investor with 20 different ETFs faces 20 different rebalancing decisions, 20 sets of performance to monitor and 20 potential sources of emotional decision-making. An investor with 3 ETFs faces 3 decisions. Fewer decisions = fewer mistakes = better long-term outcomes."
+        }
       ],
-      quiz: { question: "What is the purpose of annual rebalancing in a 3-fund portfolio?", options: [{ text: "To switch to better-performing funds every year", correct: false }, { text: "To restore your target allocation and systematically buy low, sell high", correct: true }, { text: "To reduce your tax bill by selling everything", correct: false }, { text: "Rebalancing is only for professional investors", correct: false }], correctFeedback: "Perfect! Rebalancing restores your target allocation and mechanically enforces buying underperformers and selling outperformers.", wrongFeedback: "Rebalancing maintains your risk profile and systematically buys what is cheap and sells what is expensive." }
+      quiz: {
+        question: "What is the purpose of annual rebalancing in a 3-fund portfolio?",
+        options: [
+          { text: "To switch to better-performing funds every year", correct: false },
+          { text: "To restore your target allocation and automatically buy underperformers and sell outperformers", correct: true },
+          { text: "To reduce your tax bill by selling everything annually", correct: false },
+          { text: "Rebalancing is only necessary for professional investors", correct: false }
+        ],
+        correctFeedback: "Perfect! Rebalancing restores your target risk level and mechanically enforces the golden rule of investing: buy low, sell high — automatically, without emotion.",
+        wrongFeedback: "Rebalancing restores your intended risk level and systematically buys what is relatively cheap (underperformers) and sells what is relatively expensive (outperformers). It is disciplined investing on autopilot."
+      }
     }
   },
   {
     id: 12, chapter: 1,
     title: "Inflation — The Silent Wealth Destroyer", icon: "🔥", desc: "Why keeping money in cash is not actually safe.",
-    tags: ["Economics", "5 min"], xp: 60, gold: 12,
+    tags: ["Economics", "8 min"], xp: 60, gold: 12,
     lesson: {
-      heading: "Your savings are losing value right now", intro: "Most people think keeping money in savings is the safe option. In reality, inflation silently destroys purchasing power every single year.",
+      heading: "Your savings are losing value right now",
+      intro: "Most people think keeping money in a savings account is the safe, responsible choice. In reality, inflation silently and relentlessly destroys the purchasing power of that money every single year. Understanding inflation is not optional — it is the core reason why investing is not optional.",
       blocks: [
-        { label: "What is inflation?", heading: "Prices rise — your money shrinks", body: "Inflation means the same amount of money buys less over time. If inflation is 3% and your savings account pays 1%, you are effectively losing 2% of purchasing power every year.", highlight: "At 3% annual inflation, 10,000 euros today is worth only 7,400 euros in purchasing power after 10 years.", example: "1990s vs today: A cinema ticket that cost 5 euros in 1990 costs 15 euros today." },
-        { label: "The solution", heading: "Invest to beat inflation", body: "The stock market has historically returned 8 to 10% per year on average — well above typical inflation rates.", highlight: "The real goal of investing is to preserve and grow purchasing power. ETFs have consistently beaten inflation over the long term.", example: "Historical comparison: 10,000 euros in cash over 30 years at 3% inflation = 4,100 euros purchasing power. 10,000 euros invested at 8% return = 100,000 euros purchasing power." }
+        {
+          label: "What is inflation?",
+          heading: "Prices rise — your money buys less",
+          body: "Inflation is the rate at which the general price level of goods and services rises over time. If inflation is 3% annually and your savings account pays 1%, you are losing 2% of purchasing power every year — even though your account balance is growing. The number in your account goes up, but what that number can actually buy goes down. This is the inflation trap that quietly impoverishes savers.",
+          highlight: "At 3% annual inflation, €10,000 today will only have €7,441 in purchasing power in 10 years — even if you never spend a cent. Your money has lost 26% of its real value while sitting safely in a bank account.",
+          example: "Real-world inflation impact: In Germany, the cost of a cinema ticket went from ~€5 in 1990 to ~€15 today — a 200% increase. A monthly rent that was €400 in 2000 might be €900 today. Your savings that felt large in 2000 feel much smaller now. This is inflation compounding against you."
+        },
+        {
+          label: "The solution",
+          heading: "Invest to beat inflation and build real wealth",
+          body: "The solution to inflation is straightforward: invest in assets that grow faster than inflation. The global stock market has historically returned 8-10% per year on average — well above any inflation rate in modern history. Real assets — stocks, real estate, gold — historically preserve and grow purchasing power because they represent ownership in productive enterprises that raise their prices with inflation.",
+          highlight: "The real goal of investing is not to accumulate numbers in an account — it is to preserve and grow purchasing power over time. ETFs have consistently beaten inflation by 5-7% per year over every long-term historical period.",
+          example: "The stark comparison: €10,000 held in cash for 30 years at 3% inflation = €4,100 in purchasing power. €10,000 invested in a global ETF for 30 years at 8% return = approximately €100,627. Not investing is not the safe choice — it is guaranteed slow impoverishment."
+        },
+        {
+          label: "Deep dive",
+          heading: "The real return — what actually matters",
+          body: "Investors often fixate on nominal returns — the raw percentage their investment grows. But what truly matters is the real return: nominal return minus inflation. If your investment grows 3% per year but inflation is 3%, your real return is 0% — you are running to stand still. If your investment grows 8% and inflation is 3%, your real return is 5% — genuine wealth creation. Always evaluate investments on their real return, not their nominal return.",
+          highlight: "The real return formula: Real return = Nominal return − Inflation rate. A savings account paying 2% with 3% inflation has a real return of −1%. A global ETF returning 8% with 3% inflation has a real return of +5%. Only real returns build genuine long-term wealth.",
+          example: "European inflation 2022: inflation hit 8-10% in Europe. Savings accounts paid 0-1%. Real returns on savings: approximately −7% to −9%. Every €10,000 in a savings account lost approximately €700-900 of real purchasing power in a single year — silently, invisibly, inevitably."
+        }
       ],
-      quiz: { question: "If inflation is 3% and your savings account pays 1%, what is happening to your wealth?", options: [{ text: "Your wealth is growing by 1% per year", correct: false }, { text: "Your purchasing power is declining by about 2% per year", correct: true }, { text: "Your wealth is unaffected because the account balance stays the same", correct: false }, { text: "You are breaking even", correct: false }], correctFeedback: "Correct! Real return = nominal return minus inflation. 1% minus 3% = negative 2%. Your money buys less every year.", wrongFeedback: "Real return = nominal return minus inflation. 1% minus 3% = negative 2% real return." }
+      quiz: {
+        question: "If inflation is 3% and your savings account pays 1%, what is actually happening to your wealth?",
+        options: [
+          { text: "Your wealth is growing by 1% per year", correct: false },
+          { text: "Your purchasing power is declining by about 2% per year in real terms", correct: true },
+          { text: "Your wealth is completely safe because your account balance keeps growing", correct: false },
+          { text: "You are exactly breaking even", correct: false }
+        ],
+        correctFeedback: "Exactly right! Real return = nominal return minus inflation = 1% − 3% = −2%. Your bank balance grows but buys progressively less. This is the inflation trap.",
+        wrongFeedback: "Real return = nominal return minus inflation. 1% − 3% = −2% per year in real terms. Your account balance grows but your purchasing power falls. Not investing means guaranteed slow loss of wealth."
+      }
     }
   },
   {
     id: 13, chapter: 1,
     title: "Build Your Emergency Fund First", icon: "🛡️", desc: "Why you need cash reserves before you invest a single euro.",
-    tags: ["Planning", "5 min"], xp: 60, gold: 12,
+    tags: ["Planning", "8 min"], xp: 60, gold: 12,
     lesson: {
-      heading: "Protect yourself before you invest", intro: "The biggest mistake new investors make is putting money into the market that they might need soon.",
+      heading: "Build your fortress before the battle",
+      intro: "The single biggest mistake new investors make is putting money into the market that they might need in the short term. Without a financial safety net, any emergency — job loss, medical bill, car repair, relationship change — forces you to sell investments at the worst possible moment. The emergency fund is not boring — it is the foundation that makes everything else possible.",
       blocks: [
-        { label: "What is an emergency fund?", heading: "Your financial safety net", body: "An emergency fund is 3 to 6 months of living expenses kept in a liquid, accessible savings account. Not invested. Just sitting there as cash for genuine emergencies — job loss, medical bills, urgent repairs.", highlight: "Never invest money you might need within the next 3 years. Only invest money you can leave untouched long-term.", example: "If monthly expenses are 1,500 euros: Emergency fund = 4,500 to 9,000 euros in a savings account before you invest anything." },
-        { label: "Why it matters", heading: "Without it, you will panic sell", body: "Without an emergency fund, any unexpected expense forces you to sell investments — potentially at the worst time. Having cash means you never need to sell ETFs at a loss.", highlight: "The emergency fund is insurance that allows you to stay invested through downturns without being forced to sell.", example: "Scenario: Market crashes 30%. You lose your job. Without emergency fund: forced to sell at a loss. With emergency fund: do nothing, wait for recovery." }
+        {
+          label: "What is an emergency fund?",
+          heading: "Your financial shock absorber",
+          body: "An emergency fund is 3 to 6 months of your total living expenses held in a liquid, instantly accessible savings account — not invested in ETFs, not locked in fixed-term deposits. Just cash, available immediately for genuine financial emergencies: unexpected job loss, medical expenses, urgent home or car repairs, family crises. This money has one job: to prevent financial emergencies from becoming financial disasters.",
+          highlight: "Never invest money you might need within the next 3 years. Only money you can truly leave untouched long-term belongs in an ETF. The emergency fund is what makes this rule possible to follow.",
+          example: "Calculating your emergency fund: Monthly expenses (rent €900 + food €300 + transport €200 + subscriptions €100 + other €200) = €1,700/month. Emergency fund target: 3 months = €5,100. 6 months = €10,200. Keep this in a high-yield savings account (Tagesgeld) paying 2-3%, separate from your investment account."
+        },
+        {
+          label: "Why it protects your investments",
+          heading: "Without it, you will panic sell",
+          body: "Here is the scenario that destroys most investment plans: the market crashes 30% at exactly the same time you face an unexpected €3,000 expense. Without an emergency fund, you are forced to sell your investments at a 30% loss — converting a temporary paper loss into a permanent real loss. With an emergency fund, you simply use that cash, leave your investments alone and wait for the market to recover. The emergency fund is not separate from your investment strategy — it is the foundation of it.",
+          highlight: "The emergency fund is investment insurance. Its entire purpose is to ensure that no life emergency can force you to sell your investments at an inopportune time. It protects your long-term wealth by absorbing short-term shocks.",
+          example: "March 2020, COVID crash: MSCI World fell 34% in 33 days. Investors without emergency funds who lost income were forced to sell at the bottom to pay expenses. Investors with emergency funds did nothing. By September 2020 — 6 months later — the market had fully recovered. The emergency fund was the difference between locking in a 34% loss and recovering fully."
+        },
+        {
+          label: "Deep dive",
+          heading: "Where to keep your emergency fund",
+          body: "Your emergency fund needs three properties: safety (no risk of loss), liquidity (accessible within 1-2 business days) and a reasonable return. In Germany, the best option is a Tagesgeldkonto (daily savings account) with a bank like ING, DKB or Comdirect. These accounts are covered by German deposit insurance up to €100,000, immediately accessible and currently pay 2-3% interest. Never invest your emergency fund in ETFs — a 30% market drop at the wrong moment defeats the entire purpose.",
+          highlight: "Keep your emergency fund in a Tagesgeldkonto at a separate bank from your current account. Psychological separation makes it easier to resist spending it on non-emergencies. Aim for 3 months minimum, 6 months if your income is variable.",
+          example: "Emergency fund setup checklist: 1) Open a Tagesgeldkonto at ING, DKB or similar. 2) Transfer 3-6 months of expenses there. 3) Set up a small monthly automatic top-up if needed. 4) Only access it for genuine emergencies. 5) Replenish it immediately after use. Then, and only then, start investing your remaining savings in ETFs."
+        }
       ],
-      quiz: { question: "How much should an emergency fund contain?", options: [{ text: "1,000 euros regardless of expenses", correct: false }, { text: "3 to 6 months of living expenses in accessible cash", correct: true }, { text: "All your savings — invest nothing until retirement", correct: false }, { text: "Emergency funds are unnecessary if you have ETFs", correct: false }], correctFeedback: "Correct! 3 to 6 months of expenses gives you a buffer for any financial emergency without touching your investments.", wrongFeedback: "3 to 6 months of living expenses is the standard recommendation." }
+      quiz: {
+        question: "How large should an emergency fund be?",
+        options: [
+          { text: "€1,000 regardless of your monthly expenses", correct: false },
+          { text: "3 to 6 months of your total living expenses in instantly accessible cash", correct: true },
+          { text: "All your savings — invest nothing until you retire", correct: false },
+          { text: "Emergency funds are unnecessary if you have ETF investments", correct: false }
+        ],
+        correctFeedback: "Correct! 3 to 6 months of living expenses in liquid cash gives you a buffer for any financial emergency without ever touching your investments.",
+        wrongFeedback: "3 to 6 months of living expenses is the standard recommendation. This covers most realistic emergencies and ensures no financial shock can force you to sell your investments."
+      }
     }
   },
   {
     id: 14, chapter: 1,
     title: "ETF vs Active Funds", icon: "🏆", desc: "Why passive ETFs consistently beat actively managed funds.",
-    tags: ["Comparison", "6 min"], xp: 65, gold: 13,
+    tags: ["Comparison", "8 min"], xp: 65, gold: 13,
     lesson: {
-      heading: "The data is clear — passive wins", intro: "For decades, the financial industry sold expensive actively managed funds. The data tells a very different story.",
+      heading: "The most important investment debate — settled",
+      intro: "For over 50 years, the financial industry has argued that professional fund managers, armed with research teams, sophisticated models and years of experience, can beat the market. Fifty years of data have delivered a definitive verdict. The data wins. Passive beats active. Here is why.",
       blocks: [
-        { label: "Active vs passive", heading: "What is the difference?", body: "An active fund employs professional managers who try to beat the market and charge 1 to 2% per year. A passive ETF simply buys all the companies in an index and charges 0.07 to 0.25% per year.", highlight: "The irony: the more a fund manager trades, the more it costs — and the worse it typically performs.", example: "Cost comparison: Active fund at 1.5% per year. ETF at 0.20% per year. On 100,000 euros that is 1,500 vs 200 euros annually." },
-        { label: "The evidence", heading: "What the data actually shows", body: "The SPIVA report studies active fund performance every year. Over 15 years, roughly 90% of actively managed funds underperform their benchmark index after fees.", highlight: "Over any 15-year period, approximately 90% of active funds underperform a simple index ETF after fees.", example: "S&P SPIVA 2023: Over 20 years, 95% of US active equity funds underperformed the S&P 500." }
+        {
+          label: "Active vs passive",
+          heading: "What is the fundamental difference?",
+          body: "An actively managed fund employs professional portfolio managers who research individual companies, analyze economic trends and constantly buy and sell stocks attempting to beat the market. For this service, they charge 1-2.5% per year. A passive ETF simply buys every company in an index in the correct proportions and holds them. No decisions. No research. No trading. For this simplicity, ETFs charge 0.07-0.25% per year. The fee difference alone makes active funds extremely difficult to justify.",
+          highlight: "The mathematical reality: to justify paying 1.5% more in annual fees, an active fund manager must outperform their benchmark by 1.5% every single year — just to break even with the ETF. Over 15 years, compounded, this becomes an enormous performance hurdle.",
+          example: "Fee comparison on €100,000 over 30 years: ETF at 0.20% TER = €200/year in fees = total fees approximately €24,000 over 30 years. Active fund at 1.75% TER = €1,750/year = total fees approximately €210,000 over 30 years. The active fund must dramatically outperform just to compensate for this fee disadvantage."
+        },
+        {
+          label: "The evidence",
+          heading: "50 years of data — the verdict is unanimous",
+          body: "The SPIVA (S&P Indices Versus Active) report has tracked active fund performance versus passive benchmarks for decades. The results are remarkably consistent across every asset class, every country and every time period: approximately 80-95% of active funds underperform their benchmark index after fees over any 15-year period. This is not a recent trend. It has been true in every decade since the 1970s. The longer the time period, the worse active funds look compared to passive ETFs.",
+          highlight: "SPIVA 2023: Over 20 years, 95% of US large-cap active funds underperformed the S&P 500. In European equity, 88% underperformed over 15 years. In emerging markets, 85%. The pattern is universal and relentless.",
+          example: "Why active funds fail: Even if a manager is genuinely skilled (rare), their fund charges 1.5-2% in fees plus transaction costs from frequent trading. To beat a 0.20% ETF, they need to generate 1.3-1.8% of alpha (excess return) every single year — for decades. The mathematics make this virtually impossible to sustain."
+        },
+        {
+          label: "Deep dive",
+          heading: "Why do smart, well-paid professionals consistently fail to beat the market?",
+          body: "The efficient market hypothesis explains why: in a market where thousands of skilled analysts are simultaneously researching and trading the same stocks, prices already reflect all publicly available information. Any genuine opportunity to profit from publicly known information gets immediately traded away by the collective intelligence of millions of market participants. The market is not perfectly efficient — but it is efficient enough that consistently beating it after fees is extraordinarily difficult.",
+          highlight: "The painful irony: the best way to exploit the collective intelligence of thousands of brilliant analysts, researchers and fund managers is to buy an ETF that simply owns everything they collectively decide is worth owning. You benefit from their work without paying their fees.",
+          example: "Warren Buffett's bet: In 2007, Buffett bet $1 million that a simple S&P 500 index fund would outperform a basket of hedge funds over 10 years. By 2017, the index fund had returned 7.1% annually. The hedge funds returned 2.2% annually. Even the world's most sophisticated active investors lost to a passive index over a decade."
+        }
       ],
-      quiz: { question: "What percentage of active funds underperform index ETFs over 15 years?", options: [{ text: "About 30%", correct: false }, { text: "About 50%", correct: false }, { text: "About 90%", correct: true }, { text: "Active funds usually outperform ETFs", correct: false }], correctFeedback: "Correct! Approximately 90% of active funds underperform their benchmark index over 15 years after fees.", wrongFeedback: "About 90% of active funds underperform simple index ETFs over 15 years after fees." }
+      quiz: {
+        question: "What percentage of actively managed funds underperform simple index ETFs over 15 years?",
+        options: [
+          { text: "About 30%", correct: false },
+          { text: "About 50%", correct: false },
+          { text: "About 80-90%", correct: true },
+          { text: "Active funds usually outperform ETFs", correct: false }
+        ],
+        correctFeedback: "Correct! Approximately 80-90% of actively managed funds underperform their benchmark index after fees over 15 years. The pattern is universal across asset classes and countries.",
+        wrongFeedback: "About 80-90% of active funds underperform simple index ETFs over 15 years after fees. The longer the time period studied, the more definitively passive investing wins."
+      }
     }
   },
   {
     id: 15, chapter: 1,
     title: "Tax Basics for ETF Investors", icon: "🧾", desc: "Understand how ETF profits are taxed in Germany and Europe.",
-    tags: ["Tax", "7 min"], xp: 75, gold: 16,
+    tags: ["Tax", "8 min"], xp: 75, gold: 16,
     lesson: {
-      heading: "Keep more of what you earn", intro: "Taxes can significantly reduce your investment returns if you do not plan for them.",
+      heading: "Keep more of what you earn",
+      intro: "Taxes can significantly reduce your investment returns if you do not plan for them. The good news: German tax law offers several legal advantages for ETF investors. Understanding just two things — the Abgeltungsteuer and the Sparerpauschbetrag — can save you hundreds of euros every year.",
       blocks: [
-        { label: "German tax basics", heading: "Abgeltungsteuer explained", body: "In Germany, investment profits are subject to Abgeltungsteuer of 25% plus solidarity surcharge, bringing the effective rate to approximately 26 to 28%. However, each person has an annual tax-free allowance of 1,000 euros called Sparerpauschbetrag.", highlight: "Set up a Freistellungsauftrag with your broker to use your 1,000 euro annual tax-free allowance automatically.", example: "With 1,000 euro allowance: Your first 1,000 euros of investment profits each year is completely tax-free." },
-        { label: "Tax-efficient structure", heading: "Why accumulating ETFs win again", body: "With distributing ETFs, you pay tax every time dividends are distributed. With accumulating ETFs, no tax is triggered until you sell — potentially decades later.", highlight: "Accumulating plus Ireland-domiciled equals the most tax-efficient structure for EU investors.", example: "Tax deferral advantage: Paying 26% tax on 1,000 euro profit today vs in 20 years means more compound growth in the meantime." }
+        {
+          label: "German tax basics",
+          heading: "Abgeltungsteuer — the flat investment tax",
+          body: "In Germany, investment profits — capital gains, dividends and interest income — are subject to Abgeltungsteuer, a flat withholding tax of 25% plus the solidarity surcharge (Soli) of 5.5% on that tax amount. The effective combined rate is approximately 26.375%. Church tax may also apply (8-9% of the tax amount for church members). This tax is automatically withheld by your broker — you do not need to file separately for it in most cases.",
+          highlight: "The single most important tax action every German investor must take: set up a Freistellungsauftrag with your broker. This instructs them to apply your annual tax-free allowance automatically. Without it, you pay full tax from the first euro of investment profit.",
+          example: "How Abgeltungsteuer works: You sell an ETF for €5,000 profit. Without Freistellungsauftrag: broker withholds €5,000 × 26.375% = €1,319 in tax immediately. With Freistellungsauftrag covering €1,000 of the profit: only €4,000 × 26.375% = €1,055 withheld. You keep €264 extra just from a 2-minute setup."
+        },
+        {
+          label: "The Sparerpauschbetrag",
+          heading: "Your annual €1,000 tax-free allowance",
+          body: "The Sparerpauschbetrag is the annual allowance that exempts the first €1,000 of investment income from Abgeltungsteuer for single filers (€2,000 for married couples filing jointly). This allowance covers capital gains, dividends and interest income combined. It resets on January 1st every year. To benefit, you must submit a Freistellungsauftrag to each broker you use — allocating your allowance across brokers if you have multiple.",
+          highlight: "The Sparerpauschbetrag is completely free money. At 26.375% tax rate, it saves you up to €263.75 per year as a single investor. Over 30 years of investing, that is potentially €7,900 in saved taxes — from a 2-minute form submission.",
+          example: "Setting up your Freistellungsauftrag: Log in to your broker (Trade Republic, Scalable Capital etc.). Find the tax settings or Freistellungsauftrag section. Enter €1,000 (or less if you have multiple brokers). Submit. Done. This 2-minute action saves you money every single year indefinitely."
+        },
+        {
+          label: "Deep dive",
+          heading: "Tax-efficient investing strategies for ETF investors",
+          body: "Beyond the Sparerpauschbetrag, there are three additional tax strategies for German ETF investors. First, use accumulating ETFs — they defer tax on dividends until you sell, allowing more compound growth. Second, hold ETFs long-term — the longer you hold without selling, the more tax-deferred compounding you benefit from. Third, Ireland-domiciled ETFs (ISIN starting IE) benefit from a favorable double-taxation treaty that reduces withholding tax on US dividends from 30% to 15%.",
+          highlight: "The optimal German ETF setup: accumulating ETF + Ireland domicile + Freistellungsauftrag set up + hold for decades. This combination legally minimizes your tax burden while maximizing compound growth.",
+          example: "Tax deferral value: You earn €1,000 in dividends this year. Distributing ETF: pay €263.75 in tax now. Accumulating ETF: no tax until you sell — potentially in 20 years. That €263.75 continues compounding at 7% for 20 years and becomes approximately €1,020 — the tax deferral itself generates more than the original tax amount."
+        }
       ],
-      quiz: { question: "What is the Sparerpauschbetrag and why should you use it?", options: [{ text: "A penalty for selling ETFs early", correct: false }, { text: "An annual 1,000 euro tax-free allowance on investment profits that you should set up with your broker", correct: true }, { text: "A government savings account with guaranteed returns", correct: false }, { text: "A tax on dividends paid by foreign companies", correct: false }], correctFeedback: "Exactly! Set up a Freistellungsauftrag with your broker immediately to claim it automatically.", wrongFeedback: "Sparerpauschbetrag = 1,000 euro annual tax-free allowance. Set up a Freistellungsauftrag with your broker." }
+      quiz: {
+        question: "What is the Sparerpauschbetrag and why must every German investor set it up?",
+        options: [
+          { text: "A government penalty for selling ETFs within the first year", correct: false },
+          { text: "An annual €1,000 tax-free investment allowance that must be activated via Freistellungsauftrag", correct: true },
+          { text: "A government savings account with guaranteed returns for retirees", correct: false },
+          { text: "A tax on dividends received from foreign companies", correct: false }
+        ],
+        correctFeedback: "Exactly! The Sparerpauschbetrag gives you €1,000 of tax-free investment profits per year. Set up your Freistellungsauftrag with your broker immediately — it takes 2 minutes and saves money every year.",
+        wrongFeedback: "Sparerpauschbetrag = €1,000 annual tax-free investment allowance (€2,000 for couples). You must set up a Freistellungsauftrag with your broker to activate it. Without this, you pay full tax from the first euro of investment profit."
+      }
     }
   },
   {
     id: 16, chapter: 1,
     title: "Market Crashes — History and Recovery", icon: "📉", desc: "Learn why market crashes are temporary and recovery is inevitable.",
-    tags: ["Psychology", "7 min"], xp: 70, gold: 15,
+    tags: ["Psychology", "9 min"], xp: 70, gold: 15,
     lesson: {
-      heading: "Every crash in history has recovered", intro: "Market crashes feel terrifying. Understanding their history transforms fear into patience.",
+      heading: "Every crash in history has recovered",
+      intro: "Market crashes feel terrifying. Headlines scream disaster. Friends tell you to sell. Social media is full of panic. But every single crash in market history has one thing in common: full recovery, followed by new all-time highs. Understanding this history transforms fear into patience.",
       blocks: [
-        { label: "Historical crashes", heading: "The crashes that scared everyone", body: "The Great Depression in 1929: minus 89%. Black Monday in 1987: minus 22% in one day. Dot-com bust 2000 to 2002: minus 49%. Financial crisis 2008 to 2009: minus 57%. COVID crash 2020: minus 34% in 33 days. Every single one recovered and went to new highs.", highlight: "The COVID crash of 2020 was the fastest 34% decline in history — and the market had fully recovered within 6 months.", example: "2008 Financial Crisis: Markets fell 57%. By 2013, fully recovered. By 2020, they had tripled from the 2009 low." },
-        { label: "The right response", heading: "What to do in a crash", body: "The worst thing you can do is sell. Selling converts a temporary paper loss into a permanent real loss. The second worst is to stop investing.", highlight: "Be greedy when others are fearful, and fearful when others are greedy. Warren Buffett.", example: "The right action in every crash: Do nothing with existing holdings. Continue monthly savings plan. If possible, invest extra. Then wait." }
+        {
+          label: "Historical crashes",
+          heading: "The crashes that terrified everyone",
+          body: "Great Depression 1929: markets fell 89% over 3 years. Black Monday 1987: fell 22% in a single day. Dot-com bust 2000 to 2002: fell 49% over 2.5 years. Financial Crisis 2008 to 2009: fell 57% over 17 months. COVID crash 2020: fell 34% in just 33 days. Every single one of these crashes felt like the end of the financial world. Every single one fully recovered and went on to new all-time highs.",
+          highlight: "The COVID crash of 2020 was the fastest 34% decline in history — and the market had fully recovered within 6 months. Investors who held through it went on to some of the best returns in decades.",
+          example: "2008 Financial Crisis timeline: Markets fell 57% from October 2007 to March 2009. By April 2013: fully recovered. By 2020: tripled from the 2009 low. An investor who held through the entire crisis and kept investing ended up extraordinarily well."
+        },
+        {
+          label: "The right response",
+          heading: "What to do during a crash — and what not to do",
+          body: "The worst action: sell everything. Selling converts a temporary paper loss into a permanent real loss and forces you to make a second impossible decision — when to buy back in. The second worst: stop investing. This means missing the best buying opportunity of the decade. The correct action: do nothing with existing holdings, continue your monthly savings plan, and if possible invest additional cash.",
+          highlight: "Be greedy when others are fearful, and fearful when others are greedy. Warren Buffett made his greatest investments during crashes — not despite the fear, but because of it.",
+          example: "Crash investor comparison: Investor A panic sold in March 2020 when MSCI World was down 34%. Waited for safety. Bought back in December 2020. Missed the 50% recovery. Investor B did nothing. Continued monthly plan. By end of 2020: portfolio fully recovered plus gains."
+        },
+        {
+          label: "Deep dive",
+          heading: "Why crashes are inevitable — and why that is good news",
+          body: "Market crashes are not accidents. They are a fundamental feature of capitalism. They happen because investors are human — they get greedy, overvalue assets, then panic when reality sets in. Crashes reset valuations, shake out weak hands and create extraordinary buying opportunities for long-term investors. The emotional pain of a crash is the price you pay for long-term equity returns that dramatically exceed safer assets.",
+          highlight: "The stock market is the only store in the world where people run away when things go on sale. Crashes are sales on the world's greatest businesses. Patient investors who buy during crashes earn the highest long-term returns.",
+          example: "The math of staying invested: Missing the 10 best days in the S&P 500 over 20 years cuts your return roughly in half. Those best days almost always occur during or immediately after the worst crashes — when most investors have already panic sold."
+        }
       ],
-      quiz: { question: "What should a long-term ETF investor do during a major market crash?", options: [{ text: "Sell everything immediately to preserve capital", correct: false }, { text: "Continue the monthly savings plan and do nothing with existing holdings", correct: true }, { text: "Switch to a safer ETF until markets recover", correct: false }, { text: "Stop investing until confidence returns", correct: false }], correctFeedback: "Correct! Continuing to invest during crashes is one of the most powerful things you can do.", wrongFeedback: "In a crash: do nothing with existing holdings and continue investing. Every crash has recovered. Selling locks in losses permanently." }
+      quiz: {
+        question: "What should a long-term ETF investor do during a major market crash?",
+        options: [
+          { text: "Sell everything immediately to preserve capital", correct: false },
+          { text: "Continue the monthly savings plan and do nothing with existing holdings", correct: true },
+          { text: "Switch to a safer ETF until markets recover", correct: false },
+          { text: "Stop investing until confidence returns", correct: false }
+        ],
+        correctFeedback: "Correct! Continuing to invest during crashes is one of the most powerful wealth-building actions you can take. Every crash has recovered.",
+        wrongFeedback: "In a crash: hold existing positions, continue investing monthly, and consider investing more. Every crash has recovered. Selling converts temporary losses into permanent ones."
+      }
     }
   },
   {
     id: 17, chapter: 1,
     title: "The Savings Rate", icon: "💰", desc: "Why how much you save matters more than how you invest.",
-    tags: ["Planning", "5 min"], xp: 60, gold: 12,
+    tags: ["Planning", "9 min"], xp: 60, gold: 12,
     lesson: {
-      heading: "Save more. Invest it. Repeat.", intro: "Investment returns matter — but your savings rate matters more, especially early on.",
+      heading: "Save more. Invest it. Repeat.",
+      intro: "Most people focus on finding the perfect investment. But research consistently shows that for wealth building — especially in the early years — your savings rate matters far more than your investment returns. A mediocre investor who saves 30% of income will dramatically outperform a brilliant investor who saves 5%.",
       blocks: [
-        { label: "What is savings rate?", heading: "The percentage that changes everything", body: "Your savings rate is the percentage of your income you save and invest each month. A 10% savings rate is average. A 20% rate is good. A 30% or higher rate is exceptional.", highlight: "Increasing your savings rate from 10% to 20% can more than halve the time to reach your financial goals.", example: "On 3,000 euros monthly income: 10% = 300 euros per month. 20% = 600 euros per month. 30% = 900 euros per month." },
-        { label: "How to increase it", heading: "Practical ways to save more", body: "The two ways to increase savings rate are earning more and spending less. The fastest path is often cutting the largest expenses: housing, car, subscriptions, eating out.", highlight: "Track every expense for one month. Most people are shocked to discover where their money actually goes.", example: "Hidden savings: Cancelling one streaming service = 15 euros per month = 180 euros per year = 36,000 euros over 40 years invested at 7%." }
+        {
+          label: "What is savings rate?",
+          heading: "The percentage that changes everything",
+          body: "Your savings rate is the percentage of your after-tax income that you save and invest each month. A 10% savings rate is average. A 20% rate is good. A 30% or higher rate is exceptional and will dramatically accelerate your path to financial freedom. The savings rate directly determines how quickly your wealth compounds.",
+          highlight: "Increasing your savings rate from 10% to 20% does not just double your savings — it more than halves the time needed to reach financial independence, because you are investing more AND needing less to live on.",
+          example: "On €3,000 monthly take-home income: 10% = €300/month invested. 20% = €600/month invested. 30% = €900/month invested. At 7% return over 30 years: 10% rate = €340k. 20% rate = €680k. 30% rate = €1,020,000."
+        },
+        {
+          label: "How to increase it",
+          heading: "Practical ways to save significantly more",
+          body: "There are only two ways to increase your savings rate: earn more or spend less. The fastest path is usually attacking your three largest expenses: housing (30-40% of most budgets), transportation and food. A 10% reduction in housing costs can add 5-10% to your savings rate instantly. Tracking every expense for 30 days is the essential first step — most people are genuinely shocked by what they discover.",
+          highlight: "Track every single expense for one month before making any changes. Most people find 200 to 500 euros per month in spending they genuinely do not miss — on subscriptions they forgot, impulse purchases and convenience spending.",
+          example: "The latte myth vs reality: Cutting coffee saves €100/month = €36,000 over 30 years invested at 7%. But cutting one unused gym membership, two streaming services and reducing takeaway by half = €300/month = €108,000 over 30 years. Small cuts compound enormously."
+        },
+        {
+          label: "Deep dive",
+          heading: "The savings rate and time to financial independence",
+          body: "The relationship between savings rate and time to financial independence is one of the most important mathematical relationships in personal finance. At a 10% savings rate, you need approximately 51 years of work to reach financial independence. At 20%: 37 years. At 30%: 28 years. At 50%: 17 years. At 70%: just 8.5 years. Each additional percentage point of savings rate shaves years off your working life.",
+          highlight: "The savings rate is the single variable most under your direct control. Investment returns depend on markets. Savings rate depends on you. Optimize what you can control.",
+          example: "Real-world application: A person earning €3,500/month who increases their savings rate from 15% to 25% by moving to a slightly cheaper apartment and cutting subscriptions — investing an extra €350/month — reaches their financial goals 8 years earlier."
+        }
       ],
-      quiz: { question: "Why is savings rate considered more important than investment returns early in your investing journey?", options: [{ text: "Returns do not matter for small portfolios", correct: false }, { text: "With a small portfolio, how much you invest has more impact than the return percentage", correct: true }, { text: "Savings rates are guaranteed while returns are not", correct: false }, { text: "Savings accounts pay more than ETFs", correct: false }], correctFeedback: "Exactly right! When your portfolio is small, adding more money has more impact than earning a better percentage return.", wrongFeedback: "On a small portfolio, saving more matters most. As the portfolio grows, investment returns become more impactful." }
+      quiz: {
+        question: "Why is savings rate considered more important than investment returns early in your investing journey?",
+        options: [
+          { text: "Returns do not matter for small portfolios", correct: false },
+          { text: "With a small portfolio, how much you invest has more impact than the return percentage", correct: true },
+          { text: "Savings rates are guaranteed while returns are not", correct: false },
+          { text: "Savings accounts pay more than ETFs", correct: false }
+        ],
+        correctFeedback: "Exactly right! When your portfolio is small, the absolute amount you add matters more than the percentage return. A 1% better return on €5,000 is €50. An extra €200/month is €2,400.",
+        wrongFeedback: "On a small portfolio, how much you save matters most. 1% extra return on €10,000 = €100. An extra €100/month = €1,200. As the portfolio grows to hundreds of thousands, returns become more impactful."
+      }
     }
   },
   {
     id: 18, chapter: 1,
     title: "Sustainable Investing — ESG ETFs", icon: "🌿", desc: "Invest according to your values without sacrificing returns.",
-    tags: ["ESG", "6 min"], xp: 65, gold: 13,
+    tags: ["ESG", "9 min"], xp: 65, gold: 13,
     lesson: {
-      heading: "Can you invest ethically and profitably?", intro: "ESG investing has grown from a niche to a mainstream option.",
+      heading: "Can you invest ethically and profitably?",
+      intro: "ESG investing has exploded from a niche concept to a mainstream investment category worth trillions of euros. But behind the marketing, what does ESG actually mean? Do ESG ETFs really avoid harmful companies? And most importantly — do they sacrifice returns to do so?",
       blocks: [
-        { label: "What is ESG?", heading: "Environmental, Social and Governance", body: "ESG stands for Environmental, Social and Governance. ESG ETFs screen companies based on these criteria, typically excluding heavily polluting industries, companies with poor labor practices or those with weak corporate governance.", highlight: "ESG ETFs typically exclude tobacco, weapons, coal and oil sands companies. They emphasize climate policies, fair labor and transparent governance.", example: "iShares MSCI World ESG Enhanced: Tracks a version of the MSCI World overweighting high-ESG-rated companies. TER: 0.20%." },
-        { label: "Performance", heading: "Do ESG ETFs sacrifice returns?", body: "Historically, ESG ETFs have performed similarly to standard equivalents. The evidence does not support the idea that investing ethically costs significantly in returns.", highlight: "ESG investing is not charity — many ESG-screened portfolios have matched or slightly outperformed standard indices over the past decade.", example: "Comparison over 10 years: MSCI World approximately 10% annual return. MSCI World ESG Leaders approximately 10.5% annual return." }
+        {
+          label: "What is ESG?",
+          heading: "Environmental, Social and Governance explained",
+          body: "ESG stands for Environmental, Social and Governance. These are three categories of non-financial criteria used to evaluate how a company operates beyond pure profit. Environmental: carbon emissions, water use, waste management, climate risk. Social: labor practices, supply chain ethics, employee wellbeing, community impact. Governance: board independence, executive pay, shareholder rights, transparency. ESG ETFs screen companies on these criteria and exclude or underweight the worst offenders.",
+          highlight: "ESG ETFs typically exclude tobacco companies, weapons manufacturers, coal miners, oil sands producers and companies with major corruption or labor violations. They overweight companies with strong climate policies, fair labor practices and transparent governance.",
+          example: "iShares MSCI World ESG Enhanced ETF (IESE): Tracks the MSCI World ESG Enhanced Focus Index. Excludes fossil fuel companies, weapons and tobacco. Overweights high-ESG-rated companies. TER: 0.20%. Same cost as the standard MSCI World ETF."
+        },
+        {
+          label: "Performance reality",
+          heading: "Do ESG ETFs sacrifice returns?",
+          body: "This is the question every ESG investor asks. The honest answer from the data: over the past decade, ESG ETFs have performed similarly to or slightly better than their standard equivalents. This is partly because the excluded sectors — coal, tobacco, weapons — have generally underperformed. But it is also important to be honest: ESG outperformance is not guaranteed, and the future may look different as ESG becomes more mainstream and priced in.",
+          highlight: "ESG investing is not charity — it is a bet that companies with better environmental, social and governance practices are better run, face fewer regulatory risks and are more resilient long-term. The data supports this hypothesis over the past decade.",
+          example: "10-year comparison ending 2023: MSCI World Index: approximately 10% annual return. MSCI World ESG Leaders Index: approximately 10.5% annual return. MSCI World ESG Enhanced Focus: approximately 10.3% annual return. ESG has not cost investors returns — if anything, the opposite."
+        },
+        {
+          label: "Deep dive",
+          heading: "The limits of ESG — what you should know",
+          body: "ESG is not perfect. Different rating agencies give the same company wildly different ESG scores. Tesla has been excluded from some ESG indices due to governance concerns despite its clean energy focus. Some oil companies score highly on ESG while still extracting fossil fuels. If ESG investing matters to you, read the actual methodology of the index — not just the label.",
+          highlight: "Two ESG ETFs can have very different holdings. Always check the index methodology and top holdings list before buying. MSCI ESG Enhanced and MSCI ESG Leaders have different screens and exclusions.",
+          example: "Practical ESG start: If values-based investing appeals to you, replace your standard MSCI World ETF with IESE (iShares MSCI World ESG Enhanced, TER 0.20%). Virtually identical cost, similar diversification, with exclusions that align with most investors values."
+        }
       ],
-      quiz: { question: "What does ESG stand for in ESG ETFs?", options: [{ text: "Extra Secure Growth", correct: false }, { text: "Environmental, Social and Governance", correct: true }, { text: "European Stock Growth", correct: false }, { text: "Equity, Savings and Gold", correct: false }], correctFeedback: "Correct! ESG = Environmental, Social and Governance.", wrongFeedback: "ESG = Environmental, Social and Governance — criteria used to evaluate companies on ethics and sustainability." }
+      quiz: {
+        question: "What does ESG stand for in ESG ETFs?",
+        options: [
+          { text: "Extra Secure Growth", correct: false },
+          { text: "Environmental, Social and Governance", correct: true },
+          { text: "European Stock Growth", correct: false },
+          { text: "Equity, Savings and Gold", correct: false }
+        ],
+        correctFeedback: "Correct! ESG = Environmental, Social and Governance — three criteria for evaluating company behavior beyond pure financial metrics.",
+        wrongFeedback: "ESG = Environmental, Social and Governance. These criteria evaluate how a company manages environmental impact, social responsibility and leadership quality."
+      }
     }
   },
   {
     id: 19, chapter: 1,
     title: "How to Set Investment Goals", icon: "🎯", desc: "Define clear goals that guide every investment decision you make.",
-    tags: ["Planning", "5 min"], xp: 60, gold: 12,
+    tags: ["Planning", "9 min"], xp: 60, gold: 12,
     lesson: {
-      heading: "Invest with purpose", intro: "The biggest mistake investors make is not having clear goals. Without a destination, every market movement becomes a crisis.",
+      heading: "Invest with purpose",
+      intro: "The biggest mistake investors make is not having clear goals. Without a destination, every market movement becomes a potential crisis. When the market falls 20%, investors without clear goals panic — because they have no framework to evaluate whether selling or holding is right for them. Clear goals solve this.",
       blocks: [
-        { label: "Types of goals", heading: "Short, medium and long-term goals", body: "Financial goals fall into three time horizons. Short-term from 1 to 3 years: keep in cash. Medium-term from 3 to 10 years: lower-risk investments. Long-term over 10 years: this is where ETFs shine.", highlight: "Only invest in ETFs money you do not need for at least 5 years.", example: "Wrong: Investing house deposit in MSCI World ETF — too risky for a 2-year goal. Right: High-yield savings for short goals, ETFs for 10-plus year goals." },
-        { label: "SMART goals", heading: "Make your goals specific", body: "Vague goals like save for retirement do not work. SMART goals do: Specific, Measurable, Achievable, Relevant, Time-bound.", highlight: "Write down your financial goals with specific numbers and dates. Investors with written goals are significantly more likely to achieve them.", example: "SMART goal: Invest 200 euros per month in IWDA starting January 2025. Goal: 200,000 euros by age 55 over 30 years. Expected outcome at 7%: 243,000 euros." }
+        {
+          label: "Types of goals",
+          heading: "Short, medium and long-term goals",
+          body: "Financial goals fall into three time horizons, each requiring a different investment approach. Short-term goals from 0 to 3 years — house deposit, car, holiday, emergency buffer: keep this money in cash or a high-yield savings account. Market risk is inappropriate. Medium-term goals from 3 to 10 years — starting a business, early retirement buffer: lower-risk mixed portfolio. Long-term goals from 10 years plus — retirement, financial independence, building generational wealth: this is where ETFs shine and volatility becomes your friend.",
+          highlight: "Never invest money in ETFs that you might need within 5 years. Market downturns can last several years, and being forced to sell at a loss because you need the money is the most preventable investing mistake.",
+          example: "Correct goal-to-investment matching: House deposit needed in 2 years = high-yield savings account at 3-4%. Children's university fund in 15 years = MSCI World ETF. Retirement in 35 years = 80% global ETFs, 20% bonds, gradually shift as retirement approaches."
+        },
+        {
+          label: "SMART goals",
+          heading: "Make your goals specific enough to act on",
+          body: "Vague goals produce vague actions. 'Save for retirement' tells you nothing about what to do. A SMART goal — Specific, Measurable, Achievable, Relevant, Time-bound — tells you exactly what to do, how much to invest, and when you have succeeded. Research consistently shows that investors with written financial goals are significantly more likely to achieve them than those who keep goals vague or unwritten.",
+          highlight: "Write down your top three financial goals with specific numbers and specific dates. Then work backwards to calculate exactly how much you need to invest monthly to reach each one. This calculation turns vague hope into a concrete plan.",
+          example: "Vague goal: Retire comfortably someday. SMART goal: Accumulate €800,000 in my ETF portfolio by age 60. I am 28. At 7% return, I need to invest €650/month for 32 years. I currently invest €300/month. Plan: Increase by €50 every 6 months as salary grows."
+        },
+        {
+          label: "Deep dive",
+          heading: "The goal that changes everything — your number",
+          body: "The most powerful financial goal you can set is your FIRE number — the portfolio value at which you are financially independent. Calculate it: take your annual desired spending and multiply by 25 (the inverse of the 4% safe withdrawal rate). This is your target. Everything else — savings rate, investment choices, side income — is in service of reaching this number.",
+          highlight: "Your financial independence number = annual spending times 25. Once you know this number, every financial decision becomes clear: does this get me closer to or further from my number?",
+          example: "Example calculation: Desired annual spending in retirement = €36,000. Financial independence number = €36,000 times 25 = €900,000. Current savings rate of €500/month at 7% for 35 years = €951,000. You are on track. If you want to retire 5 years earlier: increase monthly investment to €780/month."
+        }
       ],
-      quiz: { question: "For which time horizon are ETFs most appropriate?", options: [{ text: "Money you need within 1 year", correct: false }, { text: "Money you will not need for at least 5 to 10 years", correct: true }, { text: "Your emergency fund", correct: false }, { text: "Any money regardless of when you need it", correct: false }], correctFeedback: "Exactly right! ETFs are for long-term money. The longer your horizon, the more confidently you can ride out market volatility.", wrongFeedback: "ETFs are appropriate for money you will not need for at least 5 to 10 years." }
+      quiz: {
+        question: "For which time horizon are ETFs most appropriate?",
+        options: [
+          { text: "Money you need within 1 year", correct: false },
+          { text: "Money you will not need for at least 5 to 10 years", correct: true },
+          { text: "Your emergency fund", correct: false },
+          { text: "Any money regardless of when you need it", correct: false }
+        ],
+        correctFeedback: "Exactly right! ETFs are for long-term money. The longer your horizon, the more confidently you can ride out market volatility and benefit from compound growth.",
+        wrongFeedback: "ETFs are appropriate for money you will not need for at least 5 to 10 years. Shorter time horizons require more stable, accessible options like high-yield savings accounts."
+      }
     }
   },
   {
     id: 20, chapter: 1,
     title: "Tracking Your Portfolio", icon: "📱", desc: "How to monitor your investments without becoming obsessed.",
-    tags: ["Practical", "5 min"], xp: 55, gold: 11,
+    tags: ["Practical", "9 min"], xp: 55, gold: 11,
     lesson: {
-      heading: "Monitor — do not obsess", intro: "Knowing how to track your portfolio correctly can mean the difference between disciplined investing and emotional trading.",
+      heading: "Monitor — do not obsess",
+      intro: "Knowing how to track your portfolio correctly can mean the difference between disciplined long-term investing and emotional short-term trading. Most investors check their portfolios far too often — and this costs them money.",
       blocks: [
-        { label: "How often to check", heading: "The right monitoring frequency", body: "Check your portfolio quarterly — four times per year. Each quarter: total portfolio value, whether allocation has drifted, whether savings plan is running and whether your life situation has changed.", highlight: "Checking more than quarterly increases the chance of making emotional decisions.", example: "Quarterly checklist: 1) Is my savings plan running? 2) What is my current allocation? 3) Is rebalancing needed? 4) Have my goals changed?" },
-        { label: "Tools to use", heading: "Simple tracking tools", body: "Your broker app shows portfolio value. For tracking across multiple accounts, tools like Portfolio Performance (free desktop app) or Parqet (German, free tier) work well.", highlight: "The best portfolio tracker is one you actually use — even a simple spreadsheet updated quarterly is better than a complex app you check daily.", example: "Minimal tracking: Spreadsheet with date, total value, each ETF value and allocation percentage. Update quarterly." }
+        {
+          label: "How often to check",
+          heading: "The right monitoring frequency",
+          body: "The optimal portfolio checking frequency is quarterly — four times per year. Each quarterly review covers four questions: Is my savings plan still running? What is my current allocation vs my target? Has life changed in a way that should change my strategy? Do I need to rebalance? This takes 15 minutes. That is all the portfolio attention required for an excellent long-term outcome.",
+          highlight: "Research shows that investors who check their portfolios daily make significantly worse decisions than those who check quarterly. The more frequently you look, the more noise you see — and the more tempted you are to act on it.",
+          example: "Fidelity ran an internal analysis to find which customer accounts had the best returns over a 10-year period. The answer was striking: the best-performing accounts belonged to customers who had either forgotten they had an account or were deceased. Inactivity was the winning strategy."
+        },
+        {
+          label: "Tools to use",
+          heading: "Simple, effective tracking tools",
+          body: "Your broker app shows your current portfolio value and individual position performance. For tracking multiple accounts or building a comprehensive picture, Portfolio Performance is a free and excellent desktop application used by serious German investors. Parqet is a German browser-based alternative with a clean interface and free tier. For the simplest possible tracking, a spreadsheet updated quarterly is more than sufficient.",
+          highlight: "The best portfolio tracker is the one you actually use consistently. A quarterly-updated spreadsheet beats a sophisticated app you never open.",
+          example: "Minimal quarterly spreadsheet: Date, Total Portfolio Value, MSCI World Value and Allocation %, Emerging Markets Value and Allocation %, Cash Value, Total Return Since Start, Notes. Five columns. 15 minutes per quarter. Complete picture."
+        },
+        {
+          label: "Deep dive",
+          heading: "What to actually do at each quarterly review",
+          body: "Step 1: Record current values in your tracker. Step 2: Calculate allocation percentages. Step 3: Compare to target allocation — if any asset class is more than 5% away from target, plan to rebalance using next month's savings contribution. Step 4: Confirm savings plan amount is still correct for your goals. Step 5: Note anything in your life that has changed — income, expenses, goals, time horizon. Step 6: Close the app and do nothing until next quarter.",
+          highlight: "The quarterly review should almost never result in selling. Rebalancing is done by directing new contributions toward underweighted assets — not by selling overweighted ones, which would trigger unnecessary taxes.",
+          example: "Target allocation: 80% MSCI World, 20% Emerging Markets. After review: 84% MSCI World, 16% EM — drifted 4%. Action: Direct next two months of savings entirely into Emerging Markets ETF. No selling, no tax event, allocation restored."
+        }
       ],
-      quiz: { question: "How often should a long-term ETF investor check their portfolio?", options: [{ text: "Every day to stay informed", correct: false }, { text: "Quarterly — four times per year", correct: true }, { text: "Only when markets crash", correct: false }, { text: "Never — set it and completely forget it", correct: false }], correctFeedback: "Correct! Quarterly monitoring gives enough visibility to make necessary adjustments without triggering emotional reactions.", wrongFeedback: "Quarterly is the sweet spot. Daily checking leads to emotional decisions." }
+      quiz: {
+        question: "How often should a long-term ETF investor check their portfolio?",
+        options: [
+          { text: "Every day to stay informed about market movements", correct: false },
+          { text: "Quarterly — four times per year", correct: true },
+          { text: "Only when markets crash significantly", correct: false },
+          { text: "Never — set it and completely forget it", correct: false }
+        ],
+        correctFeedback: "Correct! Quarterly monitoring provides enough visibility to make necessary adjustments without creating the temptation for emotional decisions driven by short-term noise.",
+        wrongFeedback: "Quarterly is the sweet spot — enough to stay informed and make genuine adjustments, not so often that short-term noise triggers emotional decisions."
+      }
     }
   },
   {
     id: 21, chapter: 1,
     title: "The Biggest Investing Mistakes", icon: "⚠️", desc: "The most common errors beginners make — and how to avoid them.",
-    tags: ["Wisdom", "6 min"], xp: 70, gold: 15,
+    tags: ["Wisdom", "9 min"], xp: 70, gold: 15,
     lesson: {
-      heading: "Learn from others expensive mistakes", intro: "The fastest way to become a better investor is to understand the mistakes that cost others the most — and consciously avoid them.",
+      heading: "Learn from others expensive mistakes",
+      intro: "The fastest and cheapest way to become a better investor is to deeply understand the mistakes that cost others the most — and consciously design your investing system to prevent them. These are not rare errors. They are nearly universal among beginners.",
       blocks: [
-        { label: "Mistakes 1 to 3", heading: "The deadly trio", body: "Mistake 1: Waiting for the perfect moment. There is no perfect moment. Mistake 2: Panic selling during crashes. Markets always recover. Mistake 3: High fees. A 1.5% TER versus 0.2% costs you potentially 100,000 euros over 30 years.", highlight: "These three mistakes alone account for the majority of wealth destroyed by amateur investors.", example: "Waiting costs: Starting investing 10 years later costs approximately 500,000 euros in final wealth on a 500 euro per month savings plan." },
-        { label: "Mistakes 4 to 5", heading: "The subtle killers", body: "Mistake 4: Investing money you might need soon — build your emergency fund first. Mistake 5: Checking your portfolio every day — daily checking leads to emotional decisions.", highlight: "The best performing accounts at Fidelity were those of investors who had either forgotten about them or were dead. Inactivity is a superpower.", example: "Fidelity finding: The best-performing retail accounts belonged to inactive investors who simply bought and forgot." }
+        {
+          label: "Mistakes 1 to 3",
+          heading: "The three most costly mistakes",
+          body: "Mistake 1 — Waiting for the perfect moment: There is no perfect moment. Every year of waiting costs compound growth that can never be recovered. Mistake 2 — Panic selling during crashes: Every crash has recovered. Selling converts temporary paper losses into permanent real losses and forces an impossible second decision of when to buy back. Mistake 3 — High fees: A 1.5% TER versus 0.2% costs approximately €276,000 on a €100,000 portfolio over 30 years. This is wealth silently extracted from you while you sleep.",
+          highlight: "These three mistakes alone — waiting, panic selling and high fees — account for the vast majority of wealth destroyed by individual investors. Avoiding all three requires no skill, just awareness.",
+          example: "Cost of waiting: Starting a €500/month investment 10 years late costs approximately €350,000 in final wealth at age 65 — not because of less money invested, but because of lost compound time. This is the single most expensive financial mistake most young people make."
+        },
+        {
+          label: "Mistakes 4 to 6",
+          heading: "The subtle but expensive errors",
+          body: "Mistake 4 — Investing money you might need soon: Without an emergency fund, any unexpected expense forces selling at potentially the worst time. Mistake 5 — Over-checking the portfolio: Daily checking leads to emotional decisions. Studies show more checking equals worse returns. Mistake 6 — Chasing past performance: Last year's best performing fund is not next year's best performer. Research consistently shows that choosing funds based on recent performance produces below-average returns.",
+          highlight: "The best performing accounts at Fidelity were those of investors who had either forgotten about them or passed away. Inactivity is a superpower in investing — but only after you have set up the right system.",
+          example: "Performance chasing data: Investors who moved money into the top-performing fund each year consistently underperformed investors who simply held a boring index ETF unchanged for the entire period — by an average of 3% per year."
+        },
+        {
+          label: "Deep dive",
+          heading: "How to design a mistake-proof investing system",
+          body: "The solution to all six mistakes is not willpower — it is system design. Automate your savings plan so investment happens without a decision. Choose low-cost index ETFs and never change them based on performance. Build your emergency fund before investing. Set a calendar reminder to check quarterly and close the app on all other days. Write an investment policy statement with your rules before the next crisis.",
+          highlight: "Successful investing requires almost no intelligence — but extraordinary consistency. Design a system that runs automatically, review it quarterly, and your primary job is simply to not interfere with your own success.",
+          example: "The mistake-proof system: 1) Emergency fund complete. 2) €X/month automatic savings plan in IWDA and EMIM ETFs. 3) Calendar reminder every 3 months to check. 4) Written rule: do not sell during crashes. 5) TER under 0.25%. This system, left running for 30 years, will produce extraordinary wealth."
+        }
       ],
-      quiz: { question: "An investor sees their portfolio drop 25% in a crash. What is the correct response?", options: [{ text: "Sell immediately to prevent further losses", correct: false }, { text: "Do nothing — or buy more if possible — and continue the monthly savings plan", correct: true }, { text: "Switch to a bond ETF until markets recover", correct: false }, { text: "Check the portfolio every day and wait for a signal", correct: false }], correctFeedback: "Exactly right! Every major crash has fully recovered. Do nothing with existing holdings, continue buying and wait.", wrongFeedback: "Do nothing and continue investing. Every crash has recovered. Selling locks in losses permanently." }
+      quiz: {
+        question: "An investor sees their portfolio drop 25% in a crash. What is the correct response?",
+        options: [
+          { text: "Sell immediately to prevent further losses", correct: false },
+          { text: "Do nothing with existing holdings, continue the monthly savings plan and if possible invest extra", correct: true },
+          { text: "Switch to a bond ETF until markets recover", correct: false },
+          { text: "Check the portfolio every day and wait for a recovery signal", correct: false }
+        ],
+        correctFeedback: "Exactly right! Every major crash has fully recovered. Hold existing positions, continue your regular investment plan, and if possible take advantage of the lower prices.",
+        wrongFeedback: "Do nothing with existing holdings, continue investing monthly, and consider investing extra during the sale. Every crash has recovered. Selling converts temporary losses into permanent ones."
+      }
     }
   },
   {
     id: 22, chapter: 1,
     title: "Bonds — The Calming Force", icon: "📜", desc: "Understand bonds and when to add them to your portfolio.",
-    tags: ["Assets", "6 min"], xp: 65, gold: 13,
+    tags: ["Assets", "9 min"], xp: 65, gold: 13,
     lesson: {
-      heading: "The stabilizer in your portfolio", intro: "Bonds are often dismissed by young investors. Understanding them helps you make better decisions as your portfolio grows.",
+      heading: "The stabilizer in your portfolio",
+      intro: "Bonds are often dismissed by young investors as boring and unnecessary. But they serve a critical function that stocks cannot: they move differently. When stocks crash, bonds often rise — providing stability exactly when you need it most. Understanding bonds helps you make better allocation decisions as your portfolio grows.",
       blocks: [
-        { label: "What are bonds?", heading: "Lending money to governments and companies", body: "When you buy a bond, you are lending money to a government or company for a set period. In return, they pay you regular interest and return your original money at the end.", highlight: "Bonds move differently from stocks — often rising when stocks fall. This makes them powerful portfolio stabilizers.", example: "German Government Bond: You lend money to the German government for 10 years and receive guaranteed interest payments. Extremely low risk." },
-        { label: "When to use bonds", heading: "Age-based allocation", body: "A common rule of thumb: hold your age in bonds as a percentage. At 25: 25% bonds, 75% stocks. At 50: 50 to 50. At 70: 70% bonds. This shifts your portfolio toward stability as you approach withdrawal age.", highlight: "Young investors should prioritize stocks for growth. As retirement approaches, gradually shift toward bonds.", example: "Simple portfolio at 30: 70% MSCI World ETF plus 20% Emerging Markets ETF plus 10% Global Bond ETF." }
+        {
+          label: "What are bonds?",
+          heading: "Lending money to governments and companies",
+          body: "When you buy a bond, you are lending money to an issuer — a government or company — for a defined period. In return, the issuer pays you regular interest payments (called the coupon) and returns your original investment at maturity. Government bonds from stable countries like Germany are among the safest investments in the world. Corporate bonds pay higher interest but carry more risk — the company could fail.",
+          highlight: "Bonds move differently from stocks — often rising when stocks fall dramatically. In the 2008 financial crisis, government bonds gained value while stocks lost 57%. This negative correlation is what makes bonds powerful portfolio stabilizers.",
+          example: "German Government Bond (Bund) example: You invest €10,000 in a 10-year German Bund yielding 2.5%. Each year you receive €250 in interest. After 10 years, you receive your €10,000 back. Total interest received: €2,500. Completely guaranteed by the German government."
+        },
+        {
+          label: "When to use bonds",
+          heading: "Age-based and goal-based allocation",
+          body: "The most common guideline for bonds: hold your age as a percentage in bonds. At 25: 25% bonds. At 50: 50% bonds. At 70: 70% bonds. This gradually shifts the portfolio from growth-oriented to stability-oriented as you approach the point when you need to withdraw. For goal-based investing: money needed within 5 years should be partly in bonds, not purely stocks.",
+          highlight: "Young investors with 30+ year horizons can afford minimal bond allocation — time absorbs volatility. Investors approaching retirement need bonds as insurance against a major crash right when they begin withdrawals.",
+          example: "Simple portfolio evolution: Age 25 to 40: 90% stocks (MSCI World + EM), 10% bonds — maximum growth. Age 40 to 55: 75% stocks, 25% bonds — gradual shift. Age 55 to 65: 60% stocks, 40% bonds — protecting accumulated wealth. Age 65+: 40% stocks, 60% bonds — income focus."
+        },
+        {
+          label: "Deep dive",
+          heading: "Bond ETFs — the practical way to hold bonds",
+          body: "Individual bonds require large minimum investments and are complex to manage. Bond ETFs solve this. A global bond ETF holds hundreds of different bonds from multiple governments and maturities. When interest rates rise, bond prices fall — but the ETF automatically reinvests into higher-yielding new bonds over time. For most investors, a single Global Government Bond ETF provides sufficient fixed income exposure.",
+          highlight: "The 2022 bond crash was unusual — both stocks and bonds fell simultaneously due to rapid interest rate increases. This is rare historically. Over most multi-year periods, bonds and stocks move in opposite directions, providing genuine diversification.",
+          example: "Popular bond ETFs for European investors: IBCI (iShares Euro Government Bond, TER 0.09%), IGLO (iShares Global Government Bond EUR Hedged, TER 0.10%). Both provide diversified government bond exposure at very low cost."
+        }
       ],
-      quiz: { question: "Why might an investor close to retirement hold more bonds than a 25-year-old?", options: [{ text: "Bonds always outperform stocks for older investors", correct: false }, { text: "Bonds provide stability and protect wealth when you are close to needing the money", correct: true }, { text: "Government regulations require older investors to hold bonds", correct: false }, { text: "Bonds pay higher interest rates to older investors", correct: false }], correctFeedback: "Correct! As you approach the time when you need to withdraw, stability becomes more important than growth.", wrongFeedback: "Near retirement, a major stock market crash could devastate a portfolio right when you need to withdraw. Bonds reduce this risk." }
+      quiz: {
+        question: "Why might an investor close to retirement hold significantly more bonds than a 25-year-old?",
+        options: [
+          { text: "Bonds always outperform stocks for older investors", correct: false },
+          { text: "Bonds provide stability and protect accumulated wealth when you are close to needing the money", correct: true },
+          { text: "Government regulations require older investors to hold bonds", correct: false },
+          { text: "Bonds pay higher interest rates specifically to older investors", correct: false }
+        ],
+        correctFeedback: "Correct! As you approach the withdrawal phase, a major market crash could devastate a stock-heavy portfolio right when you need to start spending. Bonds reduce this timing risk.",
+        wrongFeedback: "Near retirement, sequence of returns risk becomes critical. A 50% stock crash right as you retire can be devastating if your portfolio is stocks-only. Bonds provide the stability buffer needed during the withdrawal phase."
+      }
     }
   },
   {
     id: 23, chapter: 1,
     title: "Reading an ETF Factsheet", icon: "📄", desc: "Know exactly what to look for before buying any ETF.",
-    tags: ["Practical", "7 min"], xp: 70, gold: 15,
+    tags: ["Practical", "9 min"], xp: 70, gold: 15,
     lesson: {
-      heading: "Decode any ETF in 5 minutes", intro: "Every ETF publishes a factsheet with all key information. Knowing how to read it means you will never buy an ETF blindly again.",
+      heading: "Decode any ETF in 5 minutes",
+      intro: "Every ETF publishes a Key Investor Information Document (KIID) and a detailed factsheet containing everything you need to evaluate it. Knowing how to read these documents means you will never buy an ETF blindly again — and you will be able to compare any two ETFs in minutes.",
       blocks: [
-        { label: "Key metrics", heading: "The 5 numbers that matter", body: "When evaluating any ETF, focus on: TER for annual cost, AUM for fund size where bigger is safer, replication method where physical is better, index tracked and domicile where Ireland is most tax-efficient for EU investors.", highlight: "The ideal ETF: low TER under 0.25%, large AUM over 500 million euros, physical replication, broad index and Ireland domicile.", example: "iShares Core MSCI World IWDA: TER 0.20%, AUM over 70 billion euros, Physical replication, MSCI World index, Ireland domicile." },
-        { label: "What to avoid", heading: "Red flags in ETF selection", body: "Avoid ETFs with very high TERs above 0.5%, very small AUM under 100 million euros, complex structures you do not understand, leveraged ETFs and inverse ETFs.", highlight: "Complexity is the enemy of the long-term investor. If you cannot explain the ETF in one sentence, do not buy it.", example: "Red flags: 2x Leveraged NASDAQ ETF (dangerous), Short DAX ETF (speculative), any ETF with TER above 0.5% (overpriced)." }
+        {
+          label: "Key metrics",
+          heading: "The 6 numbers that matter",
+          body: "When evaluating any ETF, focus on six metrics. TER: annual management cost — lower is better, target below 0.25%. AUM (Assets Under Management): fund size — larger is more stable, minimum €500 million. Replication method: physical means the ETF actually holds the underlying stocks, synthetic uses derivatives — physical is safer and more transparent. Index tracked: what does the ETF actually follow? Domicile: Ireland-domiciled ETFs are most tax-efficient for EU investors. Distribution policy: Acc (accumulating) or Dist (distributing)?",
+          highlight: "The ideal ETF for a long-term European investor: TER under 0.25%, AUM above €1 billion, physical replication, broad diversified index, Irish domicile, accumulating distribution. IWDA ticks every single box.",
+          example: "IWDA factsheet summary: Full name: iShares Core MSCI World UCITS ETF USD (Acc). TER: 0.20%. AUM: over €70 billion. Replication: Physical. Index: MSCI World. Domicile: Ireland. Distribution: Accumulating. Holdings: 1,600+ companies. This is one of the best ETFs ever created for individual investors."
+        },
+        {
+          label: "Where to find factsheets",
+          heading: "How to access and compare ETFs",
+          body: "The best free resource for comparing European ETFs is justETF.com. Search any ETF ticker, compare multiple ETFs side by side, filter by index, domicile, TER and size. Each ETF page shows the full factsheet link, historical performance, top holdings and sector breakdown. Always read the top 10 holdings list — it reveals exactly what you own.",
+          highlight: "Always check the top 10 holdings of any ETF before buying. For an MSCI World ETF, you expect to see Apple, Microsoft, Amazon, NVIDIA at the top. If you see unexpected names, read the methodology carefully.",
+          example: "JustETF comparison example: Search MSCI World ETFs on justETF.com. Filter: Accumulating, EUR, TER under 0.25%. Results: IWDA (0.20%), XDWD (0.19%), LCUW (0.12%). All three are excellent. Choose any one — the differences are marginal. Consistency of holding matters far more than which one you pick."
+        },
+        {
+          label: "Deep dive",
+          heading: "Red flags that should stop you buying",
+          body: "Five red flags to watch for: TER above 0.50% — almost always unjustifiable. AUM below €100 million — risk of fund closure (though your money is protected, it is inconvenient). Synthetic replication without understanding the counterparty risk. The word 'Leveraged' or 'Short' in the name — not for long-term investors. Very new fund with less than 3 years of history — wait for a track record.",
+          highlight: "Complexity is the enemy of the long-term investor. If you cannot explain exactly what an ETF holds in one sentence, do not buy it. Simplicity wins over decades.",
+          example: "Red flag examples to avoid: '2x Leveraged NASDAQ 100 ETF' (dangerous volatility decay), 'Inverse DAX ETF' (speculative, loses money in rising markets), 'Thematic Metaverse ETF' (narrow, expensive, unproven), any ETF with TER above 0.75% (unjustifiably expensive when broad alternatives cost 0.07%)."
+        }
       ],
-      quiz: { question: "Which ETF would be the best choice for a long-term beginner investor?", options: [{ text: "A 2x Leveraged S&P 500 ETF with TER of 0.95%", correct: false }, { text: "A physically replicated MSCI World ETF with TER of 0.20% and 70 billion AUM", correct: true }, { text: "A synthetic small-cap ETF with 50 million AUM and TER of 0.45%", correct: false }, { text: "An inverse DAX ETF that profits when markets fall", correct: false }], correctFeedback: "Perfect choice! Low TER, physical replication, massive AUM and a broad diversified index.", wrongFeedback: "For long-term investing: choose physical replication, low TER, large AUM and a broad diversified index. Avoid leverage and complexity." }
+      quiz: {
+        question: "Which ETF would be the best choice for a long-term beginner investor?",
+        options: [
+          { text: "A 2x Leveraged S&P 500 ETF with TER of 0.95%", correct: false },
+          { text: "A physically replicated MSCI World ETF with TER of 0.20% and €70 billion AUM, accumulating", correct: true },
+          { text: "A synthetic small-cap thematic ETF with €50 million AUM and TER of 0.65%", correct: false },
+          { text: "An inverse DAX ETF that profits when German markets fall", correct: false }
+        ],
+        correctFeedback: "Perfect choice! Low TER, physical replication, massive AUM, broad diversification, accumulating structure and Irish domicile — every box ticked.",
+        wrongFeedback: "For long-term investing: physical replication, low TER (under 0.25%), large AUM (over €1 billion), broad diversified index, accumulating, Irish domicile. Avoid leverage, inverse, synthetic complexity."
+      }
     }
   },
   {
     id: 24, chapter: 1,
     title: "ETF Savings Plan — Step by Step", icon: "📋", desc: "Set up your first automatic ETF savings plan from start to finish.",
-    tags: ["Action Quest", "8 min"], xp: 90, gold: 22,
+    tags: ["Action Quest", "9 min"], xp: 90, gold: 22,
     lesson: {
-      heading: "Your automated wealth machine", intro: "An ETF savings plan is the single most powerful thing you can set up for your financial future.",
+      heading: "Your automated wealth machine",
+      intro: "An ETF savings plan is the single most powerful financial tool available to ordinary investors. It combines the benefits of dollar-cost averaging, compound interest, automation and low cost into one simple setup. Most people spend more time choosing a Netflix subscription than setting up their savings plan. This quest changes that.",
       blocks: [
-        { label: "Step 1 and 2", heading: "Open and verify your account", body: "Open an account with Trade Republic or Scalable Capital. Download the app, enter your personal details and verify your identity with your ID or passport. Verification typically takes 1 to 2 business days.", highlight: "Both Trade Republic and Scalable Capital are BaFin-regulated German brokers. Your money is protected by German investor protection up to 100,000 euros.", example: "Trade Republic: Download app, click Create account, enter email and phone, verify identity, account confirmed. Takes 10 minutes of your time." },
-        { label: "Step 3 and 4", heading: "Choose your ETF and set up the plan", body: "Search for IWDA or XDWD in the ETF section. Click Savings plan or Sparplan. Enter your monthly amount. Choose the execution date. Confirm.", highlight: "Once set up, the savings plan runs automatically every month. You never have to think about it again.", example: "IWDA setup in Trade Republic: Search IWDA, click Savings plan, enter 50 euros, choose 1st of each month, confirm. Done forever." }
+        {
+          label: "Step 1 and 2",
+          heading: "Choose your broker and verify your account",
+          body: "Step 1 — Choose your broker: For German investors, Trade Republic and Scalable Capital are both excellent. Trade Republic is the simplest — mobile-only, minimal interface, 0 euro order fees. Scalable Capital offers more features, a web interface and a broader ETF selection. Both are BaFin-regulated. Both have millions of customers. Both are safe. Step 2 — Open and verify: Download the app. Create an account with your email. Verify your identity with your ID or passport using the in-app process. This takes 10 minutes and typically completes within 1 to 2 business days.",
+          highlight: "Both Trade Republic and Scalable Capital are BaFin-regulated German brokers. Your ETF holdings are held in a segregated custody account — completely separate from the broker's own assets. Even if the broker went bankrupt, your ETF shares are protected.",
+          example: "Trade Republic step by step: 1) Download app from App Store or Google Play. 2) Tap Create account. 3) Enter email and phone number. 4) Verify identity with ID — takes 5 minutes in the app. 5) Account approved within 1 business day. 6) Add your bank account and make your first transfer. Total effort: 15 minutes."
+        },
+        {
+          label: "Step 3 and 4",
+          heading: "Choose your ETF and set up the automatic plan",
+          body: "Step 3 — Choose your ETF: For most beginners, a single MSCI World ETF is the perfect starting point. IWDA (iShares Core MSCI World) is the most popular choice in Europe. Search for it in your broker app. Step 4 — Set up the savings plan: In Trade Republic, tap on IWDA, then 'Savings plan'. Enter your monthly amount — start with whatever you can afford, even €25. Choose the execution date — the 1st or 15th of the month works well. Confirm. The plan is now active and will execute automatically every month without any action from you.",
+          highlight: "Once set up, the savings plan runs automatically every month for the rest of your life if you choose. You never have to make the investment decision again. This removes emotion from the equation entirely — the most important thing you can do for your financial future.",
+          example: "IWDA savings plan in Trade Republic: Search 'IWDA' → tap on iShares Core MSCI World UCITS ETF → tap 'Savings plan' → enter €100/month → select execution date: 1st of month → confirm → done. Your first purchase executes on the 1st of next month automatically. Repeat indefinitely."
+        },
+        {
+          label: "Deep dive",
+          heading: "Set up your Freistellungsauftrag — do not miss this",
+          body: "After opening your broker account, there is one critical tax step most beginners miss: setting up a Freistellungsauftrag. This is a declaration that assigns your annual €1,000 tax-free investment profit allowance to your broker. Without it, your broker automatically withholds 26.375% tax on any profits from the first euro. Setting up the Freistellungsauftrag takes 2 minutes in your broker app and can save you hundreds of euros per year.",
+          highlight: "The Freistellungsauftrag must be set up separately with each broker you use. If you have accounts at both Trade Republic and Scalable Capital, split the €1,000 allowance between them. Total across all brokers cannot exceed €1,000 (or €2,000 for couples filing jointly).",
+          example: "Setting up Freistellungsauftrag in Trade Republic: Go to Account → Tax → Freistellungsauftrag → Enter €1,000 → Save. This takes 2 minutes. Once done, your first €1,000 of investment profits this year is completely tax-free. For a couple: each partner gets €1,000 = €2,000 total tax-free per year."
+        }
       ],
-      quiz: { question: "Once you have set up an automated ETF savings plan, what is the most important thing to do?", options: [{ text: "Check it daily to make sure it is working", correct: false }, { text: "Leave it running and review it quarterly at most", correct: true }, { text: "Cancel and restart every time markets fall", correct: false }, { text: "Switch to a different ETF every year", correct: false }], correctFeedback: "Exactly right! Set it up and let it run. The power of a savings plan comes from consistency, not constant adjustment.", wrongFeedback: "The best action after setting up a savings plan is to leave it running. Review quarterly at most. Consistency is the key." }
+      quiz: {
+        question: "Once you have set up an automated ETF savings plan, what is the most important thing to do?",
+        options: [
+          { text: "Check it daily to make sure it is working correctly", correct: false },
+          { text: "Leave it running and review it quarterly at most", correct: true },
+          { text: "Cancel and restart every time markets fall more than 10%", correct: false },
+          { text: "Switch to a different ETF every year based on performance", correct: false }
+        ],
+        correctFeedback: "Exactly right! Set it up and leave it running. The extraordinary power of a savings plan comes entirely from consistency and compounding — both of which require inaction, not constant adjustment.",
+        wrongFeedback: "The best action after setting up a savings plan is simply to leave it running. Review quarterly at most. Consistency over decades — not optimization — is what builds extraordinary wealth."
+      }
     }
   },
   {
     id: 25, chapter: 1,
     title: "Chapter I Complete — Your Foundation", icon: "🏆", desc: "Congratulations! You have mastered the fundamentals of ETF investing.",
-    tags: ["Milestone", "5 min"], xp: 150, gold: 50,
+    tags: ["Milestone", "8 min"], xp: 150, gold: 50,
     lesson: {
-      heading: "You have built your foundation", intro: "You have completed Chapter I — ETF Highlands. You now know more about investing than 90% of the population.",
+      heading: "You have built your foundation",
+      intro: "You have completed Chapter I — ETF Highlands. Take a moment to appreciate what you have achieved. You have built a foundation of financial knowledge that most people never acquire. The concepts you now understand — ETFs, compound interest, TER, diversification, DCA, emergency funds, tax basics, market crashes, savings rate — are exactly what separates investors who build real wealth from those who never start.",
       blocks: [
-        { label: "What you know", heading: "Your Chapter I knowledge", body: "You now understand: ETFs and how they work, compound interest, TER and costs, diversification, the MSCI World, dollar-cost averaging, emergency funds, tax basics, market crashes, the biggest mistakes and how to track your portfolio.", highlight: "You have covered every concept a beginner needs to make intelligent, confident investing decisions.", example: "Your next step: Open a broker account if you have not already. Start a savings plan with even 25 to 50 euros per month. The most important thing is to start." },
-        { label: "What is next", heading: "Chapter II — Compound Sea awaits", body: "In Chapter II, you will go deeper: dividend strategies, the FIRE movement, factor investing, REITs, behavioral finance, advanced portfolio construction and much more.", highlight: "Chapter II unlocks now. You are ready. The Compound Sea awaits.", example: "Chapter II preview: Dividends, FIRE movement, factor investing, REITs, behavioral finance, international tax optimization and more." }
+        {
+          label: "What you have mastered",
+          heading: "Chapter I — your complete knowledge",
+          body: "Over 25 quests, you have learned: what ETFs are and how they work, how the stock market operates, accumulating vs distributing ETFs, Total Expense Ratio and its enormous impact, the power of compound interest and the Rule of 72, how to open a broker account, dollar-cost averaging, the MSCI World index, diversification as risk reduction, risk and return trade-offs, the 3-fund portfolio, inflation and purchasing power, emergency fund construction, ETFs vs active funds, German tax basics and the Sparerpauschbetrag, market crash history and the correct response, savings rate mathematics, ESG investing, SMART goal setting, portfolio tracking, the six biggest investing mistakes, bonds as stabilizers, how to read an ETF factsheet, and how to set up an automatic savings plan.",
+          highlight: "You now know more about investing than the vast majority of the population — including many people who have been investing for years. This knowledge, consistently applied, will compound into genuine wealth over time.",
+          example: "Your complete foundation: Emergency fund built → Broker account open → Freistellungsauftrag set up → MSCI World ETF savings plan running → Check quarterly → Never panic sell → Let it compound for decades. This is the complete strategy. Nothing else is required."
+        },
+        {
+          label: "Your immediate action plan",
+          heading: "What to do now — in order",
+          body: "If you have not already done these things, do them now in order: 1) Build your emergency fund of 3 to 6 months of expenses in a high-yield savings account. 2) Open a broker account at Trade Republic or Scalable Capital. 3) Set up your Freistellungsauftrag for €1,000. 4) Set up an automatic monthly savings plan in IWDA or XDWD for whatever you can afford — even €25. 5) Mark a calendar reminder every 3 months to review. 6) Read your Investment Policy Statement (your personal rules) before every major market movement.",
+          highlight: "The most important step is the first one. Opening a broker account and starting a savings plan — even with €25 per month — sets the compound engine in motion. A journey of a million euros begins with a single investment.",
+          example: "Power of starting now: If you are 25 and start a €200/month savings plan today at 7% return, you will have €524,000 by age 65. If you wait just 5 years and start at 30, you will have €362,000. Those 5 years of delay cost you €162,000 — from only €12,000 less invested. Compound interest is not forgiving of delay."
+        },
+        {
+          label: "What is next",
+          heading: "Chapter II — The Compound Sea awaits",
+          body: "In Chapter II, you will go significantly deeper. You will explore dividend investing and building passive income, the FIRE movement and your financial independence number, factor investing and smart beta strategies, REITs and real estate through ETFs, the psychology of behavioral finance, emerging markets, advanced asset allocation, the All-Weather Portfolio, the psychology of money, international diversification, multiple income streams, portfolio rebalancing mastery, tax-loss harvesting, sequence of returns risk, and the mathematics of building a million euro portfolio.",
+          highlight: "Chapter II unlocks right now. You are ready. The foundational knowledge you have built in Chapter I is exactly the base required for everything in Chapter II to make sense and be actionable.",
+          example: "Chapter II preview quest titles: Dividend Investing, FIRE and the 4% Rule, Factor Investing, REITs, Behavioral Finance, Emerging Markets, Asset Allocation Theory, The All-Weather Portfolio, The Psychology of Money, Building Multiple Income Streams, Rebalancing Mastery, Tax-Loss Harvesting, Sequence of Returns Risk, and Building a Million Euro Portfolio."
+        }
       ],
-      quiz: { question: "What is the single most important action you can take now?", options: [{ text: "Wait until you have 10,000 euros saved before investing", correct: false }, { text: "Start investing immediately with whatever amount you can — even 25 euros per month", correct: true }, { text: "Study for another year before making any decisions", correct: false }, { text: "Ask a financial advisor before doing anything", correct: false }], correctFeedback: "Exactly right! The best time to start was yesterday. The second best time is now. Even 25 euros per month invested consistently will compound into significant wealth.", wrongFeedback: "Start now. Even 25 euros per month makes a real difference over time. Waiting costs you compound interest." }
+      quiz: {
+        question: "What is the single most important action you can take now?",
+        options: [
+          { text: "Wait until you have €10,000 saved before making your first investment", correct: false },
+          { text: "Start investing immediately with whatever amount you can — even €25 per month", correct: true },
+          { text: "Study investing for another year before making any decisions", correct: false },
+          { text: "Consult a financial advisor before investing a single euro", correct: false }
+        ],
+        correctFeedback: "Exactly right! The best time to start was yesterday. The second best time is now. Even €25 per month invested consistently for decades will compound into significant wealth. Start today.",
+        wrongFeedback: "Start now. Even €25 per month makes a real difference over time. Every month of delay costs compound growth that can never be recovered. The perfect portfolio started imperfectly beats the perfect portfolio never started."
+      }
     }
   }
 ]
