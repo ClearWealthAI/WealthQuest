@@ -591,6 +591,8 @@ export default function QuestPage() {
   const [correct, setCorrect] = useState(false)
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
   const [feedback, setFeedback] = useState('')
+  const [attempts, setAttempts] = useState(0)
+  const [canRetry, setCanRetry] = useState(false)
   const [completing, setCompleting] = useState(false)
   const [done, setDone] = useState(false)
   const [showPopup, setShowPopup] = useState(false)
@@ -615,11 +617,27 @@ export default function QuestPage() {
   if (!profile) return <div className="min-h-screen bg-bg flex items-center justify-center"><div className="text-4xl animate-pulse">⚔️</div></div>
 
   function handleAnswer(idx: number, isCorrect: boolean) {
-    if (answered) return
+    if (answered && !canRetry) return
     setAnswered(true)
     setCorrect(isCorrect)
     setSelectedOption(idx)
-    setFeedback(isCorrect ? quest!.lesson.quiz.correctFeedback : quest!.lesson.quiz.wrongFeedback)
+    setAttempts(a => a + 1)
+    setCanRetry(false)
+    if (isCorrect) {
+      setFeedback(quest!.lesson.quiz.correctFeedback)
+      setShowAldric(false) // hide old bubble
+    } else {
+      setFeedback(quest!.lesson.quiz.wrongFeedback)
+      setCanRetry(true)
+    }
+  }
+
+  function handleRetry() {
+    setAnswered(false)
+    setCorrect(false)
+    setSelectedOption(null)
+    setFeedback('')
+    setCanRetry(false)
   }
 
   async function completeQuest() {
@@ -775,9 +793,10 @@ export default function QuestPage() {
                 else if (selectedOption === i) style = 'border-red-300 bg-red-50'
                 else style = 'border-border bg-bg3 opacity-60'
               }
+              const isClickable = !answered || canRetry
               return (
-                <div key={i} onClick={() => handleAnswer(i, opt.correct)}
-                  className={`border-2 rounded-xl px-4 py-3 flex items-center gap-3 transition-all ${answered ? 'cursor-default' : 'cursor-pointer'} ${style}`}>
+                <div key={i} onClick={() => isClickable && handleAnswer(i, opt.correct)}
+                  className={`border-2 rounded-xl px-4 py-3 flex items-center gap-3 transition-all ${isClickable ? 'cursor-pointer' : 'cursor-default'} ${style}`}>
                   <div className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0 ${answered && opt.correct ? 'border-green bg-green text-white' : answered && selectedOption === i && !opt.correct ? 'border-red-400 bg-red-400 text-white' : 'border-border text-text3'}`}>
                     {answered && opt.correct ? '✓' : answered && selectedOption === i && !opt.correct ? '✗' : String.fromCharCode(65 + i)}
                   </div>
@@ -786,9 +805,43 @@ export default function QuestPage() {
               )
             })}
           </div>
+
+          {/* Feedback */}
           {feedback && (
-            <div className={`rounded-xl px-4 py-3 text-sm font-medium ${correct ? 'bg-green-bg border border-green-bd text-green-700' : 'bg-red-50 border border-red-200 text-red-700'}`}>
-              {correct ? '✓ ' : '✗ '}{feedback}
+            <div className={`rounded-2xl p-4 mb-3 ${correct ? 'bg-green-bg border-2 border-green-bd' : 'bg-red-50 border-2 border-red-200'}`}>
+              <div className="flex items-start gap-3">
+                <span className="text-2xl flex-shrink-0">{correct ? '✅' : '❌'}</span>
+                <div className="flex-1">
+                  <div className={`font-bold text-sm mb-1 ${correct ? 'text-green-700' : 'text-red-700'}`}>
+                    {correct ? 'Correct!' : `Wrong answer${attempts > 1 ? ` (attempt ${attempts})` : ''}`}
+                  </div>
+                  <p className={`text-sm leading-relaxed ${correct ? 'text-green-700' : 'text-red-600'}`}>
+                    {feedback}
+                  </p>
+                </div>
+              </div>
+
+              {/* Aldric explanation */}
+              <div className="mt-3 pt-3 border-t flex items-start gap-2"
+                style={{ borderColor: correct ? 'rgba(58,158,92,0.2)' : 'rgba(232,69,58,0.15)' }}>
+                <span className="text-lg flex-shrink-0">🧙</span>
+                <p className="text-xs italic leading-relaxed"
+                  style={{ color: correct ? '#2d7a45' : '#c0392b' }}>
+                  {correct
+                    ? `"${aldricMessage}"`
+                    : `"Not quite, young investor. Read the lesson blocks above again carefully — the answer is there. I believe in you."`
+                  }
+                </p>
+              </div>
+
+              {/* Try again button */}
+              {!correct && (
+                <button onClick={handleRetry}
+                  className="mt-3 w-full py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95 text-white"
+                  style={{ background: 'linear-gradient(135deg, #c0392b, #e74c3c)' }}>
+                  🔄 Try Again
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -813,12 +866,16 @@ export default function QuestPage() {
               </button>
             </div>
           </div>
-        ) : !done ? (
-          <button onClick={completeQuest} disabled={!answered || completing}
-            className={`w-full py-4 rounded-2xl font-black text-base transition-all ${answered ? 'text-[#1A1200] active:scale-95' : 'bg-bg3 text-text3 cursor-not-allowed'}`}
-            style={answered ? { background: 'linear-gradient(135deg, #c4870a, #E8A820)', boxShadow: '0 4px 20px rgba(232,168,32,0.4)' } : {}}>
-            {completing ? 'Saving...' : answered ? `⚔️ Complete Quest → +${quest.xp} XP` : '💬 Answer the question first'}
+        ) : !done && correct ? (
+          <button onClick={completeQuest} disabled={completing}
+            className="w-full py-4 rounded-2xl font-black text-base transition-all text-[#1A1200] active:scale-95"
+            style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)', boxShadow: '0 4px 20px rgba(232,168,32,0.4)' }}>
+            {completing ? 'Saving...' : `⚔️ Complete Quest → +${quest.xp} XP · +${quest.gold} 🪙`}
           </button>
+        ) : !done && !answered ? (
+          <div className="w-full py-4 rounded-2xl font-black text-base text-center bg-bg3 text-text3 cursor-not-allowed">
+            💬 Answer the question to continue
+          </div>
         ) : null}
 
         <p className="text-center text-xs text-text3 mt-4 pb-20">Not financial advice. Educational purposes only.</p>
