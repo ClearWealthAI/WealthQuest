@@ -359,29 +359,56 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Quest List */}
-        <h3 className="font-bold text-text1 mb-3 text-sm uppercase tracking-wider">Active Quests</h3>
+        {/* MISSIONS */}
+        <h3 className="font-bold text-text1 mb-3 text-sm uppercase tracking-wider">⚔️ Your Missions</h3>
         <div className="flex flex-col gap-3 mb-6">
-          {QUESTS.map((q, i) => {
-            const done = profile.completed_quests?.includes(q.id)
-            const locked = i > 0 && !profile.completed_quests?.includes(QUESTS[i - 1].id)
+          {[
+            { id: 1, title: 'The Foundation', icon: '🏛️', questIds: [1,2,3,4,5], color: '#3A9E5C', subtitle: 'Master the basics' },
+            { id: 2, title: 'Your First Portfolio', icon: '💼', questIds: [6,7,8,9,10], color: '#3B7AD8', subtitle: 'Build your strategy' },
+            { id: 3, title: 'Survive the Market', icon: '⚔️', questIds: [11,12,13,14,15], color: '#E8A820', subtitle: 'Stay calm under pressure' },
+            { id: 4, title: 'Master the Details', icon: '🔬', questIds: [16,17,18,19,20], color: '#9B59B6', subtitle: 'Refine like a pro' },
+            { id: 5, title: 'ETF Highlands Complete', icon: '🏆', questIds: [21,22,23,24,25], color: '#E8A820', subtitle: 'Become a champion' },
+          ].map((mission, mi) => {
+            const completed = mission.questIds.filter(id => profile.completed_quests?.includes(id)).length
+            const total = mission.questIds.length
+            const isComplete = completed === total
+            const isLocked = mi > 0 && ![1,2,3,4,5].slice(0, mi).every(m =>
+              [
+                [1,2,3,4,5], [6,7,8,9,10], [11,12,13,14,15], [16,17,18,19,20], [21,22,23,24,25]
+              ][m-1]?.every(id => profile.completed_quests?.includes(id))
+            )
+            const nextQuestId = mission.questIds.find(id => !profile.completed_quests?.includes(id))
+
             return (
-              <div key={q.id} onClick={() => !locked && router.push(`/quest/${q.id}`)}
-                className={`card flex items-center gap-4 transition-all ${!locked ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-md hover:border-gold-bd' : 'opacity-60 cursor-default'} ${done ? 'border-green-bd bg-green-bg' : ''}`}>
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 ${done ? 'bg-green-bg' : locked ? 'bg-bg3' : 'bg-gold-bg'}`}>
-                  {done ? '✅' : locked ? '🔒' : q.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-bold text-sm text-text1">{q.title}</div>
-                  <div className="text-xs text-text2 mt-0.5 truncate">{q.desc}</div>
-                  <div className="flex gap-1.5 mt-1.5">
-                    {q.tags.map(t => <span key={t} className="pill bg-bg3 text-text3 text-[10px]">{t}</span>)}
+              <div key={mission.id}
+                onClick={() => !isLocked && nextQuestId && router.push(`/quest/${nextQuestId}`)}
+                className={`card transition-all ${!isLocked ? 'cursor-pointer hover:-translate-y-0.5 hover:shadow-md' : 'opacity-50 cursor-default'} ${isComplete ? 'border-green-bd bg-green-bg' : ''}`}
+                style={!isLocked && !isComplete ? { borderColor: `${mission.color}40` } : {}}>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+                    style={{ background: isComplete ? '#EDFAF2' : `${mission.color}15`, border: `1.5px solid ${isComplete ? '#88D4A4' : mission.color + '40'}` }}>
+                    {isComplete ? '✅' : isLocked ? '🔒' : mission.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: mission.color }}>
+                      Mission {mission.id} of 5
+                    </div>
+                    <div className="font-bold text-sm text-text1">{mission.title}</div>
+                    <div className="text-xs text-text2">{mission.subtitle}</div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="font-bold text-sm" style={{ color: isComplete ? '#3A9E5C' : mission.color }}>
+                      {completed}/{total}
+                    </div>
+                    <div className="text-xs text-text3">quests</div>
                   </div>
                 </div>
-                <div className="text-right flex-shrink-0">
-                  {done ? <div className="text-green font-bold text-sm">✓ Done</div> : (
-                    <><div className="font-bold text-gold-dk text-sm">+{q.xp} XP</div><div className="text-xs text-text3">+{q.gold} 🪙</div></>
-                  )}
+                {/* Progress dots */}
+                <div className="flex gap-1.5">
+                  {mission.questIds.map(id => (
+                    <div key={id} className="flex-1 h-2 rounded-full transition-all"
+                      style={{ background: profile.completed_quests?.includes(id) ? mission.color : 'rgba(0,0,0,0.08)' }} />
+                  ))}
                 </div>
               </div>
             )
