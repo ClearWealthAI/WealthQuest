@@ -37,71 +37,224 @@ export type DailyQuest = {
 }
 
 export const CHAPTER_ONE: Quest[] = [
+  // ─── MISSION 1: THE FOUNDATION (Extended — 3 blocks each) ────────────────
   {
     id: 1, chapter: 1,
     title: "What is an ETF?", icon: "📦", desc: "Discover the most powerful investment tool for beginners.",
-    tags: ["Basics", "5 min"], xp: 50, gold: 10,
+    tags: ["Basics", "8 min"], xp: 50, gold: 10,
     lesson: {
-      heading: "Your first step into investing", intro: "Before you invest a single euro, you need to understand the tool that will do most of the work for you.",
+      heading: "Your first step into investing",
+      intro: "Before you invest a single euro, you need to understand the tool that will do most of the work for you. ETFs have quietly made millions of ordinary people wealthy — and most people have never heard of them.",
       blocks: [
-        { label: "The concept", heading: "What exactly is an ETF?", body: "ETF stands for Exchange Traded Fund. It is a basket of many stocks or bonds bundled into a single investment you can buy like a regular share. One purchase gives you instant diversification across hundreds or thousands of companies.", highlight: "One MSCI World ETF gives you exposure to 1,600+ companies across 23 countries for as little as 1 euro per month.", example: "Example: Instead of buying Apple, Microsoft and Amazon separately, one S&P 500 ETF holds all of them plus 497 more." },
-        { label: "Why it works", heading: "ETFs vs picking single stocks", body: "Most professional fund managers fail to beat the market long-term. ETFs simply track the market and historically beat 90% of active strategies.", highlight: "Warren Buffett recommends low-cost index ETFs for most investors.", example: "Stats: Over 15 years, 88% of active fund managers underperformed a simple index ETF." }
+        {
+          label: "The concept",
+          heading: "What exactly is an ETF?",
+          body: "ETF stands for Exchange Traded Fund. Imagine a shopping basket at the supermarket. Instead of buying one apple, you buy a basket containing 1,600 different fruits from 23 countries. That is what an ETF does with stocks. One purchase gives you instant ownership of hundreds or thousands of companies simultaneously — at a fraction of the cost of buying each individually.",
+          highlight: "One MSCI World ETF gives you exposure to 1,600+ companies across 23 countries for as little as €1 per month. Apple, Microsoft, Nestlé, Toyota, Samsung — all in one purchase.",
+          example: "Example: Instead of spending €3,400 to buy one Apple share, one S&P 500 ETF holds Apple plus 499 other companies for as little as €50. You own a tiny piece of every company inside."
+        },
+        {
+          label: "Why ETFs beat almost everything",
+          heading: "The three superpowers of ETFs",
+          body: "ETFs have three advantages that no other investment can match simultaneously. First, diversification: one purchase spreads risk across hundreds of companies. Second, low cost: ETFs charge as little as 0.07% per year — a traditional fund charges 1.5% or more. Third, simplicity: no stock-picking, no research, no timing required. You buy the whole market and let it grow.",
+          highlight: "Warren Buffett, the world's greatest investor, has publicly recommended low-cost index ETFs for ordinary investors for over 20 years. His own will instructs that 90% of his estate be invested in index funds for his family.",
+          example: "Real numbers: Investor A picks individual stocks and earns 6% per year. Investor B buys a simple MSCI World ETF and earns 8% per year. On €100,000 over 30 years: Investor A ends with €574,000. Investor B ends with €1,006,000. Same effort. Very different outcome."
+        },
+        {
+          label: "Deep dive",
+          heading: "How ETFs actually work behind the scenes",
+          body: "When you buy an ETF, a fund provider like iShares or Vanguard uses your money to purchase the actual underlying stocks in the correct proportions. If Apple is 5% of the MSCI World, they hold 5% Apple. When Apple's price rises, your ETF price rises proportionally. The ETF trades on a stock exchange just like a regular share — you can buy or sell any day the market is open.",
+          highlight: "ETFs are not magic — they are simple, transparent and boring. That is exactly what makes them so powerful for long-term investors. Boring compounds beautifully.",
+          example: "Common mistake: Many beginners think ETFs are risky because they contain stocks. In reality, a diversified ETF is far LESS risky than any individual stock. When one company in the MSCI World fails completely, it affects your portfolio by less than 0.1%."
+        }
       ],
-      quiz: { question: "What is the main advantage of an ETF over picking individual stocks?", options: [{ text: "ETFs always guarantee higher returns", correct: false }, { text: "ETFs provide instant diversification at low cost", correct: true }, { text: "ETFs only invest in tech companies", correct: false }, { text: "ETFs are only for professional investors", correct: false }], correctFeedback: "Correct! Diversification is the superpower of ETFs.", wrongFeedback: "The key benefit is diversification — instant exposure to many companies with a single purchase." }
+      quiz: {
+        question: "What is the main advantage of an ETF over picking individual stocks?",
+        options: [
+          { text: "ETFs always guarantee higher returns", correct: false },
+          { text: "ETFs provide instant diversification across hundreds of companies at low cost", correct: true },
+          { text: "ETFs only invest in tech companies", correct: false },
+          { text: "ETFs are only for professional investors", correct: false }
+        ],
+        correctFeedback: "Exactly right! Diversification across hundreds of companies is the superpower of ETFs — combined with very low costs and complete simplicity.",
+        wrongFeedback: "The key benefit is diversification — instant exposure to hundreds or thousands of companies with a single purchase, at very low cost."
+      }
     }
   },
   {
     id: 2, chapter: 1,
     title: "How the Stock Market Works", icon: "🏛️", desc: "Understand what you are actually buying when you invest.",
-    tags: ["Basics", "5 min"], xp: 50, gold: 10,
+    tags: ["Basics", "8 min"], xp: 50, gold: 10,
     lesson: {
-      heading: "The stock market explained simply", intro: "Most people are afraid of the stock market because they do not understand it. Once you do, that fear disappears.",
+      heading: "The stock market explained simply",
+      intro: "Most people are afraid of the stock market because they do not understand it. They see red numbers and think casino. But the stock market is simply a mechanism for buying ownership in real businesses. Once you understand what you are actually buying, that fear disappears permanently.",
       blocks: [
-        { label: "What is a stock?", heading: "You become a part-owner", body: "When you buy a stock, you buy a tiny piece of a company. If the company grows and becomes more valuable, your piece becomes more valuable too.", highlight: "Every time you buy an ETF, you become a part-owner of hundreds of the world's most successful companies.", example: "Example: Buy one MSCI World ETF share and you own a tiny slice of Apple, Nestle, Toyota, Samsung and 1,596 more companies." },
-        { label: "How prices move", heading: "Why prices go up and down", body: "Stock prices move based on what investors think a company is worth in the future. Short-term prices are driven by emotion. Long-term prices follow actual business performance.", highlight: "In the short term the market is a voting machine. In the long term it is a weighing machine. Benjamin Graham", example: "Key insight: Daily price movements are mostly noise. Long-term trends follow real economic growth." }
+        {
+          label: "What is a stock?",
+          heading: "You become a part-owner of real businesses",
+          body: "When you buy a stock, you buy a tiny ownership stake in a real company with real employees, real products and real profits. If you buy Apple stock, you own a fraction of every iPhone sold, every App Store purchase, every Mac shipped. When Apple grows and becomes more valuable, your ownership stake grows in value too. A stock is not a number on a screen — it is a piece of a living, breathing business.",
+          highlight: "Every time you buy an ETF like the MSCI World, you become a part-owner of 1,600 of the world's most successful companies. You collect a fraction of their profits every single day, forever.",
+          example: "Real example: If you had bought €1,000 of Apple stock in 2010, it would be worth approximately €175,000 today. Your €1,000 bought you ownership in a business that grew enormously. The stock price simply reflected that growth."
+        },
+        {
+          label: "How prices move",
+          heading: "Short-term noise vs long-term truth",
+          body: "Stock prices move for two completely different reasons depending on the timeframe. In the short term — days, weeks, months — prices are driven almost entirely by emotion: fear, greed, news headlines, political events and speculation. This is pure noise. In the long term — years and decades — prices follow one thing only: the actual earnings and growth of the underlying businesses. This is the signal. Your job as an investor is to ignore the noise and trust the signal.",
+          highlight: "Benjamin Graham, Warren Buffett's mentor, described it perfectly: In the short term the market is a voting machine — it counts who is popular. In the long term it is a weighing machine — it measures what is actually valuable.",
+          example: "During COVID in March 2020, the MSCI World fell 34% in 33 days. Pure panic — the underlying businesses had not changed. Six months later, all losses were recovered. Investors who sold in panic locked in real losses. Investors who held or bought more made substantial gains."
+        },
+        {
+          label: "Deep dive",
+          heading: "Why stock markets go up over time",
+          body: "Here is the most important thing to understand: over long periods, stock markets go up because human productivity and innovation increase over time. Companies find ways to produce more, sell more, earn more. New technologies create new industries. Population growth creates more customers. Inflation raises prices and therefore revenues. These forces do not reverse. They compound. This is why a diversified global ETF held for decades has historically always risen in value.",
+          highlight: "The MSCI World has delivered approximately 10% average annual returns since 1969 — through oil crises, wars, recessions, financial crashes, pandemics and political upheaval. Economic progress always wins long term.",
+          example: "If you had invested €10,000 in a MSCI World ETF in 1994 and done absolutely nothing, you would have approximately €120,000 today — despite living through the Dot-com crash, the 2008 financial crisis, and COVID. Time and patience are the only ingredients required."
+        }
       ],
-      quiz: { question: "What do you actually own when you buy a stock?", options: [{ text: "A loan to the company", correct: false }, { text: "A small ownership stake in the company", correct: true }, { text: "The right to use the company products for free", correct: false }, { text: "A guaranteed dividend payment", correct: false }], correctFeedback: "Exactly! Buying a stock makes you a part-owner. Your success is tied to the company's success.", wrongFeedback: "A stock represents ownership. You become a shareholder — a part-owner of the business." }
+      quiz: {
+        question: "What do you actually own when you buy a stock?",
+        options: [
+          { text: "A loan to the company", correct: false },
+          { text: "A small ownership stake in the company — a share of its assets and profits", correct: true },
+          { text: "The right to use the company products for free", correct: false },
+          { text: "A guaranteed dividend payment every year", correct: false }
+        ],
+        correctFeedback: "Exactly! A stock is ownership. You become a shareholder — a part-owner of a real business. Your wealth grows as the business grows.",
+        wrongFeedback: "A stock represents ownership in a real business. When you buy a stock, you become a part-owner. Your investment grows as the company grows and earns more profits."
+      }
     }
   },
   {
     id: 3, chapter: 1,
     title: "Accumulating vs. Distributing ETFs", icon: "🔄", desc: "Learn which ETF type is better for building long-term wealth.",
-    tags: ["ETF Types", "5 min"], xp: 60, gold: 12,
+    tags: ["ETF Types", "8 min"], xp: 60, gold: 12,
     lesson: {
-      heading: "Two types of ETFs", intro: "When companies in your ETF pay dividends, the ETF has to do something with that money. Your choice here matters enormously over decades.",
+      heading: "Two types of ETFs — one crucial difference",
+      intro: "When the companies inside your ETF pay dividends — cash payments to shareholders — the ETF has to decide what to do with that money. This decision, which you make when you choose your ETF, can make a six-figure difference to your final wealth over 30 years.",
       blocks: [
-        { label: "Type 1", heading: "Accumulating ETFs", body: "Accumulating ETFs automatically reinvest dividends back into the fund. You never see the cash but your shares grow in value silently. This is compound interest working for you automatically.", highlight: "For long-term wealth building, accumulating ETFs are almost always the better choice.", example: "Example: 10,000 euros in an accumulating ETF at 7% per year equals 76,000 euros after 30 years." },
-        { label: "Type 2", heading: "Distributing ETFs", body: "Distributing ETFs pay dividends directly to your account as cash. Great if you need regular income in retirement. But receiving dividends triggers immediate tax.", highlight: "In Germany, receiving dividends triggers immediate tax. Accumulating ETFs defer this — a major long-term advantage.", example: "Best for: Accumulating = younger investors building wealth. Distributing = retirees needing regular income." }
+        {
+          label: "Type 1: Accumulating",
+          heading: "The silent compounder",
+          body: "Accumulating ETFs (called Thesaurierend in German) automatically take any dividends received from companies and immediately reinvest them back into the fund. You never see the cash. Instead, your share price silently increases as more stocks are purchased on your behalf. Every dividend becomes more shares, which earn more dividends, which become more shares. This is compound interest at its most powerful — automated, invisible, relentless.",
+          highlight: "For long-term wealth building, accumulating ETFs are almost always the better choice. Dividends are reinvested instantly, with no tax event triggered, no decision required, no action needed. Pure automatic compounding.",
+          example: "Real numbers: €10,000 in an accumulating ETF at 7% per year for 30 years = €76,123. The same €10,000 in a distributing ETF where dividends are taxed at 26% before reinvestment = approximately €58,000. Same ETF, same return — €18,000 difference from one word: accumulating."
+        },
+        {
+          label: "Type 2: Distributing",
+          heading: "Regular income — but at a cost",
+          body: "Distributing ETFs (Ausschüttend in German) pay dividends directly to your bank account as cash — typically quarterly or annually. This sounds appealing — free money arriving regularly! But there is a critical problem for wealth builders: in Germany, every dividend payment triggers immediate Abgeltungsteuer at 26.375%. That tax is paid now, reducing the money available to compound. You then have to manually reinvest the remainder.",
+          highlight: "Distributing ETFs are excellent for retirees who need regular income to live on. For anyone still building wealth, accumulating ETFs are superior because they defer all tax until the final sale — keeping more money compounding longer.",
+          example: "Practical scenario: Your distributing ETF pays €500 in dividends. After 26.375% tax, you receive €368. You must then manually invest this €368 back. An accumulating ETF would have automatically reinvested the full €500 — with no tax, no action, no friction."
+        },
+        {
+          label: "Deep dive",
+          heading: "How to identify which type you are buying",
+          body: "Every ETF name includes a clue about its type. Look for the words Acc or Accumulating (accumulating) or Dis, Dist or Distributing (distributing) in the fund name. For example: iShares Core MSCI World UCITS ETF USD (Acc) — the (Acc) tells you it is accumulating. Also check: ETFs domiciled in Ireland are the most tax-efficient for European investors. Look for IE at the start of the ISIN number.",
+          highlight: "The ideal setup for a European wealth builder: Accumulating ETF + Ireland domicile + TER below 0.25%. This combination maximises compound growth and minimises tax drag over decades.",
+          example: "Top accumulating ETFs for European investors: IWDA (iShares MSCI World, Acc, Ireland, TER 0.20%), XDWD (Xtrackers MSCI World, Acc, Ireland, TER 0.19%), LCUW (Amundi MSCI World, Acc, Luxembourg, TER 0.12%). All are excellent — pick any one and stick with it."
+        }
       ],
-      quiz: { question: "For a 25-year-old building long-term wealth, which ETF type is generally better?", options: [{ text: "Distributing — to get regular cash payouts", correct: false }, { text: "Accumulating — to benefit from automatic compounding", correct: true }, { text: "Both are always identical in outcome", correct: false }, { text: "Neither — only buy individual stocks", correct: false }], correctFeedback: "Spot on! Accumulating ETFs let compound interest work without tax drag on each dividend payment.", wrongFeedback: "Accumulating ETFs reinvest dividends automatically. More compound growth, less tax friction." }
+      quiz: {
+        question: "For a 25-year-old building long-term wealth, which ETF type is generally better and why?",
+        options: [
+          { text: "Distributing — receiving regular cash payouts feels rewarding", correct: false },
+          { text: "Accumulating — dividends reinvest automatically with no tax until final sale", correct: true },
+          { text: "Both are always identical in long-term outcome", correct: false },
+          { text: "Neither — only individual stocks build real wealth", correct: false }
+        ],
+        correctFeedback: "Spot on! Accumulating ETFs let compound interest work at full power — no tax drag on each dividend, no manual reinvestment needed. The difference over 30 years can be enormous.",
+        wrongFeedback: "Accumulating ETFs automatically reinvest dividends without triggering immediate tax. This means more money compounding for longer. Over 30 years the difference versus distributing can be tens of thousands of euros."
+      }
     }
   },
   {
     id: 4, chapter: 1,
     title: "Understanding TER — The Hidden Cost", icon: "💸", desc: "Learn how fees silently destroy your returns over decades.",
-    tags: ["Costs", "5 min"], xp: 60, gold: 12,
+    tags: ["Costs", "8 min"], xp: 60, gold: 12,
     lesson: {
-      heading: "The fee that costs a fortune", intro: "A 1% annual fee sounds tiny. Over 30 years, it can cost you more than you originally invested.",
+      heading: "The fee that silently steals your wealth",
+      intro: "A 1% annual fee sounds completely harmless. It is just 1%. But compounding works in both directions. Fees compound against you just as powerfully as returns compound for you. What sounds like a tiny cost becomes a six-figure theft over a lifetime of investing.",
       blocks: [
-        { label: "What is TER?", heading: "Total Expense Ratio explained", body: "TER stands for Total Expense Ratio. It is the annual cost of owning an ETF, expressed as a percentage. This fee is automatically deducted from the fund — you never see it as a separate charge.", highlight: "Always look for ETFs with a TER below 0.25% per year. Many excellent ETFs cost as little as 0.07%.", example: "Good TER: iShares Core MSCI World = 0.20%. Bad TER: Actively managed fund = 1.5 to 2.5%." },
-        { label: "The true cost", heading: "What 1% really costs you", body: "On a 100,000 euro portfolio over 30 years, the difference between 0.2% and 1.5% TER can exceed 100,000 euros in lost wealth.", highlight: "The difference between a 0.2% and 1.5% TER on a 100,000 euro portfolio over 30 years can exceed 100,000 euros in lost wealth.", example: "Investor A at 0.2% TER: 220,000 euros after 30 years. Investor B at 1.5% TER: 170,000 euros. Same investment — 50,000 euro difference." }
+        {
+          label: "What is TER?",
+          heading: "Total Expense Ratio — the cost you never see",
+          body: "TER stands for Total Expense Ratio. It is the annual cost of owning an ETF or fund, expressed as a percentage of your total investment. Crucially, this fee is never charged separately — it is automatically deducted from the fund's assets daily, in tiny increments. You never see a bill. You never approve a payment. The fee simply silently reduces your returns every single day, year after year. This invisibility is precisely what makes it so dangerous.",
+          highlight: "Always look for ETFs with a TER below 0.25% per year. The best MSCI World ETFs cost as little as 0.12%. Many actively managed funds charge 1.5% to 2.5% — ten to twenty times more expensive for statistically worse performance.",
+          example: "Side by side: iShares Core MSCI World ETF (IWDA) — TER 0.20% per year. Typical actively managed global equity fund — TER 1.75% per year. On €100,000 invested, the ETF costs €200 per year. The active fund costs €1,750 per year. That €1,550 annual difference, reinvested, becomes enormous over decades."
+        },
+        {
+          label: "The true cost",
+          heading: "What 1% really costs you over a lifetime",
+          body: "Two investors each put €100,000 into a global stock fund returning 8% per year gross. Investor A pays 0.20% TER (ETF). Investor B pays 1.75% TER (active fund). After 30 years, Investor A has €930,000. Investor B has €654,000. The 1.55% fee difference cost Investor B €276,000 — nearly three times their original investment — for no additional benefit. In fact, Investor B's active fund almost certainly underperformed Investor A's passive ETF as well.",
+          highlight: "The difference between a 0.20% TER ETF and a 1.75% TER active fund on a €100,000 portfolio over 30 years exceeds €276,000 in lost wealth. This is not a small decision. It is potentially the most financially significant choice you make.",
+          example: "The TER trap is invisible but permanent. Every year you own a high-fee fund, the compounding damage grows. An investor who switches from a 1.75% TER fund to a 0.20% ETF at age 35 and retires at 65 recovers hundreds of thousands of euros in wealth."
+        },
+        {
+          label: "Deep dive",
+          heading: "What you actually get for higher fees — and why it is nothing",
+          body: "The investment industry has spent decades convincing investors that paying higher fees buys better performance. The data says the opposite. The SPIVA report — the largest ongoing study of active fund performance — consistently shows that over 15-year periods, approximately 90% of actively managed funds underperform their benchmark index after fees. The higher the fee, the harder it is to overcome the mathematical disadvantage.",
+          highlight: "The single most reliable predictor of future fund performance is not past returns, not the fund manager's track record, not the fund's strategy. It is the TER. Lower fees reliably predict better net returns. This is the most important investment research finding of the last 50 years.",
+          example: "How to check a TER: Go to justetf.com, search for any ETF, and the TER is listed prominently. For any ETF you consider buying, the TER should be below 0.25%. If it is above 0.50%, look for an alternative immediately."
+        }
       ],
-      quiz: { question: "What does TER stand for and why does it matter?", options: [{ text: "Total Earnings Rate", correct: false }, { text: "Total Expense Ratio — the annual cost that reduces your returns", correct: true }, { text: "Tax Exempt Return", correct: false }, { text: "Trading Execution Rate", correct: false }], correctFeedback: "Perfect! TER is the annual cost of owning an ETF. Even small differences compound dramatically over decades.", wrongFeedback: "TER = Total Expense Ratio. It is the annual fee deducted automatically from your fund." }
+      quiz: {
+        question: "What does TER stand for and why does it matter enormously for long-term investors?",
+        options: [
+          { text: "Total Earnings Rate — the return your fund generates each year", correct: false },
+          { text: "Total Expense Ratio — the annual cost that silently compounds against your returns for decades", correct: true },
+          { text: "Tax Exempt Return — a government-approved investment vehicle", correct: false },
+          { text: "Trading Execution Rate — the cost of buying and selling shares", correct: false }
+        ],
+        correctFeedback: "Perfect! TER is the annual fee that silently compounds against you. Even tiny differences in TER create enormous wealth differences over 30 years. Always choose the lowest TER ETF available.",
+        wrongFeedback: "TER = Total Expense Ratio. It is the annual cost automatically deducted from your fund. A 1.75% TER vs 0.20% TER can cost you over €276,000 on a €100,000 portfolio over 30 years."
+      }
     }
   },
   {
     id: 5, chapter: 1,
     title: "The Power of Compound Interest", icon: "🌱", desc: "Discover why Einstein called this the eighth wonder of the world.",
-    tags: ["Fundamentals", "6 min"], xp: 70, gold: 15,
+    tags: ["Fundamentals", "10 min"], xp: 70, gold: 15,
     lesson: {
-      heading: "The force that makes the wealthy richer", intro: "Compound interest is the most powerful force in personal finance. Understanding it will fundamentally change how you think about money.",
+      heading: "The force that makes the wealthy richer",
+      intro: "Compound interest is not just a financial concept. It is the fundamental force that separates those who build generational wealth from those who work their entire lives and retire with little. Understanding it deeply will permanently change how you think about time, money and decisions.",
       blocks: [
-        { label: "How it works", heading: "Interest on interest on interest", body: "Simple interest pays you on your original investment only. Compound interest pays you on your original investment PLUS all the interest already earned. Each year your base grows larger, creating an exponential snowball effect.", highlight: "Einstein reportedly called compound interest the eighth wonder of the world. Those who understand it earn it. Those who do not pay it.", example: "Simple: 1,000 euros at 7% for 30 years = 3,100 euros. Compound: 1,000 euros at 7% for 30 years = 7,612 euros." },
-        { label: "Time is everything", heading: "Why starting early is everything", body: "The single most important variable in compound interest is time. Starting 10 years earlier can double your final wealth.", highlight: "Starting 10 years earlier typically results in twice the final wealth, even with the same monthly investment.", example: "Start at 25: 200 euros per month for 40 years at 7% = 524,000 euros. Start at 35: same 200 euros for 30 years = 243,000 euros." }
+        {
+          label: "How it works",
+          heading: "Interest on interest on interest — the snowball",
+          body: "Simple interest pays you on your original investment only. If you invest €1,000 at 7% simple interest, you earn €70 every year. After 30 years: €1,000 + (30 × €70) = €3,100. Compound interest pays you on your original investment PLUS all accumulated returns. In year 1 you earn €70. In year 2 you earn 7% on €1,070 = €74.90. Each year the base grows larger, so each year's gain is larger. This creates an exponential curve — slow at first, then breathtakingly fast. After 30 years at 7% compound: €7,612.",
+          highlight: "Einstein reportedly called compound interest the eighth wonder of the world. Those who understand it earn it. Those who do not pay it. The gap between €3,100 (simple) and €7,612 (compound) from the same €1,000 shows you exactly why.",
+          example: "The snowball analogy: Imagine rolling a small snowball down a very long snowy hill. At first it barely grows. After halfway down, it starts picking up speed. Near the bottom, it is enormous and growing faster than you can believe. Your investment portfolio works exactly this way — the last 10 years produce more wealth than the first 20 combined."
+        },
+        {
+          label: "Time is everything",
+          heading: "The single most valuable asset you have right now",
+          body: "Every year you delay investing costs you far more than you intuit. Starting 10 years earlier does not just add 10 years of returns. It means every euro you invested gets 10 additional years to compound — including all the gains those euros generated in the first 10 years. This is why two investors with identical monthly contributions can end up with vastly different wealth purely based on when they started.",
+          highlight: "Starting investing at 25 versus 35, investing the same €200 per month at 7% annual return, produces a €281,000 difference by age 65. You invested only €24,000 more in total — but the compounding difference is €281,000. Time is not money. Time IS the multiplier of money.",
+          example: "Alex starts at 25: €200/month × 40 years at 7% = €524,000. Jordan starts at 35: €200/month × 30 years at 7% = €243,000. Same monthly amount. Same ETF. Same return. €281,000 difference. To catch up, Jordan would need to invest €430/month — more than double — for those 30 years just to match Alex."
+        },
+        {
+          label: "Deep dive",
+          heading: "The Rule of 72 — and why the last decade matters most",
+          body: "The Rule of 72 is the fastest way to estimate compound growth: divide 72 by your annual return to find how many years to double your money. At 7% returns: 72 ÷ 7 = approximately 10.3 years to double. This means: €10,000 at age 25 becomes €20,000 by 35, €40,000 by 45, €80,000 by 55 and €160,000 by 65. The final decade alone adds €80,000 — as much as the previous 30 years combined. This is why selling early is catastrophically expensive.",
+          highlight: "The Rule of 72: divide 72 by your annual return to find the years to double your money. At 7% returns, money doubles every ~10 years. At 10% returns, every ~7 years. Starting early and staying invested are the two most important investing decisions you will ever make.",
+          example: "Monthly savings plan power: €100/month invested from age 20 to 65 at 7% = €341,000. You invested €54,000 in total. The other €287,000 was created by compound interest — pure mathematical magic. €100 per month. 45 years. Patience. Nothing else required."
+        }
       ],
-      quiz: { question: "Why does starting to invest early make such a dramatic difference?", options: [{ text: "Younger investors get better interest rates", correct: false }, { text: "Compound interest needs time to create exponential growth", correct: true }, { text: "Stock markets perform better for young investors", correct: false }, { text: "Early investors pay less tax", correct: false }], correctFeedback: "Exactly right! Time is the key ingredient. The more time you give compound interest, the more dramatically it multiplies your wealth.", wrongFeedback: "Compound interest is exponential — it grows faster and faster over time. More time means dramatically more wealth." }
+      quiz: {
+        question: "Why does starting to invest 10 years earlier make such a dramatically larger difference than simply adding 10 more years of contributions?",
+        options: [
+          { text: "Younger investors receive preferential interest rates from brokers", correct: false },
+          { text: "Earlier investments have more time to compound — generating returns on returns on returns exponentially", correct: true },
+          { text: "Stock markets historically perform better when investors are younger", correct: false },
+          { text: "Early investors pay less tax on their investment gains", correct: false }
+        ],
+        correctFeedback: "Exactly right! It is not about the extra contributions — it is about the extra years of compounding. Each earlier year means every euro earns more, and those earnings earn more, creating exponential rather than linear growth.",
+        wrongFeedback: "Compound interest is exponential — it accelerates over time. Starting earlier means your money has more time to compound on itself. The first €100 invested at 25 has 40 years to multiply. The same €100 invested at 35 has only 30. That 10-year difference, compounded, becomes enormous."
+      }
     }
   },
+
+  // ─── QUESTS 6-25 (Original content unchanged) ────────────────────────────
   {
     id: 6, chapter: 1,
     title: "Open Your First Broker Account", icon: "🏦", desc: "A step-by-step mission to get you set up with a real investing account.",
@@ -242,7 +395,7 @@ export const CHAPTER_ONE: Quest[] = [
         { label: "Historical crashes", heading: "The crashes that scared everyone", body: "The Great Depression in 1929: minus 89%. Black Monday in 1987: minus 22% in one day. Dot-com bust 2000 to 2002: minus 49%. Financial crisis 2008 to 2009: minus 57%. COVID crash 2020: minus 34% in 33 days. Every single one recovered and went to new highs.", highlight: "The COVID crash of 2020 was the fastest 34% decline in history — and the market had fully recovered within 6 months.", example: "2008 Financial Crisis: Markets fell 57%. By 2013, fully recovered. By 2020, they had tripled from the 2009 low." },
         { label: "The right response", heading: "What to do in a crash", body: "The worst thing you can do is sell. Selling converts a temporary paper loss into a permanent real loss. The second worst is to stop investing.", highlight: "Be greedy when others are fearful, and fearful when others are greedy. Warren Buffett.", example: "The right action in every crash: Do nothing with existing holdings. Continue monthly savings plan. If possible, invest extra. Then wait." }
       ],
-      quiz: { question: "What should a long-term ETF investor do during a major market crash?", options: [{ text: "Sell everything immediately to preserve capital", correct: false }, { text: "Continue the monthly savings plan and do nothing with existing holdings", correct: true }, { text: "Switch to a safer ETF until markets recover", correct: false }, { text: "Stop investing until confidence returns", correct: false }], correctFeedback: "Correct! Continuing to invest during crashes is one of the most powerful things you can do.", wrongFeedback: "In a crash: do nothing with existing holdings and continue investing. Every crash in history has recovered." }
+      quiz: { question: "What should a long-term ETF investor do during a major market crash?", options: [{ text: "Sell everything immediately to preserve capital", correct: false }, { text: "Continue the monthly savings plan and do nothing with existing holdings", correct: true }, { text: "Switch to a safer ETF until markets recover", correct: false }, { text: "Stop investing until confidence returns", correct: false }], correctFeedback: "Correct! Continuing to invest during crashes is one of the most powerful things you can do.", wrongFeedback: "In a crash: do nothing with existing holdings and continue investing. Every crash has recovered. Selling locks in losses permanently." }
     }
   },
   {
@@ -492,7 +645,7 @@ export const CHAPTER_TWO: Quest[] = [
         { label: "Key insights", heading: "What really drives financial outcomes", body: "Saving money is entirely behavioral. Investing is about staying invested through fear — again behavioral. Every financial mistake has a behavioral root: impatience, greed, envy, fear or pride.", highlight: "Being reasonable is more important than being rational. A good financial plan you actually follow beats a perfect plan you abandon at the first market crash.", example: "Housel insight: Two people with identical knowledge will have wildly different outcomes based on behavior." },
         { label: "Practical wisdom", heading: "The timeless financial principles", body: "Key principles: Enough is a superpower — defining what enough means prevents the endless pursuit of more. Save like a pessimist, invest like an optimist. Your time horizon is your biggest advantage.", highlight: "The most important financial decision is not which ETF to buy — it is how long you stay invested without panicking.", example: "Defining enough: If you know your FIRE number and reach it, the rational decision is to stop taking excessive risks." }
       ],
-      quiz: { question: "What is the primary driver of long-term investment success?", options: [{ text: "Superior stock selection skills", correct: false }, { text: "Behavioral discipline — staying invested and avoiding emotional decisions", correct: true }, { text: "Timing market movements correctly", correct: false }, { text: "Access to insider information", correct: false }], correctFeedback: "Exactly right! Behavioral discipline — staying invested through crashes without making emotional decisions — is the primary driver.", wrongFeedback: "Behavioral discipline is the key: staying invested through crashes, not panic selling, saving consistently." }
+      quiz: { question: "What is the primary driver of long-term investment success?", options: [{ text: "Superior stock selection skills", correct: false }, { text: "Behavioral discipline — staying invested and avoiding emotional decisions", correct: true }, { text: "Timing market movements correctly", correct: false }, { text: "Access to insider information", correct: false }], correctFeedback: "Exactly right! Behavioral discipline — staying invested through crashes, not panic selling, saving consistently — is the primary driver.", wrongFeedback: "Behavioral discipline is the key: staying invested through crashes, not panic selling, saving consistently." }
     }
   },
   {
