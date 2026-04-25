@@ -74,14 +74,39 @@ export default function RegisterPage() {
     const { data, error: signUpError } = await supabase.auth.signUp({ email, password })
     if (signUpError) { setError(signUpError.message); setLoading(false); return }
     if (data.user) {
-      await supabase.from('profiles').upsert({
+      // Wait briefly for any auto-trigger to run first
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // Use upsert with onConflict to ensure username is always set correctly
+      const { error: upsertError } = await supabase.from('profiles').upsert({
         id: data.user.id,
         username,
         class_icon: cls.icon,
         class_name: cls.name,
         level: 1, xp: 0, gold: 0, completed_quests: [],
         streak: 0, longest_streak: 0, last_login: null,
-      })
+      }, { onConflict: 'id' })
+
+      // If upsert failed (row already exists from trigger), force update username
+      if (upsertError) {
+        await supabase.from('profiles').update({
+          username,
+          class_icon: cls.icon,
+          class_name: cls.name,
+        }).eq('id', data.user.id)
+      }
+
+      // Double-check username was saved correctly
+      const { data: check } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', data.user.id)
+        .single()
+
+      // If username still wrong, force update
+      if (check && check.username !== username) {
+        await supabase.from('profiles').update({ username }).eq('id', data.user.id)
+      }
     }
     router.push('/dashboard')
   }
