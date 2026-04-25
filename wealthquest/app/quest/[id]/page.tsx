@@ -599,6 +599,9 @@ export default function QuestPage() {
   const [missionJustCompleted, setMissionJustCompleted] = useState(false)
   const [showAldric, setShowAldric] = useState(false)
 
+  // Shuffle options once per quest load so correct answer is not always B
+  const [shuffledOptions, setShuffledOptions] = useState<{ text: string; correct: boolean; origIdx: number }[]>([])
+
   useEffect(() => {
     async function load() {
       const { data: { session } } = await supabase.auth.getSession()
@@ -606,12 +609,22 @@ export default function QuestPage() {
       const { data } = await supabase.from('profiles').select('*').eq('id', session.user.id).single()
       setProfile(data)
       if (data?.completed_quests?.includes(questId)) { setAnswered(true); setCorrect(true); setDone(true) }
-
-      // Show Aldric after 2 seconds
       setTimeout(() => setShowAldric(true), 2000)
     }
     load()
   }, [router, questId])
+
+  // Shuffle quiz options when quest loads
+  useEffect(() => {
+    if (!quest) return
+    const opts = quest.lesson.quiz.options.map((o, i) => ({ ...o, origIdx: i }))
+    // Fisher-Yates shuffle
+    for (let i = opts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]]
+    }
+    setShuffledOptions(opts)
+  }, [questId])
 
   if (!quest) return <div className="min-h-screen bg-bg flex items-center justify-center"><p>Quest not found.</p></div>
   if (!profile) return <div className="min-h-screen bg-bg flex items-center justify-center"><div className="text-4xl animate-pulse">⚔️</div></div>
@@ -625,7 +638,7 @@ export default function QuestPage() {
     setCanRetry(false)
     if (isCorrect) {
       setFeedback(quest!.lesson.quiz.correctFeedback)
-      setShowAldric(false) // hide old bubble
+      setShowAldric(false)
     } else {
       setFeedback(quest!.lesson.quiz.wrongFeedback)
       setCanRetry(true)
@@ -638,6 +651,37 @@ export default function QuestPage() {
     setSelectedOption(null)
     setFeedback('')
     setCanRetry(false)
+    // Re-shuffle on retry
+    const opts = quest!.lesson.quiz.options.map((o, i) => ({ ...o, origIdx: i }))
+    for (let i = opts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]]
+    }
+    setShuffledOptions(opts)
+  }
+
+  // Update weekly challenge XP progress
+  function updateWeeklyXP(earnedXp: number) {
+    const monday = new Date()
+    const day = monday.getDay()
+    const diff = monday.getDate() - day + (day === 0 ? -6 : 1)
+    monday.setDate(diff)
+    const weekStart = monday.toISOString().slice(0, 10)
+    const weekKey = `wc_${weekStart}`
+    try {
+      const saved = JSON.parse(localStorage.getItem(weekKey) || '{"progress":0,"claimed":false}')
+      // Only update if current challenge is XP type
+      const weekNumber = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000))
+      const challenges = ['quests','logins','gold','daily','mission','xp','event']
+      const currentType = challenges[weekNumber % challenges.length]
+      if (currentType === 'xp') {
+        const newProgress = (saved.progress || 0) + earnedXp
+        localStorage.setItem(weekKey, JSON.stringify({ ...saved, progress: newProgress }))
+      } else if (currentType === 'quests') {
+        const newProgress = (saved.progress || 0) + 1
+        localStorage.setItem(weekKey, JSON.stringify({ ...saved, progress: newProgress }))
+      }
+    } catch (e) {}
   }
 
   async function completeQuest() {
@@ -670,6 +714,7 @@ export default function QuestPage() {
     }
     setDone(true)
     setCompleting(false)
+    updateWeeklyXP(quest!.xp)
     setTimeout(() => setShowPopup(true), 300)
   }
 
@@ -786,7 +831,7 @@ export default function QuestPage() {
           </div>
           <h3 className="font-bold text-text1 mb-4 leading-snug">{quest.lesson.quiz.question}</h3>
           <div className="flex flex-col gap-2.5 mb-4">
-            {quest.lesson.quiz.options.map((opt, i) => {
+            {(shuffledOptions.length > 0 ? shuffledOptions : quest.lesson.quiz.options.map((o,i) => ({...o, origIdx: i}))).map((opt, i) => {
               let style = 'border-border bg-white hover:border-gold-bd hover:bg-gold-bg'
               if (answered) {
                 if (opt.correct) style = 'border-green-bd bg-green-bg'
@@ -795,7 +840,7 @@ export default function QuestPage() {
               }
               const isClickable = !answered || canRetry
               return (
-                <div key={i} onClick={() => isClickable && handleAnswer(i, opt.correct)}
+                <div key={opt.origIdx} onClick={() => isClickable && handleAnswer(i, opt.correct)}
                   className={`border-2 rounded-xl px-4 py-3 flex items-center gap-3 transition-all ${isClickable ? 'cursor-pointer' : 'cursor-default'} ${style}`}>
                   <div className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0 ${answered && opt.correct ? 'border-green bg-green text-white' : answered && selectedOption === i && !opt.correct ? 'border-red-400 bg-red-400 text-white' : 'border-border text-text3'}`}>
                     {answered && opt.correct ? '✓' : answered && selectedOption === i && !opt.correct ? '✗' : String.fromCharCode(65 + i)}
