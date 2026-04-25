@@ -72,8 +72,14 @@ export default function RegisterPage() {
     setError('')
     const cls = CLASSES[selectedClass]
 
-    // Step 1: Create auth user
-    const { data, error: signUpError } = await supabase.auth.signUp({ email, password })
+    // Step 1: Create auth user WITH username as metadata
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { username }
+      }
+    })
     if (signUpError) { setError(signUpError.message); setLoading(false); return }
     if (!data.user) { setError('Something went wrong.'); setLoading(false); return }
 
