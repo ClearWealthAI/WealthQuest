@@ -443,24 +443,33 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* SHOP BANNER TOP */}
-        <Link href="/shop" className="block mb-4">
-          <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.01] hover:shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #2a1a00, #4a3000, #2a1a00)', border: '1.5px solid rgba(232,168,32,0.5)' }}>
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
-            <div className="relative flex items-center justify-between">
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: 'rgba(245,188,56,0.7)' }}>Gold Shop</div>
-                <div className="font-serif font-black text-lg" style={{ color: '#F5BC38' }}>🛒 Spend Your Gold</div>
-                <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>Streak Freeze · XP Boost · Icon Skins · Hints</p>
-              </div>
-              <div className="text-right">
-                <div className="font-serif font-black text-2xl" style={{ color: '#F5BC38' }}>🪙 {profile.gold}</div>
-                <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>available</div>
+        {/* SHOP + RANKINGS BANNERS */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <Link href="/shop">
+            <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.02] hover:shadow-lg h-full"
+              style={{ background: 'linear-gradient(135deg, #2a1a00, #4a3000)', border: '1.5px solid rgba(232,168,32,0.5)' }}>
+              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
+              <div className="relative flex flex-col gap-1">
+                <div className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'rgba(245,188,56,0.7)' }}>Gold Shop</div>
+                <div className="font-serif font-black text-base" style={{ color: '#F5BC38' }}>🛒 Spend Gold</div>
+                <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Boosts · Skins · Hints</div>
+                <div className="font-black text-lg mt-1" style={{ color: '#F5BC38' }}>🪙 {profile.gold}</div>
               </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+          <Link href="/leaderboard">
+            <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.02] hover:shadow-lg h-full"
+              style={{ background: 'linear-gradient(135deg, #0a0a2a, #1a1a4a)', border: '1.5px solid rgba(59,122,216,0.4)' }}>
+              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, white 0, white 1px, transparent 1px, transparent 14px)' }} />
+              <div className="relative flex flex-col gap-1">
+                <div className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'rgba(100,160,255,0.7)' }}>Rankings</div>
+                <div className="font-serif font-black text-base" style={{ color: '#60A5FA' }}>🏆 Leaderboard</div>
+                <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>Top players</div>
+                <div className="font-black text-lg mt-1" style={{ color: '#60A5FA' }}>#{profile.level}</div>
+              </div>
+            </div>
+          </Link>
+        </div>
 
         {/* STREAK CARD */}
         <div className="card mb-4 border-2" style={{ borderColor: streakColor + '40', background: streakBg }}>
@@ -719,30 +728,6 @@ export default function Dashboard() {
               </div>
             )
           })}
-        </div>
-
-        {/* SHOP + LEADERBOARD BANNERS */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <Link href="/shop">
-            <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.02] h-full"
-              style={{ background: 'linear-gradient(135deg, #2a1a00, #4a3000)', border: '1.5px solid rgba(232,168,32,0.4)' }}>
-              <div className="relative flex flex-col items-center text-center gap-1">
-                <div className="text-3xl">🛒</div>
-                <div className="font-serif font-black text-sm" style={{ color: '#F5BC38' }}>Gold Shop</div>
-                <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>🪙 {profile.gold} available</div>
-              </div>
-            </div>
-          </Link>
-          <Link href="/leaderboard">
-            <div className="rounded-2xl p-4 relative overflow-hidden cursor-pointer transition-all hover:scale-[1.02] h-full"
-              style={{ background: 'linear-gradient(135deg, #0a0a2a, #1a1a4a)', border: '1.5px solid rgba(59,122,216,0.4)' }}>
-              <div className="relative flex flex-col items-center text-center gap-1">
-                <div className="text-3xl">🏆</div>
-                <div className="font-serif font-black text-sm" style={{ color: '#60A5FA' }}>Rankings</div>
-                <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>See top players</div>
-              </div>
-            </div>
-          </Link>
         </div>
 
         {/* Links */}
