@@ -4,6 +4,7 @@ import { useRouter, useParams } from 'next/navigation'
 import { supabase, Profile } from '@/lib/supabase'
 import { QUESTS, LEVEL_NAMES, XP_PER_LEVEL } from '@/lib/quests'
 import { MISSIONS, Mission, getMissionForQuest, isMissionComplete } from '@/lib/missions'
+import { getScenarioQuest, ScenarioData, ScenarioChoice } from '@/lib/scenario_quests'
 
 // ─── CONFETTI ─────────────────────────────────────────────────────────────────
 
@@ -602,6 +603,13 @@ export default function QuestPage() {
   // Shuffle options once per quest load so correct answer is not always B
   const [shuffledOptions, setShuffledOptions] = useState<{ text: string; correct: boolean; origIdx: number }[]>([])
 
+  // Scenario quest state
+  const scenarioData = getScenarioQuest(questId)
+  const isScenarioQuest = !!scenarioData
+  const [scenarioPhase, setScenarioPhase] = useState<'intro' | 'decision' | 'consequence' | 'reflection' | 'rebuild'>('intro')
+  const [scenarioChoice, setScenarioChoice] = useState<ScenarioChoice | null>(null)
+  const [showScenarioAldric, setShowScenarioAldric] = useState(true)
+
   useEffect(() => {
     async function load() {
       const { data: { session } } = await supabase.auth.getSession()
@@ -730,6 +738,222 @@ export default function QuestPage() {
   const nextQuest = QUESTS[currentIndex + 1]
   const aldricMessage = ALDRIC_MESSAGES[questId] || "Keep going, young investor. Every quest brings you closer to financial freedom."
 
+  // ─── SCENARIO QUEST RENDER ─────────────────────────────────────────────────
+  if (isScenarioQuest && scenarioData && !done) {
+    const sd = scenarioData
+    return (
+      <div className="min-h-screen bg-bg">
+        <div className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-border px-4 py-3 flex items-center gap-3">
+          <button onClick={() => router.push('/dashboard')} className="text-text2 text-sm font-semibold">← Back</button>
+          <div className="flex-1 text-center">
+            <div className="text-[10px] font-bold text-text3 uppercase tracking-widest">Scenario Quest</div>
+            <div className="font-bold text-sm text-text1 truncate">{quest.title}</div>
+          </div>
+          <div className="text-xs font-bold text-gold-dk">+{quest.xp} XP</div>
+        </div>
+        <div className="max-w-lg mx-auto px-4 py-6 pb-16">
+
+          {scenarioPhase === 'intro' && (
+            <div className="flex flex-col gap-4">
+              <div className="rounded-2xl overflow-hidden border border-border" style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)' }}>
+                <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+                  <span className="text-xs font-bold uppercase tracking-widest text-white/60">Market Situation</span>
+                </div>
+                <div className="p-5"><p className="text-white/90 text-sm leading-relaxed">{sd.situation}</p></div>
+              </div>
+              <div className="card p-4">
+                <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-2">Your Portfolio</div>
+                <div className="text-2xl font-black text-text1 mb-3">€{sd.portfolioValue.toLocaleString('de-DE')}</div>
+                <div className="flex h-3 rounded-full overflow-hidden mb-3">
+                  {sd.portfolioSnapshot.map((s, i) => (<div key={i} style={{ width: `${s.pct}%`, background: s.color }} />))}
+                </div>
+                <div className="flex gap-3 flex-wrap">
+                  {sd.portfolioSnapshot.map((s, i) => (
+                    <div key={i} className="flex items-center gap-1.5 text-xs text-text2">
+                      <div className="w-2.5 h-2.5 rounded-full" style={{ background: s.color }} />{s.label} {s.pct}%
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {showScenarioAldric && (
+                <div className="flex items-start gap-3 p-4 rounded-2xl" style={{ background: '#FFFEF8', border: '1.5px solid #F5D478' }}>
+                  <div className="w-10 h-10 rounded-full bg-gold-bg border-2 border-gold-bd flex items-center justify-center text-xl flex-shrink-0">🧙</div>
+                  <div className="flex-1">
+                    <div className="text-xs font-bold text-gold-dk mb-1">Aldric</div>
+                    <p className="text-sm text-text2 italic leading-relaxed">"{sd.aldricOpening}"</p>
+                  </div>
+                  <button onClick={() => setShowScenarioAldric(false)} className="text-text3 text-xs">✕</button>
+                </div>
+              )}
+              <button onClick={() => setScenarioPhase('decision')}
+                className="w-full py-4 rounded-2xl font-black text-base text-[#1A1200] transition-all active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)', boxShadow: '0 4px 20px rgba(232,168,32,0.4)' }}>
+                Make Your Decision →
+              </button>
+            </div>
+          )}
+
+          {scenarioPhase === 'decision' && (
+            <div className="flex flex-col gap-4">
+              <div className="text-center">
+                <div className="text-xs font-bold text-text3 uppercase tracking-widest mb-1">Your Decision</div>
+                <h2 className="font-bold text-lg text-text1 leading-snug">{sd.question}</h2>
+              </div>
+              <div className="rounded-xl p-3 bg-bg3 border border-border text-xs text-text2">
+                💼 {sd.portfolioSnapshot.map(s => `${s.pct}% ${s.label}`).join(' · ')}
+              </div>
+              <div className="flex flex-col gap-3">
+                {sd.choices.map((choice) => (
+                  <button key={choice.id}
+                    onClick={() => { setScenarioChoice(choice); setScenarioPhase('consequence') }}
+                    className="text-left p-4 rounded-2xl border-2 transition-all active:scale-[0.98] hover:shadow-md hover:border-gold-bd"
+                    style={{ borderColor: '#E4E0D8', background: '#fff' }}>
+                    <div className="flex items-start gap-3">
+                      <span className="text-3xl flex-shrink-0">{choice.icon}</span>
+                      <div className="flex-1">
+                        <div className="font-bold text-text1 mb-0.5">{choice.label}</div>
+                        <div className="text-sm text-text2">{choice.desc}</div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {scenarioPhase === 'consequence' && scenarioChoice && (
+            <div className="flex flex-col gap-4">
+              <div className={`rounded-2xl p-5 text-center ${scenarioChoice.isOptimal ? 'bg-gradient-to-br from-green-900 to-green-700' : 'bg-gradient-to-br from-red-900 to-red-800'}`}>
+                <div className="text-5xl mb-3">{scenarioChoice.isOptimal ? '✅' : '📉'}</div>
+                <div className="font-bold text-white/60 text-sm mb-1">You chose: {scenarioChoice.label}</div>
+                <div className="font-black text-white text-xl">{scenarioChoice.isOptimal ? 'Good Decision' : 'Costly Mistake'}</div>
+                <div className="mt-3 inline-block px-3 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.8)' }}>
+                  {scenarioChoice.emotionalLabel}
+                </div>
+              </div>
+              <div className="card p-4">
+                <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-2">⏱ {scenarioChoice.timeframe}</div>
+                <p className="text-sm text-text2 leading-relaxed mb-3">{scenarioChoice.consequence}</p>
+                <div className={`flex items-center gap-3 p-3 rounded-xl ${scenarioChoice.portfolioImpact >= 0 ? 'bg-green-bg border border-green-bd' : 'bg-red-50 border border-red-200'}`}>
+                  <div className="text-2xl">{scenarioChoice.portfolioImpact >= 0 ? '📈' : '📉'}</div>
+                  <div>
+                    <div className={`font-black text-lg ${scenarioChoice.portfolioImpact >= 0 ? 'text-green-700' : 'text-red-600'}`}>
+                      {scenarioChoice.portfolioImpact >= 0 ? '+' : ''}{scenarioChoice.portfolioImpact}%
+                    </div>
+                    <div className="text-xs text-text3">Portfolio impact</div>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-2xl p-4"
+                style={{ background: scenarioChoice.isOptimal ? '#EDFAF2' : '#FFF0F0', border: `1.5px solid ${scenarioChoice.isOptimal ? '#88D4A4' : '#F5A0A0'}` }}>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-white border-2 border-gold-bd flex items-center justify-center text-xl flex-shrink-0">🧙</div>
+                  <div>
+                    <div className="text-xs font-bold mb-1" style={{ color: scenarioChoice.isOptimal ? '#2d7a45' : '#c0392b' }}>Aldric says:</div>
+                    <p className="text-sm leading-relaxed" style={{ color: scenarioChoice.isOptimal ? '#2d7a45' : '#c0392b' }}>"{scenarioChoice.aldricFeedback}"</p>
+                  </div>
+                </div>
+              </div>
+              <button onClick={() => setScenarioPhase('reflection')}
+                className="w-full py-3 rounded-2xl font-black text-sm text-white transition-all active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #1a3a50, #2a5a78)' }}>
+                See the Full Picture →
+              </button>
+            </div>
+          )}
+
+          {scenarioPhase === 'reflection' && scenarioChoice && (
+            <div className="flex flex-col gap-4">
+              <div className="text-center">
+                <div className="text-3xl mb-2">🧠</div>
+                <div className="font-bold text-lg text-text1">The Investor Mindset</div>
+                <div className="text-sm text-text2">What this situation teaches you</div>
+              </div>
+              <div className="card p-4 border-l-4 border-gold">
+                <div className="text-xs font-bold text-gold-dk uppercase tracking-wider mb-2">💡 Key Insight</div>
+                <p className="text-sm text-text2 leading-relaxed">{sd.reflection}</p>
+              </div>
+              <div className="rounded-2xl p-4" style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(245,188,56,0.7)' }}>📊 Data Point</div>
+                <p className="text-sm text-white/80 leading-relaxed">{sd.statFact}</p>
+              </div>
+              <div className="card p-4">
+                <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">All Outcomes Compared</div>
+                <div className="flex flex-col gap-2">
+                  {sd.choices.map(choice => (
+                    <div key={choice.id} className={`flex items-center gap-3 p-3 rounded-xl border ${scenarioChoice.id === choice.id ? 'border-gold-bd bg-gold-bg' : 'border-border bg-bg3'}`}>
+                      <span className="text-xl">{choice.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-xs text-text1">{choice.label}</div>
+                        <div className="text-[10px] text-text3 truncate">{choice.emotionalLabel}</div>
+                      </div>
+                      <div className={`font-black text-sm flex-shrink-0 ${choice.portfolioImpact >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                        {choice.portfolioImpact >= 0 ? '+' : ''}{choice.portfolioImpact}%
+                      </div>
+                      {scenarioChoice.id === choice.id && <div className="text-[10px] text-gold-dk font-bold">← you</div>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: '#EEF4FF', border: '1.5px solid #B8D0FF' }}>
+                <div className="text-2xl">🔓</div>
+                <div>
+                  <div className="text-xs font-bold text-blue-700">Skill Unlocked</div>
+                  <div className="text-sm font-bold text-text1">{sd.skillUnlocked}</div>
+                </div>
+              </div>
+              {!scenarioChoice.isOptimal && (
+                <button onClick={() => setScenarioPhase('rebuild')}
+                  className="w-full py-3 rounded-2xl font-black text-sm text-[#1A1200] transition-all active:scale-95"
+                  style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)' }}>
+                  🔄 Try Again With New Knowledge →
+                </button>
+              )}
+              <button onClick={() => completeQuest()}
+                className={`w-full py-3 rounded-2xl font-black text-sm transition-all active:scale-95 ${scenarioChoice.isOptimal ? 'text-white' : 'bg-bg3 text-text2 border border-border'}`}
+                style={scenarioChoice.isOptimal ? { background: 'linear-gradient(135deg, #2d7a45, #3A9E5C)' } : {}}>
+                {completing ? 'Saving...' : scenarioChoice.isOptimal ? `✅ Complete → +${quest.xp} XP · +${quest.gold} 🪙` : 'Skip and Complete'}
+              </button>
+            </div>
+          )}
+
+          {scenarioPhase === 'rebuild' && (
+            <div className="flex flex-col gap-4">
+              <div className="text-center">
+                <div className="text-3xl mb-2">🔄</div>
+                <div className="font-bold text-lg text-text1">Rebuild Your Decision</div>
+                <div className="text-sm text-text2">Now that you know the outcome — what would you choose?</div>
+              </div>
+              <div className="rounded-xl p-3 bg-bg3 border border-border text-sm text-text2 italic">{sd.situation}</div>
+              <div className="flex flex-col gap-3">
+                {sd.choices.map((choice) => (
+                  <button key={choice.id}
+                    onClick={() => { setScenarioChoice(choice); completeQuest() }}
+                    className={`text-left p-4 rounded-2xl border-2 transition-all active:scale-[0.98] ${choice.isOptimal ? 'border-green-bd bg-green-bg' : 'border-border bg-white hover:border-gold-bd'}`}>
+                    <div className="flex items-start gap-3">
+                      <span className="text-3xl flex-shrink-0">{choice.icon}</span>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <div className="font-bold text-text1">{choice.label}</div>
+                          {choice.isOptimal && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-green-600 text-white">Optimal</span>}
+                        </div>
+                        <div className="text-sm text-text2">{choice.desc}</div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+        {showPopup && <QuestCompletePopup quest={quest} onContinue={handlePopupContinue} isMissionComplete={missionJustCompleted} mission={mission || null} />}
+      </div>
+    )
+  }
+
+  // ─── STANDARD QUEST RENDER ──────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-bg">
       {/* Popup */}
