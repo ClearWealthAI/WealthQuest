@@ -5,11 +5,15 @@ export type ScenarioChoice = {
   label: string
   icon: string
   desc: string
+  tradeoff: { benefit: string; risk: string; cost: string }
   isOptimal: boolean
+  investorType: string
   consequence: string
+  phase1: string
   portfolioImpact: number
   timeframe: string
   aldricFeedback: string
+  identityLabel: string
   emotionalLabel: string
   biasLabel: string
 }
@@ -19,14 +23,17 @@ export type ScenarioData = {
   title: string
   subtitle: string
   situation: string
+  threat: string
   portfolioValue: number
   portfolioSnapshot: { label: string; pct: number; color: string }[]
   question: string
+  worryOptions: string[]
   aldricOpening: string
   choices: ScenarioChoice[]
   reflection: string
   statFact: string
   skillUnlocked: string
+  skill: string
 }
 
 export const SCENARIO_QUESTS: ScenarioData[] = [
@@ -34,6 +41,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 1,
     title: "Crash Day",
     subtitle: "Panic or hold? Markets just dropped -6%.",
+    threat: "If panic continues, markets could fall another 10-15% before stabilising.",
+    worryOptions: ["losing more money", "making the wrong call", "missing the recovery"],
+    skill: "Behavioral Control",
     situation: "It's Monday morning. The DAX drops 6% on surprise inflation data. Social media is full of 'SELL EVERYTHING' posts. Your portfolio is down €1,840 today.",
     portfolioValue: 28160,
     portfolioSnapshot: [
@@ -47,6 +57,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'sell_all', label: 'Sell Everything', icon: '🏃',
         desc: 'Convert to cash and stop the bleeding',
+        tradeoff: { benefit: "Stops further paper losses immediately", risk: "Locks in real loss permanently", cost: "Miss the recovery entirely" },
+        investorType: "Loss Avoider",
+        phase1: "The market falls another 2% the next day. You feel relief — but then it starts climbing back.",
+        identityLabel: "You acted from fear, not strategy.",
         isOptimal: false, biasLabel: 'Panic Selling',
         consequence: 'Markets recover +9% over the next 3 weeks. You are out. The €1,840 paper loss becomes a permanent real loss — and you miss the full recovery.',
         portfolioImpact: -6.5, timeframe: '3 weeks later',
@@ -56,6 +70,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'hold', label: 'Hold My Plan', icon: '🧘',
         desc: 'Do nothing. Stay the course.',
+        tradeoff: { benefit: "Preserves all shares for the recovery", risk: "Further paper losses possible short-term", cost: "Emotional discomfort for weeks" },
+        investorType: "Disciplined Investor",
+        phase1: "Markets fall another 3% over the next week. Every morning the headlines get worse. You hold.",
+        identityLabel: "You stayed consistent under pressure.",
         isOptimal: true, biasLabel: 'Disciplined',
         consequence: 'Markets recover in 3 weeks. Your portfolio is back above where it started — plus €420. You did nothing and won.',
         portfolioImpact: 1.5, timeframe: '6 weeks later',
@@ -65,6 +83,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'buy_more', label: 'Buy More', icon: '💪',
         desc: 'Use cash to buy ETFs at a discount',
+        tradeoff: { benefit: "Buys more shares at lower prices", risk: "Increases exposure during uncertainty", cost: "Depletes cash buffer" },
+        investorType: "High Conviction Investor",
+        phase1: "Markets fall another 4% after your purchase. You are temporarily down more than before.",
+        identityLabel: "You acted with conviction when others panicked.",
         isOptimal: true, biasLabel: 'Contrarian Thinking',
         consequence: 'You buy at the low. Markets recover +9%. Your additional shares amplify the gains. Portfolio is +€890 above your starting point.',
         portfolioImpact: 3.2, timeframe: '6 weeks later',
@@ -80,6 +102,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 2,
     title: "The FOMO Trap",
     subtitle: "Your friend just made €1,700 on Nvidia.",
+    threat: "Nvidia could rise further — or correct sharply. Nobody knows which.",
+    worryOptions: ["missing the gains", "buying at the top", "looking foolish to my friend"],
+    skill: "Behavioral Control",
     situation: "Nvidia is up +34% this week. Your friend invested €5,000 and made €1,700. Your MSCI World ETF is up just +1.2% this week. You have €3,000 in cash.",
     portfolioValue: 24120,
     portfolioSnapshot: [
@@ -92,6 +117,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'buy_nvidia', label: 'Buy Nvidia Now', icon: '🎰',
         desc: 'Put €3,000 into Nvidia — I want in',
+        tradeoff: { benefit: "Direct exposure to potential further gains", risk: "Concentrated single-stock risk", cost: "FOMO-driven timing almost always fails" },
+        investorType: "FOMO Investor",
+        phase1: "Nvidia rises another 4% the day after you buy. You feel like a genius.",
+        identityLabel: "You chased performance at the peak.",
         isOptimal: false, biasLabel: 'FOMO',
         consequence: 'Nvidia corrects -28% over the next 4 weeks. You bought the top. Loss: €840. Your MSCI World keeps growing steadily.',
         portfolioImpact: -3.5, timeframe: '4 weeks later',
@@ -101,6 +130,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'stay_course', label: 'Stay With My ETF', icon: '🧭',
         desc: 'My MSCI World already holds Nvidia',
+        tradeoff: { benefit: "Already hold Nvidia via MSCI World at 3.5%", risk: "Feel left out if Nvidia keeps rising", cost: "Missing the concentrated upside" },
+        investorType: "Systematic Investor",
+        phase1: "Nvidia rises another 6% that week. Your friend calls excited. You watch.",
+        identityLabel: "You trusted your system over social pressure.",
         isOptimal: true, biasLabel: 'Disciplined',
         consequence: 'Nvidia corrects -28%. Your friend loses €1,400 of his gains. Your MSCI World continues its steady climb. You are €840 ahead of where you would have been.',
         portfolioImpact: 0.8, timeframe: '4 weeks later',
@@ -110,6 +143,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'wait', label: 'Wait and Watch', icon: '👀',
         desc: 'Keep cash, see what happens first',
+        tradeoff: { benefit: "Avoids buying at a potential top", risk: "Cash loses real value to inflation daily", cost: "Decision paralysis is also a decision" },
+        investorType: "Hesitant Investor",
+        phase1: "You watch Nvidia rise another 8%. You feel increasing pressure to act.",
+        identityLabel: "You avoided the trap but stayed passive.",
         isOptimal: false, biasLabel: 'Decision Paralysis',
         consequence: 'Nvidia corrects -28%. You avoided the trap. But your cash earned nothing and lost real value to inflation. Inaction always has a cost too.',
         portfolioImpact: -0.5, timeframe: '4 weeks later',
@@ -125,6 +162,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 3,
     title: "The Rate Hike",
     subtitle: "ECB raises rates. Bonds falling fast.",
+    threat: "Further rate hikes are possible. Bond prices could fall more before stabilising.",
+    worryOptions: ["bonds falling further", "making the wrong allocation", "missing a buying opportunity"],
+    skill: "Behavioral Control",
     situation: "The ECB raises rates by 0.75% — a surprise. Bonds fall -4% instantly. Stocks fall -3%. Only your cash position is safe today.",
     portfolioValue: 31750,
     portfolioSnapshot: [
@@ -138,6 +178,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'sell_bonds', label: 'Sell Bonds Now', icon: '❌',
         desc: 'Cut losses — bonds will keep falling',
+        tradeoff: { benefit: "Stops bond losses immediately", risk: "Sells after damage already done", cost: "Misses bond recovery when rates stabilise" },
+        investorType: "Reactive Seller",
+        phase1: "Bonds fall another 1.5% the following week. You feel you made the right call.",
+        identityLabel: "You reacted to news that was already priced in.",
         isOptimal: false, biasLabel: 'Reactive Selling',
         consequence: 'Rates stabilise after 6 weeks. Bonds recover +3%. You sold at the bottom, realised the loss, and missed the full recovery. Net result: -7% on your bond position.',
         portfolioImpact: -1.1, timeframe: '6 weeks later',
@@ -147,6 +191,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'hold_all', label: 'Hold Everything', icon: '📊',
         desc: 'My diversified portfolio can absorb this',
+        tradeoff: { benefit: "Portfolio built to absorb exactly this", risk: "More bond losses possible short-term", cost: "Watching paper losses grow temporarily" },
+        investorType: "Disciplined Allocator",
+        phase1: "Bonds fall another 1% the following week. The diversification is working as designed — just not comfortably.",
+        identityLabel: "You trusted your allocation over the news cycle.",
         isOptimal: true, biasLabel: 'Disciplined',
         consequence: 'Rates stabilise. Bonds recover +3% over 3 months. Stocks rise +7%. Your diversified portfolio absorbed the shock exactly as designed.',
         portfolioImpact: 2.1, timeframe: '6 months later',
@@ -156,6 +204,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'buy_stocks', label: 'Shift Cash to Stocks', icon: '📈',
         desc: 'Stocks are cheaper — buy more equities',
+        tradeoff: { benefit: "Stocks often attractive after rate shock", risk: "Timing uncertain — stocks could fall more", cost: "Depletes cash buffer for uncertainty" },
+        investorType: "Tactical Investor",
+        phase1: "Stocks fall another 5% after your purchase. Your timing was early.",
+        identityLabel: "You saw opportunity in the uncertainty.",
         isOptimal: true, biasLabel: 'Contrarian Thinking',
         consequence: 'Stocks fall another -5% before recovering. Your timing was early — but your long-term thinking was correct. Over 6 months: +9% on the additional equity position.',
         portfolioImpact: 1.8, timeframe: '6 months later',
@@ -171,6 +223,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 4,
     title: "The Windfall",
     subtitle: "You inherit €15,000. Everyone has advice.",
+    threat: "Every month this money sits uninvested loses real value to inflation.",
+    worryOptions: ["investing at the wrong time", "making a permanent mistake with a large sum", "regretting my choice"],
+    skill: "Behavioral Control",
     situation: "You unexpectedly inherit €15,000. Everyone has advice: your father says gold, your friend says Bitcoin, your bank advisor is pushing an active fund with a 1.8% TER.",
     portfolioValue: 15000,
     portfolioSnapshot: [
@@ -182,6 +237,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'lump_sum', label: 'Invest All Now', icon: '🚀',
         desc: 'Put all €15,000 into MSCI World ETF immediately',
+        tradeoff: { benefit: "Full amount compounding from day one", risk: "Bad timing if markets dip immediately after", cost: "Psychological difficulty if portfolio drops 10% next week" },
+        investorType: "Evidence-Based Investor",
+        phase1: "Markets fall 4% in your first week. Your €15,000 is now €14,400 on paper.",
+        identityLabel: "You let evidence guide you over emotion.",
         isOptimal: true, biasLabel: 'Evidence-Based',
         consequence: 'Markets rise +11% over 12 months. Your full €15,000 compounds from day one. Final value: €16,650. Lump sum wins again — as it does in 68% of historical cases.',
         portfolioImpact: 11, timeframe: '12 months later',
@@ -191,6 +250,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'dca', label: 'Invest €1,250/Month', icon: '📅',
         desc: 'Spread over 12 months to reduce timing risk',
+        tradeoff: { benefit: "Smooths entry price over 12 months", risk: "Cash sitting uninvested loses inflation value", cost: "Statistically underperforms lump sum in 68% of cases" },
+        investorType: "Cautious Systematic Investor",
+        phase1: "Your first €1,250 goes in. Markets are flat. You feel comfortable.",
+        identityLabel: "You chose sustainability over maximum optimisation.",
         isOptimal: true, biasLabel: 'Disciplined',
         consequence: 'Markets rise +11%. You catch most of the gain. Final value: €16,180 — slightly less than lump sum, but you slept better every night.',
         portfolioImpact: 7.9, timeframe: '12 months later',
@@ -200,6 +263,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'wait', label: 'Wait for a Correction', icon: '⏳',
         desc: 'Hold cash until markets dip, then invest',
+        tradeoff: { benefit: "Avoids immediate market risk", risk: "Cash loses 3%+ to inflation annually", cost: "Markets may never "correct" to your target entry" },
+        investorType: "Market Timer",
+        phase1: "Markets rise 3% in the month after you decide to wait. The entry point keeps moving away.",
+        identityLabel: "You searched for certainty in an uncertain market.",
         isOptimal: false, biasLabel: 'Market Timing',
         consequence: 'Markets rise +11% without a significant correction. You wait 12 months. Your cash loses 3% to inflation. You invest at higher prices. Total cost of waiting: over €1,800.',
         portfolioImpact: -3, timeframe: '12 months later',
@@ -209,6 +276,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'bank_fund', label: 'Take the Bank Fund', icon: '🏦',
         desc: 'The advisor seems professional and trustworthy',
+        tradeoff: { benefit: "Professional-feeling solution with personal service", risk: "1.8% TER destroys €54,000 over 30 years", cost: "Advisor incentivised to sell, not advise" },
+        investorType: "Authority-Trusting Investor",
+        phase1: "The fund launches smoothly. You feel reassured by the professional setup.",
+        identityLabel: "You confused professionalism with alignment of interests.",
         isOptimal: false, biasLabel: 'Authority Bias',
         consequence: 'The active fund underperforms the MSCI World by -2.3% annually after its 1.8% TER. Over 30 years, this costs you €54,000 in lost wealth. Silently. Every year.',
         portfolioImpact: -2.3, timeframe: '30 years later',
@@ -224,6 +295,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 5,
     title: "The Long Winter",
     subtitle: "Month 14 of a bear market. Down -31%.",
+    threat: "If markets fall another 15%, your losses could exceed €15,000. The recession could last years.",
+    worryOptions: ["losing more than I can handle", "making the wrong call at the worst time", "never recovering"],
+    skill: "Behavioral Control",
     situation: "Month 14 of a bear market. Your portfolio is -31% from its peak. Every headline screams recession. You have been investing €300/month the entire time and are down €9,300 on paper.",
     portfolioValue: 20700,
     portfolioSnapshot: [
@@ -236,6 +310,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'pause', label: 'Pause the Savings Plan', icon: '⏸️',
         desc: 'Stop investing until markets recover',
+        tradeoff: { benefit: "Stops adding money to a falling position", risk: "Misses buying at the cheapest prices in years", cost: "Selling your future self the recovery gains" },
+        investorType: "Loss Avoider",
+        phase1: "Markets fall another 7% over the next 2 months. You feel vindicated for pausing.",
+        identityLabel: "You protected yourself from short-term pain at long-term cost.",
         isOptimal: false, biasLabel: 'Capitulation',
         consequence: 'You paused at the exact bottom. Markets recover +48% over 18 months. Opportunity cost: €11,400 in foregone gains.',
         portfolioImpact: -15, timeframe: '18 months later',
@@ -245,6 +323,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'continue', label: 'Keep Investing €300/Month', icon: '💪',
         desc: 'Stay the course — this is exactly the plan',
+        tradeoff: { benefit: "Buying at 31% discount — more shares per euro", risk: "Enduring more paper losses before recovery", cost: "Requires months of emotional discipline" },
+        investorType: "Disciplined Long-term Investor",
+        phase1: "Markets fall another 7%. Your portfolio hits -38%. Every headline is negative. You keep the plan.",
+        identityLabel: "You stayed consistent when consistency was hardest.",
         isOptimal: true, biasLabel: 'Disciplined',
         consequence: 'You kept buying through the bottom. Recovery: +48% over 18 months. Portfolio far exceeds its previous peak.',
         portfolioImpact: 22, timeframe: '18 months later',
@@ -254,6 +336,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'double', label: 'Double to €600/Month', icon: '🔥',
         desc: 'Everything is on sale — buy as much as possible',
+        tradeoff: { benefit: "Maximum share accumulation at the lowest prices", risk: "Higher exposure if downturn continues for years", cost: "Requires strong cash flow and conviction" },
+        investorType: "High Conviction Contrarian",
+        phase1: "Markets fall another 7%. Your doubled investment means you are down more in absolute euros. You hold.",
+        identityLabel: "You acted with conviction at the moment of maximum uncertainty.",
         isOptimal: true, biasLabel: 'Contrarian',
         consequence: 'You maximised buying at the bottom. Recovery: +48%. Your aggressive accumulation generates extraordinary gains. This becomes your best-performing period ever.',
         portfolioImpact: 38, timeframe: '18 months later',
@@ -269,6 +355,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 6,
     title: "Your First Investment",
     subtitle: "€6,000 ready. Markets volatile. Start now?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You have €6,000 saved up and want to start investing. Markets have been volatile — up 8% last month, down 5% this month. Your colleague says 'wait for stability'.",
     portfolioValue: 6000,
     portfolioSnapshot: [{ label: 'Cash ready to invest', pct: 100, color: '#A89E90' }],
@@ -278,6 +367,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'lump_sum_now', label: 'Invest All €6,000 Now', icon: '🚀',
         desc: 'Get fully invested immediately',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Evidence-Based',
         consequence: 'Markets rise +14% over the next year. Your full €6,000 has been working from day one. Final value: €6,840. Time in market beats timing the market — again.',
         portfolioImpact: 14, timeframe: '12 months later',
@@ -287,6 +380,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'dca_6months', label: 'Invest €1,000/Month', icon: '📅',
         desc: 'Spread over 6 months using DCA',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Disciplined DCA',
         consequence: 'You buy at different prices over 6 months. Final value: €6,620. Slightly less than lump sum, but you averaged out the volatility beautifully.',
         portfolioImpact: 10.3, timeframe: '12 months later',
@@ -296,6 +393,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'wait_stability', label: 'Wait for Stability', icon: '⏳',
         desc: 'Invest only when markets calm down',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Market Timing',
         consequence: '"Stable" markets never came. You waited 8 months. Markets rose +11% while you waited. The cash lost 2% to inflation. Total cost: €780.',
         portfolioImpact: -2, timeframe: '12 months later',
@@ -311,6 +412,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 7,
     title: "Risk Profile Test",
     subtitle: "€20,000 to invest. 25 years ahead. How?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You are setting up your first portfolio. You have €20,000 to invest and a 25-year time horizon. You need to choose your asset allocation — how much in stocks vs bonds vs cash.",
     portfolioValue: 20000,
     portfolioSnapshot: [{ label: 'Cash to allocate', pct: 100, color: '#A89E90' }],
@@ -320,6 +424,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'all_stocks', label: '100% Stocks', icon: '📈',
         desc: 'All in MSCI World ETF — maximum growth',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Long-term Optimal',
         consequence: 'Over 25 years at 8% average return: €136,000. You experienced several -40% crashes along the way — but held through each one. Your time horizon made the volatility irrelevant.',
         portfolioImpact: 580, timeframe: '25 years later',
@@ -329,6 +437,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'balanced', label: '80% Stocks / 20% Bonds', icon: '⚖️',
         desc: 'Mostly stocks with some stability',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Balanced',
         consequence: 'Over 25 years: €112,000. Lower than pure stocks — but you slept through the crashes more easily. Maximum drawdown was -35% instead of -50%.',
         portfolioImpact: 460, timeframe: '25 years later',
@@ -338,6 +450,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'conservative', label: '50% Stocks / 50% Cash', icon: '🛡️',
         desc: 'Play it safe — this is a lot of money',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Risk Aversion',
         consequence: 'Over 25 years: €58,000. Your 50% cash earned almost nothing after inflation. You protected yourself from volatility — but also from the wealth that time and compounding would have created.',
         portfolioImpact: 190, timeframe: '25 years later',
@@ -353,6 +469,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 8,
     title: "Index vs Stock Picking",
     subtitle: "Your colleague beat the market last year.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "Your colleague picked 5 German stocks last year and made +22%. The MSCI World returned +18% that same year. He says index ETFs are for people who do not know how to invest.",
     portfolioValue: 35000,
     portfolioSnapshot: [
@@ -365,6 +484,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'switch_stocks', label: 'Switch to Stock Picking', icon: '🎯',
         desc: 'Start picking individual German stocks like him',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Recency Bias',
         consequence: 'Your colleague underperforms the index by -6% the following year. You miss the MSCI World\'s +21% gain. After 3 years you are significantly behind.',
         portfolioImpact: -8, timeframe: '3 years later',
@@ -374,6 +497,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'stay_index', label: 'Keep My MSCI World ETF', icon: '🌍',
         desc: 'The data supports index investing over time',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Evidence-Based',
         consequence: 'Your colleague underperforms by -6% next year. Over 10 years, your MSCI World consistently beats his stock picks. His concentrated German portfolio suffers during a DAX correction.',
         portfolioImpact: 3, timeframe: '3 years later',
@@ -383,6 +510,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'add_stocks', label: 'Keep ETF, Add Some Stocks', icon: '➕',
         desc: 'Core ETF + small satellite stock positions',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'FOMO',
         consequence: 'Your stock picks underperform. The ETF core saves you. You learn an expensive lesson about why FOMO-driven satellite positions almost always detract from returns.',
         portfolioImpact: -2, timeframe: '2 years later',
@@ -398,6 +529,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 9,
     title: "The Employer Stock Trap",
     subtitle: "Company offers discounted stock. Take it?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You work at a major German automotive company. You are considering putting 40% of your €30,000 portfolio into your employer's stock. HR even offers a discount.",
     portfolioValue: 30000,
     portfolioSnapshot: [
@@ -409,6 +543,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'heavy_employer', label: 'Put 40% in Employer Stock', icon: '🏭',
         desc: 'Take the discount — I believe in the company',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Concentration Risk',
         consequence: 'Two years later, the company faces a scandal. Stock drops -58%. Your portfolio falls -23%. Worse: you are laid off. You lose income AND portfolio value simultaneously.',
         portfolioImpact: -23, timeframe: '2 years later',
@@ -418,6 +556,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'small_employer', label: 'Take 5-10% With Discount', icon: '⚖️',
         desc: 'Small position to benefit from discount, rest in ETF',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Balanced',
         consequence: 'You benefit from the discount on a small position. The scandal hits but your ETF core is unaffected. Your total portfolio impact is minimal.',
         portfolioImpact: 1.5, timeframe: '2 years later',
@@ -427,6 +569,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'decline_all', label: 'Decline — Keep 100% ETF', icon: '🛡️',
         desc: 'No single stock exposure — pure diversification',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Maximally Diversified',
         consequence: 'The scandal hits. Your pure ETF portfolio is completely unaffected. You watch colleagues lose significant savings. Your portfolio continues its steady compounding.',
         portfolioImpact: 2, timeframe: '2 years later',
@@ -442,6 +588,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 10,
     title: "Building Your Portfolio",
     subtitle: "Everyone suggests something different.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You have been investing for 6 months with 100% MSCI World. A friend suggests adding Emerging Markets. An influencer recommends gold. Your broker is pushing a European Small Cap ETF. Your portfolio is €8,500.",
     portfolioValue: 8500,
     portfolioSnapshot: [
@@ -453,6 +602,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'add_everything', label: 'Add All Suggestions', icon: '🌈',
         desc: 'MSCI World + EM + Gold + European Small Cap',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Over-Diversification',
         consequence: 'You now have 4 ETFs requiring individual monitoring and rebalancing. During a crash you freeze — unsure which to rebalance. You underperform a simple 2-ETF portfolio.',
         portfolioImpact: -1.5, timeframe: '2 years later',
@@ -462,6 +615,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'two_etf', label: 'Add Emerging Markets Only', icon: '🌍',
         desc: '80% MSCI World + 20% EM — the classic portfolio',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Elegant Simplicity',
         consequence: 'The classic 80/20 portfolio gives you 3,000+ companies across 47 countries. Simple enough to manage, diversified enough to capture global growth.',
         portfolioImpact: 2.5, timeframe: '3 years later',
@@ -471,6 +628,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'stay_one', label: 'Keep 100% MSCI World', icon: '🎯',
         desc: 'One ETF is enough — maximum simplicity',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Radical Simplicity',
         consequence: 'One ETF tracking 1,600 companies across 23 countries. Zero rebalancing complexity. Over 10 years: nearly identical returns to the 80/20 portfolio with half the decisions.',
         portfolioImpact: 2, timeframe: '3 years later',
@@ -486,6 +647,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 11,
     title: "The Silent Thief",
     subtitle: "Your grandmother has €40,000 in cash savings.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "Your grandmother has €40,000 in a savings account earning 0.5% interest. Inflation is running at 4.2% this year. She says 'at least it is safe'. You want to help her understand the real situation.",
     portfolioValue: 40000,
     portfolioSnapshot: [
@@ -497,6 +661,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'agree_safe', label: 'Agree — Cash is Safe', icon: '✅',
         desc: 'A savings account cannot lose money',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Nominal Thinking',
         consequence: 'After 10 years at 4.2% inflation and 0.5% interest, the €40,000 has nominal value of €42,000 — but real purchasing power of only €27,800. She lost €12,200 in real wealth while thinking she was safe.',
         portfolioImpact: -30, timeframe: '10 years later',
@@ -506,6 +674,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'explain_inflation', label: 'Explain the Inflation Loss', icon: '📉',
         desc: 'Show her she is losing money in real terms',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Financial Literacy',
         consequence: 'She understands that at 4.2% inflation and 0.5% savings rate, she loses 3.7% purchasing power annually. She moves some to a higher-yield option.',
         portfolioImpact: 8, timeframe: '10 years later',
@@ -515,6 +687,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'move_all_etf', label: 'Move Everything to ETFs', icon: '🚀',
         desc: 'All €40,000 into MSCI World immediately',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Overcorrection',
         consequence: 'At her age and risk tolerance, 100% equities may be inappropriate. A market crash could devastate her at a time when she cannot wait for recovery.',
         portfolioImpact: -5, timeframe: '5 years later',
@@ -530,6 +706,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 12,
     title: "Emergency Fund Crisis",
     subtitle: "Car needs €2,800 repair. ETF is your only savings.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You have been investing €500/month for 3 months. Your car suddenly needs a €2,800 repair. You have no emergency fund — your only savings are in your ETF portfolio, now worth €4,200.",
     portfolioValue: 4200,
     portfolioSnapshot: [
@@ -541,6 +720,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'sell_etf', label: 'Sell €2,800 of ETF', icon: '📉',
         desc: 'Liquidate part of the portfolio for the repair',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'No Emergency Fund',
         consequence: 'Markets are down 12% this week. You sell at a loss. After taxes and market loss you get €2,450. You need to find €350 elsewhere. The lesson costs you €420.',
         portfolioImpact: -12, timeframe: 'This week',
@@ -550,6 +733,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'had_emergency', label: 'Use Emergency Fund', icon: '🛡️',
         desc: 'Draw from 3-6 months of liquid cash savings',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Prepared',
         consequence: 'You draw from your emergency fund of €5,000 in a high-yield savings account. The repair is covered in one day. Your ETF keeps compounding untouched.',
         portfolioImpact: 0, timeframe: 'Immediately',
@@ -559,6 +746,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'credit_card', label: 'Use Credit Card Debt', icon: '💳',
         desc: 'Borrow on credit card at 18% interest',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Expensive Alternative',
         consequence: 'You cover the repair. But the credit card charges 18% annual interest. The debt takes 8 months to repay, costing €280 in interest. Your ETF earns 7% while you pay 18% on debt.',
         portfolioImpact: -3, timeframe: '8 months later',
@@ -574,6 +765,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 13,
     title: "Active vs Passive",
     subtitle: "Bank fund beat MSCI World last year. Switch?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "Your bank is offering a 'Premium Global Growth Fund' — +18% last year, managed by an award-winning team. TER: 1.85%. The MSCI World ETF returned +16% last year. TER: 0.20%.",
     portfolioValue: 50000,
     portfolioSnapshot: [
@@ -585,6 +779,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'switch_active', label: 'Switch to the Premium Fund', icon: '⭐',
         desc: 'The award-winning team and strong track record',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Performance Chasing',
         consequence: 'The Premium fund underperforms the MSCI World by 4.2% next year. The TER gap of 1.65% compounds against you every year. Over 20 years: the fee difference alone costs you €48,000.',
         portfolioImpact: -4.2, timeframe: '1 year later',
@@ -594,6 +792,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'keep_etf', label: 'Keep My MSCI World ETF', icon: '📊',
         desc: 'The 1.65% TER difference matters more than 1 year',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Evidence-Based',
         consequence: 'The Premium fund underperforms by 4% next year. Your ETF keeps compounding at low cost. Over 20 years: the 1.65% TER gap compounds into a €48,000 difference in wealth.',
         portfolioImpact: 2, timeframe: '20 years later',
@@ -603,6 +805,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'split_both', label: 'Split 50/50 Between Both', icon: '⚖️',
         desc: 'Keep ETF but try the active fund too',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Hedging',
         consequence: 'Your ETF half outperforms. Your active fund half underperforms. The blended result is mediocre — and you paid 1.65% more in fees on the active half for the privilege of worse performance.',
         portfolioImpact: -1.5, timeframe: '5 years later',
@@ -618,6 +824,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 14,
     title: "The Tax Opportunity",
     subtitle: "€316 withheld in tax — some avoidable.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You just received €1,200 in ETF dividends from your distributing ETF. Your broker automatically withheld 26.375% tax — €316. A colleague says you could have avoided some of this legally.",
     portfolioValue: 42000,
     portfolioSnapshot: [
@@ -629,6 +838,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'nothing', label: 'Do Nothing — Tax is Normal', icon: '🤷',
         desc: 'Taxes on dividends are just part of investing',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Tax Blindness',
         consequence: 'You continue paying full tax on all dividends. Over 10 years you give up approximately €2,800 in tax that a Freistellungsauftrag would have protected.',
         portfolioImpact: -7, timeframe: '10 years later',
@@ -638,6 +851,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'freistellung', label: 'Set Up Freistellungsauftrag', icon: '📝',
         desc: 'Claim your €1,000 annual tax-free allowance',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Tax Efficient',
         consequence: 'You set up the Freistellungsauftrag in 2 minutes. Next year\'s first €1,000 of investment income is completely tax-free — saving you €263 annually forever.',
         portfolioImpact: 0.6, timeframe: 'Annually',
@@ -647,6 +864,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'switch_acc', label: 'Switch to Accumulating ETF', icon: '🔄',
         desc: 'No dividends paid out = no immediate tax',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Tax Optimised',
         consequence: 'Accumulating ETF reinvests dividends automatically without triggering immediate tax. Your full investment compounds longer. Over 20 years: meaningfully better outcome.',
         portfolioImpact: 1.5, timeframe: '20 years later',
@@ -662,6 +883,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 15,
     title: "Broker Selection",
     subtitle: "Bank wants 1.5% fees. Trade Republic: €0.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You are ready to open your first brokerage account. Your bank offers a brokerage account with 1.5% order fees. Trade Republic charges €0. Your bank manager says 'but we are safer'.",
     portfolioValue: 10000,
     portfolioSnapshot: [{ label: 'Ready to invest', pct: 100, color: '#A89E90' }],
@@ -671,6 +895,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'traditional_bank', label: 'Stay With My Bank', icon: '🏦',
         desc: '1.5% order fee — trusted and familiar',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Status Quo Bias',
         consequence: 'You invest €200/month. Each monthly purchase costs €3 in fees (1.5%). Over 20 years: €720 in avoidable fees — plus the compounding returns that money would have generated.',
         portfolioImpact: -3.6, timeframe: '20 years of fees',
@@ -680,6 +908,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'trade_republic', label: 'Trade Republic (€0 fees)', icon: '📱',
         desc: 'Mobile-first, zero fees, BaFin regulated',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Cost Optimised',
         consequence: 'Zero order fees. Your full €200 invests each month. BaFin regulated — your assets are protected in segregated custody. Setup takes 10 minutes. Savings plan running within 24 hours.',
         portfolioImpact: 2, timeframe: '20 years later',
@@ -689,6 +921,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'scalable', label: 'Scalable Capital (Free Plan)', icon: '💻',
         desc: 'Free plan, web + mobile, broader ETF selection',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Cost Optimised',
         consequence: 'Zero fees on savings plans. Web interface and mobile app. Broader ETF selection. Also BaFin regulated with segregated custody. An excellent alternative.',
         portfolioImpact: 2, timeframe: '20 years later',
@@ -704,6 +940,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 16,
     title: "The COVID Crash",
     subtitle: "Down -34% in 33 days. Is this different?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "It is March 2020. COVID-19 has caused the fastest market crash in history. The MSCI World is down -34% in 33 days. Your €25,000 portfolio is now worth €16,500. Experts are saying 'this time is different'.",
     portfolioValue: 16500,
     portfolioSnapshot: [
@@ -716,6 +955,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'sell_different', label: 'Sell — This Time IS Different', icon: '🦠',
         desc: 'COVID is unprecedented — protect capital now',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'This Time Different',
         consequence: 'Markets fully recovered in just 6 months. By December 2020 the MSCI World was at all-time highs. You sold at €16,500 and bought back at €26,000 — a permanent loss of €9,500.',
         portfolioImpact: -38, timeframe: '6 months later',
@@ -725,6 +968,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'hold_covid', label: 'Hold — History Always Recovers', icon: '📜',
         desc: 'Every crash in history has recovered',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Historically Grounded',
         consequence: 'Markets fully recover by August 2020. By end of 2020: MSCI World is +18% from your original investment. Your €25,000 is now €29,500.',
         portfolioImpact: 18, timeframe: '9 months later',
@@ -734,6 +981,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'buy_covid', label: 'Buy More — Greatest Sale Ever', icon: '🛒',
         desc: 'Use all available cash to buy at the low',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Contrarian Maximum',
         consequence: 'You invest your cash at -34% prices. Markets recover +77% from the March low. Your additional purchase generates extraordinary returns.',
         portfolioImpact: 28, timeframe: '12 months later',
@@ -749,6 +1000,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 17,
     title: "Your Savings Rate",
     subtitle: "You could invest 3x more. What changes?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You earn €3,500/month net. You currently save €200/month (5.7% savings rate). A financial review reveals you spend €380/month on dining out, €140/month on unused subscriptions and €290/month on impulse purchases.",
     portfolioValue: 8400,
     portfolioSnapshot: [
@@ -760,6 +1014,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'keep_spending', label: 'Keep My Lifestyle — €200/Month', icon: '🍕',
         desc: 'I enjoy my money — life is for living',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Lifestyle Inflation',
         consequence: 'At €200/month for 35 years at 7%: €340,000. A good outcome — but the €810/month you spent on dining, subscriptions and impulse purchases cost you over €1.3 million in foregone wealth.',
         portfolioImpact: 0, timeframe: '35 years later',
@@ -769,6 +1027,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'cut_half', label: 'Cut Half — Invest €600/Month', icon: '✂️',
         desc: 'Reduce dining and cancel unused subscriptions',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Balanced Optimisation',
         consequence: 'You cut subscriptions (€140) and reduce dining by half (€190). New savings rate: 26%. At €600/month for 35 years at 7%: €1,020,000. You tripled your wealth outcome.',
         portfolioImpact: 200, timeframe: '35 years later',
@@ -778,6 +1040,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'aggressive_save', label: 'Maximise — Invest €1,000/Month', icon: '🚀',
         desc: 'Cut most discretionary spending aggressively',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'FIRE Mindset',
         consequence: 'Aggressive savings rate of 28.5%. At €1,000/month for 35 years at 7%: €1,700,000. You could potentially retire 8-10 years early.',
         portfolioImpact: 400, timeframe: '35 years later',
@@ -793,6 +1059,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 18,
     title: "The ESG Decision",
     subtitle: "Invest with values — or pure returns?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You want to align your investing with your values. A friend says ESG ETFs sacrifice returns. An article says they outperform. Your current MSCI World ETF has no ESG filter. You have €22,000 invested.",
     portfolioValue: 22000,
     portfolioSnapshot: [
@@ -804,6 +1073,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'ignore_esg', label: 'Ignore ESG — Returns Only', icon: '💰',
         desc: 'I invest for returns, not for values',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Values Neutral',
         consequence: 'Your standard MSCI World continues performing well. But you own tobacco companies, coal miners and weapons manufacturers. Over 10 years: returns are nearly identical to ESG equivalent.',
         portfolioImpact: 0, timeframe: '10 years later',
@@ -813,6 +1086,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'switch_esg', label: 'Switch to MSCI World ESG', icon: '🌿',
         desc: 'Align portfolio with values — similar returns expected',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Values-Aligned',
         consequence: 'MSCI World ESG Enhanced (IESE, TER 0.20%) performs within 0.3% annually of the standard MSCI World over 10 years. You excluded tobacco, weapons and coal. No meaningful return sacrifice.',
         portfolioImpact: 0.3, timeframe: '10 years later',
@@ -822,6 +1099,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'research_deeper', label: 'Research Before Deciding', icon: '🔍',
         desc: 'Understand ESG methodology before switching',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Informed Decision',
         consequence: 'You discover that ESG ratings vary significantly between providers. You choose an ESG ETF whose methodology you actually understand.',
         portfolioImpact: 0.5, timeframe: '10 years later',
@@ -837,6 +1118,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 19,
     title: "Set Your Goal",
     subtitle: "You have never calculated your FIRE number.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You are 28 years old with €15,000 invested and a €300/month savings plan. You have never calculated your FIRE number or set a specific retirement goal. Someone asks: 'When do you want to retire and how much do you need?'",
     portfolioValue: 15000,
     portfolioSnapshot: [
@@ -849,6 +1133,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'no_goal', label: 'Keep Going Without a Goal', icon: '🤷',
         desc: 'I will figure it out when I get there',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Goalless Investing',
         consequence: 'At 52, you have €280,000. Is that enough? You do not know — you never calculated your target. You work 5 extra years unnecessarily, then retire unsure if your money will last.',
         portfolioImpact: 0, timeframe: '24 years later',
@@ -858,6 +1146,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'calculate_fire', label: 'Calculate Your FIRE Number', icon: '🎯',
         desc: 'Annual expenses × 25 = financial independence target',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Goal-Oriented',
         consequence: 'You calculate: annual spending €28,000 × 25 = FIRE number €700,000. At €300/month plus €15,000 existing portfolio at 7%, you reach €700,000 at age 57. You can choose to retire 8 years early — with total confidence.',
         portfolioImpact: 5, timeframe: 'Clarity gained today',
@@ -867,6 +1159,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'professional_advice', label: 'See a Financial Advisor', icon: '👔',
         desc: 'Get professional help to set goals',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Delegating Thinking',
         consequence: 'The advisor charges €300/hour, recommends their firm\'s products and gives you a goal that depends on their fees. The calculation you could have done yourself in 15 minutes cost you €600.',
         portfolioImpact: -0.5, timeframe: 'Immediately',
@@ -882,6 +1178,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 20,
     title: "The Monitoring Trap",
     subtitle: "Checking your portfolio every morning.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You set up a €400/month MSCI World savings plan 3 months ago. Since then you have been checking it every morning before work. Last week you almost paused the plan when it dipped -4%.",
     portfolioValue: 12800,
     portfolioSnapshot: [
@@ -893,6 +1192,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'daily_checking', label: 'Keep Checking Daily', icon: '📱',
         desc: 'Staying informed helps me make better decisions',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Myopic Loss Aversion',
         consequence: 'Daily checking exposes you to daily noise — 50% of days are down days. Each down day triggers anxiety. You eventually pause the plan during a -6% week. Missing the recovery costs you €1,200 in foregone gains.',
         portfolioImpact: -9, timeframe: '18 months later',
@@ -902,6 +1205,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'quarterly', label: 'Switch to Quarterly Reviews', icon: '📅',
         desc: 'Check 4 times per year — rebalance if needed',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Optimal Monitoring',
         consequence: 'Quarterly reviews show you the trend, not the noise. You never panic over daily movements. In 3 years: your savings plan runs without interruption. Portfolio grows exactly as expected.',
         portfolioImpact: 3, timeframe: '3 years later',
@@ -911,6 +1218,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'never_check', label: 'Never Check — Set and Forget', icon: '😴',
         desc: 'Total automation — I trust the process completely',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Under-Monitoring',
         consequence: 'Your savings plan runs automatically. But a missed broker issue goes undetected for 6 months. Some monitoring is necessary to confirm the plan is functioning correctly.',
         portfolioImpact: 2, timeframe: '3 years later',
@@ -926,6 +1237,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 21,
     title: "Three Mistakes",
     subtitle: "Which of your decisions cost the most?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You review your investing year. You made 3 mistakes: (1) You paused your savings plan for 2 months. (2) You switched from IWDA (TER 0.20%) to an active fund (TER 1.4%). (3) You have no emergency fund.",
     portfolioValue: 18500,
     portfolioSnapshot: [
@@ -938,6 +1252,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'worst_pause', label: 'Pausing the Savings Plan', icon: '⏸️',
         desc: 'The 2-month pause was the biggest mistake',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Market Timing',
         consequence: 'The 2-month pause cost approximately €800 in missed compound growth over 20 years. Painful — but the smallest of the three mistakes.',
         portfolioImpact: -4, timeframe: '20 years later',
@@ -947,6 +1265,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'worst_active', label: 'Switching to Active Fund', icon: '💸',
         desc: 'The TER difference is the most expensive mistake',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Fee Awareness',
         consequence: 'The 1.2% annual TER difference on €18,500 over 20 years at 7% costs €38,000 in foregone wealth. This is by far the largest mistake — silent, compounding invisibly every single day.',
         portfolioImpact: -38, timeframe: '20 years later',
@@ -956,6 +1278,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'worst_emergency', label: 'No Emergency Fund', icon: '🚨',
         desc: 'No safety net is the most dangerous mistake',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Risk Awareness',
         consequence: 'No emergency fund is a time bomb. The cost is €0 until an emergency hits — then potentially catastrophic: forced selling at market lows, debt at high interest rates.',
         portfolioImpact: -20, timeframe: 'When emergency hits',
@@ -971,6 +1297,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 22,
     title: "Pre-Retirement Risk",
     subtitle: "Age 55. Down -45%. Retiring in 10 years.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You are 55 years old, planning to retire at 65. Your portfolio is €280,000 — 100% MSCI World ETF. A major market crash sends stocks down -45%. Your portfolio is now worth €154,000. Retirement is 10 years away.",
     portfolioValue: 154000,
     portfolioSnapshot: [
@@ -982,6 +1311,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'stay_100_stocks', label: 'Stay 100% Stocks — It Will Recover', icon: '🎲',
         desc: 'Markets always recover — hold for 10 years',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Sequence Risk',
         consequence: 'Markets recover in 4 years. But if another crash hits at age 63 — 2 years from retirement — you face the same nightmare again. 100% stocks at 55 creates dangerous sequence of returns risk.',
         portfolioImpact: 8, timeframe: '10 years (with uncertainty)',
@@ -991,6 +1324,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'add_bonds_now', label: 'Start Moving 30% to Bonds', icon: '📜',
         desc: 'Gradually shift toward a 70/30 stocks/bonds allocation',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Lifecycle Planning',
         consequence: 'You gradually shift to 70% stocks, 30% bonds over 3 years. A second crash at 62 only hits your portfolio -25% instead of -45%. Retirement is secure.',
         portfolioImpact: 5, timeframe: '10 years later',
@@ -1000,6 +1337,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'panic_sell_all', label: 'Sell Everything — Go to Cash', icon: '😰',
         desc: 'I cannot afford more losses this close to retirement',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Panic',
         consequence: 'You sell at €154,000. Markets recover to €280,000 in 4 years. You locked in a permanent -45% loss. At retirement with €154,000 instead of €280,000 — a potentially devastating outcome.',
         portfolioImpact: -45, timeframe: 'Permanently',
@@ -1015,6 +1356,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 23,
     title: "Read the Factsheet",
     subtitle: "Two ETFs. One obvious choice — or is it?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You are comparing two ETFs. ETF A: 'UltraTech 2x Leveraged NASDAQ ETF', TER 0.95%, AUM €85 million, 2 years old, Synthetic. ETF B: 'iShares MSCI World UCITS ETF (Acc)', TER 0.20%, AUM €72 billion, 15 years old, Physical.",
     portfolioValue: 20000,
     portfolioSnapshot: [{ label: 'Cash to invest', pct: 100, color: '#A89E90' }],
@@ -1024,6 +1368,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'choose_leveraged', label: 'Choose ETF A — 2x Leveraged', icon: '⚡',
         desc: 'Higher potential returns with leverage',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Leverage Seduction',
         consequence: 'The NASDAQ corrects -35%. Your 2x leveraged ETF falls -72% due to volatility decay. The fund closes 6 months later (too small, too volatile). You have €5,600 left from €20,000.',
         portfolioImpact: -72, timeframe: '12 months later',
@@ -1033,6 +1381,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'choose_msci', label: 'Choose ETF B — MSCI World', icon: '✅',
         desc: 'Low TER, massive AUM, physical, 15 years proven',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Evidence-Based Selection',
         consequence: 'Your €20,000 in iShares MSCI World compounds steadily. TER of 0.20% costs €40/year. At 7% annual return: €39,000 after 10 years.',
         portfolioImpact: 95, timeframe: '10 years later',
@@ -1042,6 +1394,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'ask_influencer', label: 'Ask a Finance Influencer', icon: '📲',
         desc: 'Check what YouTube/TikTok recommends',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Authority Bias',
         consequence: 'The influencer recommends a thematic AI ETF they are paid to promote. TER: 0.65%. 2 years later the AI theme underperforms. You pay more in fees for worse results.',
         portfolioImpact: -4, timeframe: '2 years later',
@@ -1057,6 +1413,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 24,
     title: "Your First Savings Plan",
     subtitle: "Everything ready. Just press confirm.",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You have finally decided to start your ETF savings plan. You have €250/month available. You have downloaded Trade Republic. You are on the savings plan setup screen. Everything is ready — you just need to confirm.",
     portfolioValue: 0,
     portfolioSnapshot: [{ label: 'Ready to start', pct: 100, color: '#3A9E5C' }],
@@ -1066,6 +1425,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'start_250', label: 'Start €250/Month in IWDA Now', icon: '🚀',
         desc: 'Full amount, best ETF, start immediately',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Perfect Start',
         consequence: 'You start today. €250/month in iShares MSCI World (IWDA, TER 0.20%). In 35 years at 7%: €430,000. The button you pressed today started one of the most powerful wealth-building engines in the world.',
         portfolioImpact: 430000, timeframe: '35 years later',
@@ -1075,6 +1438,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'start_small', label: 'Start €50/Month — Test First', icon: '🐣',
         desc: 'Start small, increase when comfortable',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Cautious Start',
         consequence: 'You start at €50/month. 3 months later you feel comfortable and increase to €250/month. The 3-month delay cost approximately €6,300 in 35-year compound wealth. But you started — and that is what matters.',
         portfolioImpact: 390000, timeframe: '35 years later',
@@ -1084,6 +1451,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'wait_more_research', label: 'Wait — Research More First', icon: '📚',
         desc: 'I want to be sure before committing',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Analysis Paralysis',
         consequence: 'You research for 6 more months. You feel ready. You start at €250/month 6 months late. Those 6 months cost €12,600 in 35-year compound wealth. The research added nothing you did not already know.',
         portfolioImpact: -12600, timeframe: '35 years later',
@@ -1099,6 +1470,9 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
     questId: 25,
     title: "Chapter I Complete",
     subtitle: "Knowledge earned. What do you do today?",
+    threat: "Every day of inaction or wrong action has a compounding cost.",
+    worryOptions: ["making the wrong decision", "missing a better opportunity", "losing money"],
+    skill: "Behavioral Control",
     situation: "You have completed all 25 quests of Chapter I — ETF Highlands. Looking back, you made some decisions well and some poorly in the simulations. Your simulated portfolio is up significantly. You have learned 25 lessons.",
     portfolioValue: 42500,
     portfolioSnapshot: [
@@ -1112,6 +1486,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'open_account', label: 'Open a Real Broker Account', icon: '🏦',
         desc: 'Start the real journey — Trade Republic or Scalable',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Action-Taker',
         consequence: 'You open a Trade Republic account today. In 10 minutes it is set up. You transfer €100 and start a €200/month savings plan in IWDA. The real compound interest clock starts now. In 35 years: over €400,000.',
         portfolioImpact: 400000, timeframe: '35 years of real investing',
@@ -1121,6 +1499,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'keep_learning', label: 'Start Chapter II First', icon: '📚',
         desc: 'Learn more before investing real money',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: false, biasLabel: 'Knowledge Without Action',
         consequence: 'You start Chapter II. 3 months later you finally open an account. Those 3 months cost approximately €3,150 in 35-year compound wealth. Chapter II is valuable — but it is not a prerequisite for starting.',
         portfolioImpact: -3150, timeframe: '35 years later',
@@ -1130,6 +1512,10 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'tell_friend', label: 'Teach a Friend What You Learned', icon: '👥',
         desc: 'Share this knowledge with someone who needs it',
+        tradeoff: { benefit: 'See reflection for trade-off analysis', risk: 'All decisions carry uncertainty', cost: 'Consider the long-term impact' },
+        investorType: 'Investor',
+        phase1: 'The next days bring new information.',
+        identityLabel: 'Your decision reflects your investor mindset.',
         isOptimal: true, biasLabel: 'Knowledge Multiplier',
         consequence: 'You explain compound interest, MSCI World ETFs and the Freistellungsauftrag to your friend. They open an account. You also open yours. Teaching reinforces your own learning — and you change two financial futures.',
         portfolioImpact: 5, timeframe: 'Multiplied impact',
