@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase, Profile } from '@/lib/supabase'
 import { QUESTS, CHAPTER_ONE, CHAPTER_TWO, LEVEL_NAMES, XP_PER_LEVEL, getDailyQuest, DailyQuest } from '@/lib/quests'
+import { IdentityCard, SkillTreeCard } from '@/components/skill_tree_widget'
 
 // ─── WEEKLY CHALLENGE ─────────────────────────────────────────────────────────
 
@@ -442,6 +443,10 @@ export default function Dashboard() {
             <div className="text-xs text-text3 text-center">Keep going — {challenge.goal - weeklyProgress} more to go!</div>
           )}
         </div>
+
+        {/* IDENTITY + SKILL TREE */}
+        <IdentityCard completedQuests={profile.completed_quests || []} />
+        <SkillTreeCard completedQuests={profile.completed_quests || []} />
 
         {/* SHOP + RANKINGS BANNERS */}
         <div className="grid grid-cols-2 gap-3 mb-4">
