@@ -747,7 +747,8 @@ export default function QuestPage() {
           <button onClick={() => router.push('/dashboard')} className="text-text2 text-sm font-semibold">← Back</button>
           <div className="flex-1 text-center">
             <div className="text-[10px] font-bold text-text3 uppercase tracking-widest">Scenario Quest</div>
-            <div className="font-bold text-sm text-text1 truncate">{quest.title}</div>
+            <div className="font-bold text-sm text-text1 truncate">{sd.title}</div>
+            <div className="text-[10px] text-text3 truncate">{sd.subtitle}</div>
           </div>
           <div className="text-xs font-bold text-gold-dk">+{quest.xp} XP</div>
         </div>
@@ -903,6 +904,48 @@ export default function QuestPage() {
                   <div className="text-sm font-bold text-text1">{sd.skillUnlocked}</div>
                 </div>
               </div>
+
+              {/* Affiliate CTA — only show for relevant quests */}
+              {(questId === 15 || questId === 24 || questId === 25 || (scenarioChoice && scenarioChoice.isOptimal)) && (
+                <div className="rounded-2xl overflow-hidden" style={{ border: '1.5px solid rgba(58,158,92,0.4)' }}>
+                  <div className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-center"
+                    style={{ background: 'linear-gradient(135deg, #1a3a12, #2a5a22)', color: 'rgba(111,207,151,0.8)' }}>
+                    🚀 Ready to invest for real?
+                  </div>
+                  <div className="p-4 bg-white">
+                    <p className="text-xs text-text2 text-center mb-3">Open a free account and start your real savings plan today.</p>
+                    <div className="flex flex-col gap-2">
+                      <a href="YOUR_TRADE_REPUBLIC_AFFILIATE_LINK" target="_blank" rel="noopener noreferrer"
+                        className="flex items-center justify-between p-3 rounded-xl border-2 transition-all hover:shadow-md"
+                        style={{ borderColor: '#E8453A20', background: '#FFF8F8' }}>
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black"
+                            style={{ background: '#E8453A', color: 'white' }}>T</div>
+                          <div>
+                            <div className="font-bold text-sm text-text1">Trade Republic</div>
+                            <div className="text-xs text-text3">€0 fees · Mobile-first · BaFin regulated</div>
+                          </div>
+                        </div>
+                        <div className="text-xs font-bold text-green-600 flex-shrink-0">Free →</div>
+                      </a>
+                      <a href="YOUR_SCALABLE_AFFILIATE_LINK" target="_blank" rel="noopener noreferrer"
+                        className="flex items-center justify-between p-3 rounded-xl border-2 transition-all hover:shadow-md"
+                        style={{ borderColor: '#3B7AD820', background: '#F8FAFF' }}>
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black"
+                            style={{ background: '#3B7AD8', color: 'white' }}>S</div>
+                          <div>
+                            <div className="font-bold text-sm text-text1">Scalable Capital</div>
+                            <div className="text-xs text-text3">€0 fees · Web + mobile · More ETFs</div>
+                          </div>
+                        </div>
+                        <div className="text-xs font-bold text-green-600 flex-shrink-0">Free →</div>
+                      </a>
+                    </div>
+                    <p className="text-[10px] text-text3 text-center mt-2">* Affiliate links — we may earn a small commission at no cost to you</p>
+                  </div>
+                </div>
+              )}
               {!scenarioChoice.isOptimal && (
                 <button onClick={() => setScenarioPhase('rebuild')}
                   className="w-full py-3 rounded-2xl font-black text-sm text-[#1A1200] transition-all active:scale-95"
