@@ -16,6 +16,8 @@ export type ScenarioChoice = {
 
 export type ScenarioData = {
   questId: number
+  title: string
+  subtitle: string
   situation: string
   portfolioValue: number
   portfolioSnapshot: { label: string; pct: number; color: string }[]
@@ -30,6 +32,8 @@ export type ScenarioData = {
 export const SCENARIO_QUESTS: ScenarioData[] = [
   {
     questId: 1,
+    title: "Crash Day",
+    subtitle: "Panic or hold? Markets just dropped -6%.",
     situation: "It's Monday morning. The DAX drops 6% on surprise inflation data. Social media is full of 'SELL EVERYTHING' posts. Your portfolio is down €1,840 today.",
     portfolioValue: 28160,
     portfolioSnapshot: [
@@ -74,6 +78,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 2,
+    title: "The FOMO Trap",
+    subtitle: "Your friend just made €1,700 on Nvidia.",
     situation: "Nvidia is up +34% this week. Your friend invested €5,000 and made €1,700. Your MSCI World ETF is up just +1.2% this week. You have €3,000 in cash.",
     portfolioValue: 24120,
     portfolioSnapshot: [
@@ -117,6 +123,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 3,
+    title: "The Rate Hike",
+    subtitle: "ECB raises rates. Bonds falling fast.",
     situation: "The ECB raises rates by 0.75% — a surprise. Bonds fall -4% instantly. Stocks fall -3%. Only your cash position is safe today.",
     portfolioValue: 31750,
     portfolioSnapshot: [
@@ -161,6 +169,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 4,
+    title: "The Windfall",
+    subtitle: "You inherit €15,000. Everyone has advice.",
     situation: "You unexpectedly inherit €15,000. Everyone has advice: your father says gold, your friend says Bitcoin, your bank advisor is pushing an active fund with a 1.8% TER.",
     portfolioValue: 15000,
     portfolioSnapshot: [
@@ -212,6 +222,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 5,
+    title: "The Long Winter",
+    subtitle: "Month 14 of a bear market. Down -31%.",
     situation: "Month 14 of a bear market. Your portfolio is -31% from its peak. Every headline screams recession. You have been investing €300/month the entire time and are down €9,300 on paper.",
     portfolioValue: 20700,
     portfolioSnapshot: [
@@ -255,6 +267,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 6,
+    title: "Your First Investment",
+    subtitle: "€6,000 ready. Markets volatile. Start now?",
     situation: "You have €6,000 saved up and want to start investing. Markets have been volatile — up 8% last month, down 5% this month. Your colleague says 'wait for stability'.",
     portfolioValue: 6000,
     portfolioSnapshot: [{ label: 'Cash ready to invest', pct: 100, color: '#A89E90' }],
@@ -295,6 +309,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 7,
+    title: "Risk Profile Test",
+    subtitle: "€20,000 to invest. 25 years ahead. How?",
     situation: "You are setting up your first portfolio. You have €20,000 to invest and a 25-year time horizon. You need to choose your asset allocation — how much in stocks vs bonds vs cash.",
     portfolioValue: 20000,
     portfolioSnapshot: [{ label: 'Cash to allocate', pct: 100, color: '#A89E90' }],
@@ -335,6 +351,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 8,
+    title: "Index vs Stock Picking",
+    subtitle: "Your colleague beat the market last year.",
     situation: "Your colleague picked 5 German stocks last year and made +22%. The MSCI World returned +18% that same year. He says index ETFs are for people who do not know how to invest.",
     portfolioValue: 35000,
     portfolioSnapshot: [
@@ -378,6 +396,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 9,
+    title: "The Employer Stock Trap",
+    subtitle: "Company offers discounted stock. Take it?",
     situation: "You work at a major German automotive company. You are considering putting 40% of your €30,000 portfolio into your employer's stock. HR even offers a discount.",
     portfolioValue: 30000,
     portfolioSnapshot: [
@@ -420,6 +440,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 10,
+    title: "Building Your Portfolio",
+    subtitle: "Everyone suggests something different.",
     situation: "You have been investing for 6 months with 100% MSCI World. A friend suggests adding Emerging Markets. An influencer recommends gold. Your broker is pushing a European Small Cap ETF. Your portfolio is €8,500.",
     portfolioValue: 8500,
     portfolioSnapshot: [
@@ -462,6 +484,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 11,
+    title: "The Silent Thief",
+    subtitle: "Your grandmother has €40,000 in cash savings.",
     situation: "Your grandmother has €40,000 in a savings account earning 0.5% interest. Inflation is running at 4.2% this year. She says 'at least it is safe'. You want to help her understand the real situation.",
     portfolioValue: 40000,
     portfolioSnapshot: [
@@ -504,6 +528,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 12,
+    title: "Emergency Fund Crisis",
+    subtitle: "Car needs €2,800 repair. ETF is your only savings.",
     situation: "You have been investing €500/month for 3 months. Your car suddenly needs a €2,800 repair. You have no emergency fund — your only savings are in your ETF portfolio, now worth €4,200.",
     portfolioValue: 4200,
     portfolioSnapshot: [
@@ -546,6 +572,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 13,
+    title: "Active vs Passive",
+    subtitle: "Bank fund beat MSCI World last year. Switch?",
     situation: "Your bank is offering a 'Premium Global Growth Fund' — +18% last year, managed by an award-winning team. TER: 1.85%. The MSCI World ETF returned +16% last year. TER: 0.20%.",
     portfolioValue: 50000,
     portfolioSnapshot: [
@@ -588,6 +616,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 14,
+    title: "The Tax Opportunity",
+    subtitle: "€316 withheld in tax — some avoidable.",
     situation: "You just received €1,200 in ETF dividends from your distributing ETF. Your broker automatically withheld 26.375% tax — €316. A colleague says you could have avoided some of this legally.",
     portfolioValue: 42000,
     portfolioSnapshot: [
@@ -630,6 +660,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 15,
+    title: "Broker Selection",
+    subtitle: "Bank wants 1.5% fees. Trade Republic: €0.",
     situation: "You are ready to open your first brokerage account. Your bank offers a brokerage account with 1.5% order fees. Trade Republic charges €0. Your bank manager says 'but we are safer'.",
     portfolioValue: 10000,
     portfolioSnapshot: [{ label: 'Ready to invest', pct: 100, color: '#A89E90' }],
@@ -670,6 +702,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 16,
+    title: "The COVID Crash",
+    subtitle: "Down -34% in 33 days. Is this different?",
     situation: "It is March 2020. COVID-19 has caused the fastest market crash in history. The MSCI World is down -34% in 33 days. Your €25,000 portfolio is now worth €16,500. Experts are saying 'this time is different'.",
     portfolioValue: 16500,
     portfolioSnapshot: [
@@ -713,6 +747,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 17,
+    title: "Your Savings Rate",
+    subtitle: "You could invest 3x more. What changes?",
     situation: "You earn €3,500/month net. You currently save €200/month (5.7% savings rate). A financial review reveals you spend €380/month on dining out, €140/month on unused subscriptions and €290/month on impulse purchases.",
     portfolioValue: 8400,
     portfolioSnapshot: [
@@ -755,6 +791,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 18,
+    title: "The ESG Decision",
+    subtitle: "Invest with values — or pure returns?",
     situation: "You want to align your investing with your values. A friend says ESG ETFs sacrifice returns. An article says they outperform. Your current MSCI World ETF has no ESG filter. You have €22,000 invested.",
     portfolioValue: 22000,
     portfolioSnapshot: [
@@ -797,6 +835,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 19,
+    title: "Set Your Goal",
+    subtitle: "You have never calculated your FIRE number.",
     situation: "You are 28 years old with €15,000 invested and a €300/month savings plan. You have never calculated your FIRE number or set a specific retirement goal. Someone asks: 'When do you want to retire and how much do you need?'",
     portfolioValue: 15000,
     portfolioSnapshot: [
@@ -840,6 +880,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 20,
+    title: "The Monitoring Trap",
+    subtitle: "Checking your portfolio every morning.",
     situation: "You set up a €400/month MSCI World savings plan 3 months ago. Since then you have been checking it every morning before work. Last week you almost paused the plan when it dipped -4%.",
     portfolioValue: 12800,
     portfolioSnapshot: [
@@ -882,6 +924,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 21,
+    title: "Three Mistakes",
+    subtitle: "Which of your decisions cost the most?",
     situation: "You review your investing year. You made 3 mistakes: (1) You paused your savings plan for 2 months. (2) You switched from IWDA (TER 0.20%) to an active fund (TER 1.4%). (3) You have no emergency fund.",
     portfolioValue: 18500,
     portfolioSnapshot: [
@@ -925,6 +969,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 22,
+    title: "Pre-Retirement Risk",
+    subtitle: "Age 55. Down -45%. Retiring in 10 years.",
     situation: "You are 55 years old, planning to retire at 65. Your portfolio is €280,000 — 100% MSCI World ETF. A major market crash sends stocks down -45%. Your portfolio is now worth €154,000. Retirement is 10 years away.",
     portfolioValue: 154000,
     portfolioSnapshot: [
@@ -967,6 +1013,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 23,
+    title: "Read the Factsheet",
+    subtitle: "Two ETFs. One obvious choice — or is it?",
     situation: "You are comparing two ETFs. ETF A: 'UltraTech 2x Leveraged NASDAQ ETF', TER 0.95%, AUM €85 million, 2 years old, Synthetic. ETF B: 'iShares MSCI World UCITS ETF (Acc)', TER 0.20%, AUM €72 billion, 15 years old, Physical.",
     portfolioValue: 20000,
     portfolioSnapshot: [{ label: 'Cash to invest', pct: 100, color: '#A89E90' }],
@@ -1007,6 +1055,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 24,
+    title: "Your First Savings Plan",
+    subtitle: "Everything ready. Just press confirm.",
     situation: "You have finally decided to start your ETF savings plan. You have €250/month available. You have downloaded Trade Republic. You are on the savings plan setup screen. Everything is ready — you just need to confirm.",
     portfolioValue: 0,
     portfolioSnapshot: [{ label: 'Ready to start', pct: 100, color: '#3A9E5C' }],
@@ -1047,6 +1097,8 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
   },
   {
     questId: 25,
+    title: "Chapter I Complete",
+    subtitle: "Knowledge earned. What do you do today?",
     situation: "You have completed all 25 quests of Chapter I — ETF Highlands. Looking back, you made some decisions well and some poorly in the simulations. Your simulated portfolio is up significantly. You have learned 25 lessons.",
     portfolioValue: 42500,
     portfolioSnapshot: [
