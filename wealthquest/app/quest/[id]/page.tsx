@@ -609,6 +609,7 @@ export default function QuestPage() {
   const [scenarioPhase, setScenarioPhase] = useState<'intro' | 'decision' | 'consequence' | 'reflection' | 'rebuild'>('intro')
   const [scenarioChoice, setScenarioChoice] = useState<ScenarioChoice | null>(null)
   const [showScenarioAldric, setShowScenarioAldric] = useState(true)
+  const [expandedOutcome, setExpandedOutcome] = useState<string | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -880,21 +881,67 @@ export default function QuestPage() {
                 <p className="text-sm text-white/80 leading-relaxed">{sd.statFact}</p>
               </div>
               <div className="card p-4">
-                <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-3">All Outcomes Compared</div>
+                <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-1">All Outcomes Compared</div>
+                <div className="text-[10px] text-text3 mb-3">Tap any option to explore what would have happened</div>
                 <div className="flex flex-col gap-2">
-                  {sd.choices.map(choice => (
-                    <div key={choice.id} className={`flex items-center gap-3 p-3 rounded-xl border ${scenarioChoice.id === choice.id ? 'border-gold-bd bg-gold-bg' : 'border-border bg-bg3'}`}>
-                      <span className="text-xl">{choice.icon}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-bold text-xs text-text1">{choice.label}</div>
-                        <div className="text-[10px] text-text3 truncate">{choice.emotionalLabel}</div>
+                  {sd.choices.map(choice => {
+                    const isYou = scenarioChoice.id === choice.id
+                    const isExpanded = expandedOutcome === choice.id
+                    return (
+                      <div key={choice.id}>
+                        <button
+                          onClick={() => setExpandedOutcome(isExpanded ? null : choice.id)}
+                          className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border-2 transition-all ${
+                            isYou ? 'border-gold-bd bg-gold-bg' :
+                            isExpanded ? (choice.isOptimal ? 'border-green-bd bg-green-bg' : 'border-red-200 bg-red-50') :
+                            'border-border bg-bg3 hover:border-gold-bd'
+                          }`}>
+                          <span className="text-xl flex-shrink-0">{choice.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-xs text-text1 flex items-center gap-1">
+                              {choice.label}
+                              {isYou && <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-gold text-white">YOU</span>}
+                              {choice.isOptimal && !isYou && <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-green-600 text-white">OPTIMAL</span>}
+                            </div>
+                            <div className="text-[10px] text-text3">{choice.emotionalLabel}</div>
+                          </div>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <div className={`font-black text-sm ${choice.portfolioImpact >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                              {choice.portfolioImpact >= 0 ? '+' : ''}{choice.portfolioImpact}%
+                            </div>
+                            <div className="text-text3 text-xs">{isExpanded ? '▲' : '▼'}</div>
+                          </div>
+                        </button>
+
+                        {isExpanded && (
+                          <div className={`mx-1 rounded-b-xl p-3 border border-t-0 -mt-1 ${
+                            choice.isOptimal ? 'bg-green-bg border-green-bd' : 'bg-red-50 border-red-200'
+                          }`}>
+                            {/* Consequence */}
+                            <div className="mb-3">
+                              <div className="text-[10px] font-bold uppercase tracking-wider mb-1"
+                                style={{ color: choice.isOptimal ? '#2d7a45' : '#c0392b' }}>
+                                ⏱ {choice.timeframe}
+                              </div>
+                              <p className="text-xs leading-relaxed"
+                                style={{ color: choice.isOptimal ? '#2d7a45' : '#9B2335' }}>
+                                {choice.consequence}
+                              </p>
+                            </div>
+                            {/* Aldric feedback */}
+                            <div className="flex items-start gap-2 pt-2 border-t"
+                              style={{ borderColor: choice.isOptimal ? '#88D4A4' : '#F5A0A0' }}>
+                              <span className="text-base flex-shrink-0">🧙</span>
+                              <p className="text-xs italic leading-relaxed"
+                                style={{ color: choice.isOptimal ? '#2d7a45' : '#9B2335' }}>
+                                "{choice.aldricFeedback}"
+                              </p>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                      <div className={`font-black text-sm flex-shrink-0 ${choice.portfolioImpact >= 0 ? 'text-green-600' : 'text-red-500'}`}>
-                        {choice.portfolioImpact >= 0 ? '+' : ''}{choice.portfolioImpact}%
-                      </div>
-                      {scenarioChoice.id === choice.id && <div className="text-[10px] text-gold-dk font-bold">← you</div>}
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
               <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: '#EEF4FF', border: '1.5px solid #B8D0FF' }}>
