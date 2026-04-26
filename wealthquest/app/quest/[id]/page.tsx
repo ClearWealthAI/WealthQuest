@@ -5,6 +5,8 @@ import { supabase, Profile } from '@/lib/supabase'
 import { QUESTS, LEVEL_NAMES, XP_PER_LEVEL } from '@/lib/quests'
 import { MISSIONS, Mission, getMissionForQuest, isMissionComplete } from '@/lib/missions'
 import { getScenarioQuest, ScenarioData, ScenarioChoice } from '@/lib/scenario_quests'
+import { getQuestMeta, DIFFICULTY_CONFIG } from '@/lib/skill_tree'
+import { recordIdentityChoice } from '@/lib/identity_system'
 
 // ─── CONFETTI ─────────────────────────────────────────────────────────────────
 
@@ -605,6 +607,7 @@ export default function QuestPage() {
 
   // Scenario quest state
   const scenarioData = getScenarioQuest(questId)
+  const questMeta = getQuestMeta(questId)
   const isScenarioQuest = !!scenarioData
   const [scenarioPhase, setScenarioPhase] = useState<'intro' | 'worry' | 'decision' | 'phase1' | 'consequence' | 'reflection' | 'rebuild'>('intro')
   const [selectedWorry, setSelectedWorry] = useState<string | null>(null)
@@ -752,7 +755,18 @@ export default function QuestPage() {
         <div className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-border px-4 py-3 flex items-center gap-3">
           <button onClick={() => router.push('/dashboard')} className="text-text2 text-sm font-semibold">← Back</button>
           <div className="flex-1 text-center">
-            <div className="text-[10px] font-bold text-text3 uppercase tracking-widest">{sd.skill} · Scenario Quest</div>
+            <div className="flex items-center justify-center gap-2">
+              <div className="text-[10px] font-bold text-text3 uppercase tracking-widest">{sd.skill}</div>
+              {questMeta && (
+                <div className="px-1.5 py-0.5 rounded-full text-[9px] font-bold"
+                  style={{
+                    background: DIFFICULTY_CONFIG[questMeta.difficulty]?.bg,
+                    color: DIFFICULTY_CONFIG[questMeta.difficulty]?.color
+                  }}>
+                  {DIFFICULTY_CONFIG[questMeta.difficulty]?.icon} {questMeta.difficulty}
+                </div>
+              )}
+            </div>
             <div className="font-bold text-sm text-text1 truncate">{sd.title}</div>
           </div>
           <div className="text-xs font-bold text-gold-dk">+{quest.xp} XP</div>
@@ -893,7 +907,11 @@ export default function QuestPage() {
               <div className="flex flex-col gap-3">
                 {sd.choices.map((choice) => (
                   <button key={choice.id}
-                    onClick={() => { setScenarioChoice(choice); setScenarioPhase('phase1') }}
+                    onClick={() => {
+                    setScenarioChoice(choice)
+                    setScenarioPhase('phase1')
+                    recordIdentityChoice(questId, choice.investorType || choice.emotionalLabel, choice.id)
+                  }}
                     className="text-left p-4 rounded-2xl border-2 transition-all active:scale-[0.98] hover:shadow-md"
                     style={{ borderColor: '#E4E0D8', background: '#fff' }}>
                     <div className="flex items-start gap-3 mb-3">
