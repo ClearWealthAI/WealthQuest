@@ -606,7 +606,8 @@ export default function QuestPage() {
   // Scenario quest state
   const scenarioData = getScenarioQuest(questId)
   const isScenarioQuest = !!scenarioData
-  const [scenarioPhase, setScenarioPhase] = useState<'intro' | 'decision' | 'consequence' | 'reflection' | 'rebuild'>('intro')
+  const [scenarioPhase, setScenarioPhase] = useState<'intro' | 'worry' | 'decision' | 'phase1' | 'consequence' | 'reflection' | 'rebuild'>('intro')
+  const [selectedWorry, setSelectedWorry] = useState<string | null>(null)
   const [scenarioChoice, setScenarioChoice] = useState<ScenarioChoice | null>(null)
   const [showScenarioAldric, setShowScenarioAldric] = useState(true)
   const [expandedOutcome, setExpandedOutcome] = useState<string | null>(null)
@@ -742,28 +743,60 @@ export default function QuestPage() {
   // ─── SCENARIO QUEST RENDER ─────────────────────────────────────────────────
   if (isScenarioQuest && scenarioData && !done) {
     const sd = scenarioData
+    const phaseNum = ['intro','worry','decision','phase1','consequence','reflection','rebuild'].indexOf(scenarioPhase) + 1
+    const totalPhases = 6
+
     return (
       <div className="min-h-screen bg-bg">
+        {/* Header */}
         <div className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-border px-4 py-3 flex items-center gap-3">
           <button onClick={() => router.push('/dashboard')} className="text-text2 text-sm font-semibold">← Back</button>
           <div className="flex-1 text-center">
-            <div className="text-[10px] font-bold text-text3 uppercase tracking-widest">Scenario Quest</div>
+            <div className="text-[10px] font-bold text-text3 uppercase tracking-widest">{sd.skill} · Scenario Quest</div>
             <div className="font-bold text-sm text-text1 truncate">{sd.title}</div>
-            <div className="text-[10px] text-text3 truncate">{sd.subtitle}</div>
           </div>
           <div className="text-xs font-bold text-gold-dk">+{quest.xp} XP</div>
         </div>
+
+        {/* Progress bar */}
+        {scenarioPhase !== 'intro' && (
+          <div className="h-1 bg-bg3">
+            <div className="h-full bg-gold transition-all duration-500"
+              style={{ width: `${Math.min(((phaseNum - 1) / totalPhases) * 100, 100)}%` }} />
+          </div>
+        )}
+
         <div className="max-w-lg mx-auto px-4 py-6 pb-16">
 
+          {/* ── INTRO ── */}
           {scenarioPhase === 'intro' && (
             <div className="flex flex-col gap-4">
-              <div className="rounded-2xl overflow-hidden border border-border" style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)' }}>
-                <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                  <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-widest text-white/60">Market Situation</span>
+              {/* Skill badge */}
+              <div className="flex items-center gap-2">
+                <div className="px-3 py-1 rounded-full text-xs font-bold border" style={{ background: '#EEF4FF', borderColor: '#B8D0FF', color: '#3B7AD8' }}>
+                  {sd.skill}
                 </div>
-                <div className="p-5"><p className="text-white/90 text-sm leading-relaxed">{sd.situation}</p></div>
+                <div className="text-xs text-text3 italic">{sd.subtitle}</div>
               </div>
+
+              {/* Situation card */}
+              <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f1a2e, #1a2e4a)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.5)' }}>The Situation</span>
+                </div>
+                <div className="p-5">
+                  <p className="text-white/85 text-sm leading-relaxed mb-3">{sd.situation}</p>
+                  {sd.threat && (
+                    <div className="flex items-start gap-2 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                      <span className="text-yellow-400 text-sm flex-shrink-0">⚠</span>
+                      <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,200,0,0.7)' }}>{sd.threat}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Portfolio snapshot */}
               <div className="card p-4">
                 <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-2">Your Portfolio</div>
                 <div className="text-2xl font-black text-text1 mb-3">€{sd.portfolioValue.toLocaleString('de-DE')}</div>
@@ -773,11 +806,14 @@ export default function QuestPage() {
                 <div className="flex gap-3 flex-wrap">
                   {sd.portfolioSnapshot.map((s, i) => (
                     <div key={i} className="flex items-center gap-1.5 text-xs text-text2">
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ background: s.color }} />{s.label} {s.pct}%
+                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: s.color }} />
+                      {s.label} {s.pct}%
                     </div>
                   ))}
                 </div>
               </div>
+
+              {/* Aldric */}
               {showScenarioAldric && (
                 <div className="flex items-start gap-3 p-4 rounded-2xl" style={{ background: '#FFFEF8', border: '1.5px solid #F5D478' }}>
                   <div className="w-10 h-10 rounded-full bg-gold-bg border-2 border-gold-bd flex items-center justify-center text-xl flex-shrink-0">🧙</div>
@@ -785,250 +821,362 @@ export default function QuestPage() {
                     <div className="text-xs font-bold text-gold-dk mb-1">Aldric</div>
                     <p className="text-sm text-text2 italic leading-relaxed">"{sd.aldricOpening}"</p>
                   </div>
-                  <button onClick={() => setShowScenarioAldric(false)} className="text-text3 text-xs">✕</button>
+                  <button onClick={() => setShowScenarioAldric(false)} className="text-text3 text-xs hover:text-text1">✕</button>
                 </div>
               )}
-              <button onClick={() => setScenarioPhase('decision')}
+
+              <button onClick={() => setScenarioPhase('worry')}
                 className="w-full py-4 rounded-2xl font-black text-base text-[#1A1200] transition-all active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)', boxShadow: '0 4px 20px rgba(232,168,32,0.4)' }}>
-                Make Your Decision →
+                style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)', boxShadow: '0 4px 20px rgba(232,168,32,0.35)' }}>
+                I Understand the Situation →
               </button>
             </div>
           )}
 
+          {/* ── WORRY ── */}
+          {scenarioPhase === 'worry' && (
+            <div className="flex flex-col gap-5">
+              <div className="text-center">
+                <div className="text-3xl mb-3">🤔</div>
+                <div className="font-bold text-lg text-text1 mb-1">Before you decide</div>
+                <p className="text-sm text-text2">What concerns you most about this situation?</p>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                {(sd.worryOptions || ['losing more money', 'missing the recovery', 'making the wrong decision']).map((w, i) => (
+                  <button key={i}
+                    onClick={() => setSelectedWorry(w)}
+                    className={`text-left px-5 py-4 rounded-2xl border-2 transition-all active:scale-[0.98] ${
+                      selectedWorry === w ? 'border-gold-bd bg-gold-bg' : 'border-border bg-white hover:border-gold-bd'
+                    }`}>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                        selectedWorry === w ? 'border-gold bg-gold' : 'border-border'
+                      }`}>
+                        {selectedWorry === w && <div className="w-2 h-2 rounded-full bg-white" />}
+                      </div>
+                      <span className="text-sm font-medium text-text1 capitalize">{w}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              <p className="text-xs text-center text-text3">Your answer personalises the feedback you receive after deciding.</p>
+
+              <button onClick={() => setScenarioPhase('decision')} disabled={!selectedWorry}
+                className="w-full py-3 rounded-2xl font-black text-sm text-[#1A1200] transition-all active:scale-95 disabled:opacity-40"
+                style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)' }}>
+                Now Make Your Decision →
+              </button>
+            </div>
+          )}
+
+          {/* ── DECISION ── */}
           {scenarioPhase === 'decision' && (
             <div className="flex flex-col gap-4">
               <div className="text-center">
                 <div className="text-xs font-bold text-text3 uppercase tracking-widest mb-1">Your Decision</div>
                 <h2 className="font-bold text-lg text-text1 leading-snug">{sd.question}</h2>
+                {selectedWorry && (
+                  <div className="mt-2 inline-block px-3 py-1 rounded-full text-xs"
+                    style={{ background: 'rgba(232,168,32,0.1)', color: '#B8820A' }}>
+                    Your concern: {selectedWorry}
+                  </div>
+                )}
               </div>
-              <div className="rounded-xl p-3 bg-bg3 border border-border text-xs text-text2">
-                💼 {sd.portfolioSnapshot.map(s => `${s.pct}% ${s.label}`).join(' · ')}
+
+              {/* Portfolio reminder */}
+              <div className="flex h-2 rounded-full overflow-hidden">
+                {sd.portfolioSnapshot.map((s, i) => (<div key={i} style={{ width: `${s.pct}%`, background: s.color }} />))}
               </div>
+
               <div className="flex flex-col gap-3">
                 {sd.choices.map((choice) => (
                   <button key={choice.id}
-                    onClick={() => { setScenarioChoice(choice); setScenarioPhase('consequence') }}
-                    className="text-left p-4 rounded-2xl border-2 transition-all active:scale-[0.98] hover:shadow-md hover:border-gold-bd"
+                    onClick={() => { setScenarioChoice(choice); setScenarioPhase('phase1') }}
+                    className="text-left p-4 rounded-2xl border-2 transition-all active:scale-[0.98] hover:shadow-md"
                     style={{ borderColor: '#E4E0D8', background: '#fff' }}>
-                    <div className="flex items-start gap-3">
-                      <span className="text-3xl flex-shrink-0">{choice.icon}</span>
+                    <div className="flex items-start gap-3 mb-3">
+                      <span className="text-2xl flex-shrink-0">{choice.icon}</span>
                       <div className="flex-1">
                         <div className="font-bold text-text1 mb-0.5">{choice.label}</div>
                         <div className="text-sm text-text2">{choice.desc}</div>
                       </div>
                     </div>
+                    {/* Trade-offs */}
+                    {choice.tradeoff && (
+                      <div className="mt-2 pt-2 border-t border-border flex flex-col gap-1">
+                        <div className="flex items-start gap-2 text-xs">
+                          <span className="text-green-600 flex-shrink-0 font-bold">✓</span>
+                          <span className="text-text2">{choice.tradeoff.benefit}</span>
+                        </div>
+                        <div className="flex items-start gap-2 text-xs">
+                          <span className="text-orange-500 flex-shrink-0 font-bold">↯</span>
+                          <span className="text-text2">{choice.tradeoff.risk}</span>
+                        </div>
+                        <div className="flex items-start gap-2 text-xs">
+                          <span className="text-red-400 flex-shrink-0 font-bold">✗</span>
+                          <span className="text-text2">{choice.tradeoff.cost}</span>
+                        </div>
+                      </div>
+                    )}
                   </button>
                 ))}
               </div>
+
+              <p className="text-xs text-center text-text3">All strategies have merit. There is no single correct answer — only trade-offs.</p>
             </div>
           )}
 
+          {/* ── PHASE 1: Immediate aftermath ── */}
+          {scenarioPhase === 'phase1' && scenarioChoice && (
+            <div className="flex flex-col gap-4">
+              <div className="rounded-2xl p-5" style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  📅 Days after your decision
+                </div>
+                <div className="text-lg font-bold text-white mb-3">You chose: {scenarioChoice.icon} {scenarioChoice.label}</div>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.75)' }}>
+                  {scenarioChoice.phase1 || "The market continues to evolve. Uncertainty remains."}
+                </p>
+              </div>
+
+              <div className="card p-4 border-l-4" style={{ borderColor: '#E8A820' }}>
+                <div className="text-xs font-bold text-gold-dk uppercase tracking-wider mb-2">What most investors feel now:</div>
+                <p className="text-sm text-text2 italic">
+                  {scenarioChoice.isOptimal
+                    ? "Doubt. Was this actually right? The market is not making it easy."
+                    : "Relief — or regret. The uncertainty hasn't gone away yet."}
+                </p>
+              </div>
+
+              <p className="text-xs text-center text-text3">The short-term result is not the final result. What happens next?</p>
+
+              <button onClick={() => setScenarioPhase('consequence')}
+                className="w-full py-3 rounded-2xl font-black text-sm text-white transition-all active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #1a3a50, #2a5a78)' }}>
+                Fast-forward → See the Outcome
+              </button>
+            </div>
+          )}
+
+          {/* ── CONSEQUENCE ── */}
           {scenarioPhase === 'consequence' && scenarioChoice && (
             <div className="flex flex-col gap-4">
-              <div className={`rounded-2xl p-5 text-center ${scenarioChoice.isOptimal ? 'bg-gradient-to-br from-green-900 to-green-700' : 'bg-gradient-to-br from-red-900 to-red-800'}`}>
-                <div className="text-5xl mb-3">{scenarioChoice.isOptimal ? '✅' : '📉'}</div>
-                <div className="font-bold text-white/60 text-sm mb-1">You chose: {scenarioChoice.label}</div>
-                <div className="font-black text-white text-xl">{scenarioChoice.isOptimal ? 'Good Decision' : 'Costly Mistake'}</div>
-                <div className="mt-3 inline-block px-3 py-1 rounded-full text-xs font-bold" style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.8)' }}>
-                  {scenarioChoice.emotionalLabel}
+              {/* Investor type label — no good/bad */}
+              <div className="rounded-2xl p-5 text-center" style={{
+                background: scenarioChoice.isOptimal
+                  ? 'linear-gradient(135deg, #0f2d1a, #1a4a28)'
+                  : 'linear-gradient(135deg, #1a0f0f, #2d1a1a)',
+                border: `1px solid ${scenarioChoice.isOptimal ? 'rgba(58,158,92,0.3)' : 'rgba(232,69,58,0.3)'}`
+              }}>
+                <div className="text-4xl mb-2">{scenarioChoice.icon}</div>
+                <div className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  Investor Profile
+                </div>
+                <div className="font-black text-xl text-white mb-2">
+                  {scenarioChoice.investorType || scenarioChoice.emotionalLabel}
+                </div>
+                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                  {scenarioChoice.identityLabel || scenarioChoice.emotionalLabel}
                 </div>
               </div>
+
+              {/* Result */}
               <div className="card p-4">
                 <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-2">⏱ {scenarioChoice.timeframe}</div>
                 <p className="text-sm text-text2 leading-relaxed mb-3">{scenarioChoice.consequence}</p>
-                <div className={`flex items-center gap-3 p-3 rounded-xl ${scenarioChoice.portfolioImpact >= 0 ? 'bg-green-bg border border-green-bd' : 'bg-red-50 border border-red-200'}`}>
+                <div className={`flex items-center gap-3 p-3 rounded-xl ${
+                  scenarioChoice.portfolioImpact >= 0 ? 'bg-green-bg border border-green-bd' : 'bg-red-50 border border-red-200'
+                }`}>
                   <div className="text-2xl">{scenarioChoice.portfolioImpact >= 0 ? '📈' : '📉'}</div>
                   <div>
-                    <div className={`font-black text-lg ${scenarioChoice.portfolioImpact >= 0 ? 'text-green-700' : 'text-red-600'}`}>
+                    <div className={`font-black text-xl ${scenarioChoice.portfolioImpact >= 0 ? 'text-green-700' : 'text-red-600'}`}>
                       {scenarioChoice.portfolioImpact >= 0 ? '+' : ''}{scenarioChoice.portfolioImpact}%
                     </div>
                     <div className="text-xs text-text3">Portfolio impact</div>
                   </div>
+                  {selectedWorry && (
+                    <div className="ml-auto text-xs text-text3 text-right max-w-[120px]">
+                      You worried about "{selectedWorry}"
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="rounded-2xl p-4"
-                style={{ background: scenarioChoice.isOptimal ? '#EDFAF2' : '#FFF0F0', border: `1.5px solid ${scenarioChoice.isOptimal ? '#88D4A4' : '#F5A0A0'}` }}>
+
+              {/* Aldric — identity not judgment */}
+              <div className="rounded-2xl p-4" style={{
+                background: scenarioChoice.isOptimal ? '#EDFAF2' : '#FFF8F0',
+                border: `1.5px solid ${scenarioChoice.isOptimal ? '#88D4A4' : '#F5C878'}`
+              }}>
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-full bg-white border-2 border-gold-bd flex items-center justify-center text-xl flex-shrink-0">🧙</div>
                   <div>
-                    <div className="text-xs font-bold mb-1" style={{ color: scenarioChoice.isOptimal ? '#2d7a45' : '#c0392b' }}>Aldric says:</div>
-                    <p className="text-sm leading-relaxed" style={{ color: scenarioChoice.isOptimal ? '#2d7a45' : '#c0392b' }}>"{scenarioChoice.aldricFeedback}"</p>
+                    <div className="text-xs font-bold mb-1 text-gold-dk">Aldric</div>
+                    <p className="text-sm leading-relaxed text-text2">"{scenarioChoice.aldricFeedback}"</p>
                   </div>
                 </div>
               </div>
+
               <button onClick={() => setScenarioPhase('reflection')}
                 className="w-full py-3 rounded-2xl font-black text-sm text-white transition-all active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #1a3a50, #2a5a78)' }}>
-                See the Full Picture →
+                style={{ background: 'linear-gradient(135deg, #4a1a6a, #6a2a9a)' }}>
+                🧠 Explore All Strategies →
               </button>
             </div>
           )}
 
+          {/* ── REFLECTION ── */}
           {scenarioPhase === 'reflection' && scenarioChoice && (
             <div className="flex flex-col gap-4">
               <div className="text-center">
                 <div className="text-3xl mb-2">🧠</div>
-                <div className="font-bold text-lg text-text1">The Investor Mindset</div>
-                <div className="text-sm text-text2">What this situation teaches you</div>
+                <div className="font-bold text-lg text-text1">All Strategies Compared</div>
+                <div className="text-sm text-text2">Tap any strategy to explore its reality</div>
               </div>
-              <div className="card p-4 border-l-4 border-gold">
-                <div className="text-xs font-bold text-gold-dk uppercase tracking-wider mb-2">💡 Key Insight</div>
-                <p className="text-sm text-text2 leading-relaxed">{sd.reflection}</p>
-              </div>
-              <div className="rounded-2xl p-4" style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(245,188,56,0.7)' }}>📊 Data Point</div>
-                <p className="text-sm text-white/80 leading-relaxed">{sd.statFact}</p>
-              </div>
-              <div className="card p-4">
-                <div className="text-xs font-bold text-text3 uppercase tracking-wider mb-1">All Outcomes Compared</div>
-                <div className="text-[10px] text-text3 mb-3">Tap any option to explore what would have happened</div>
-                <div className="flex flex-col gap-2">
-                  {sd.choices.map(choice => {
-                    const isYou = scenarioChoice.id === choice.id
-                    const isExpanded = expandedOutcome === choice.id
-                    return (
-                      <div key={choice.id}>
-                        <button
-                          onClick={() => setExpandedOutcome(isExpanded ? null : choice.id)}
-                          className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border-2 transition-all ${
-                            isYou ? 'border-gold-bd bg-gold-bg' :
-                            isExpanded ? (choice.isOptimal ? 'border-green-bd bg-green-bg' : 'border-red-200 bg-red-50') :
-                            'border-border bg-bg3 hover:border-gold-bd'
-                          }`}>
-                          <span className="text-xl flex-shrink-0">{choice.icon}</span>
+
+              {/* Interactive outcomes */}
+              <div className="flex flex-col gap-2">
+                {sd.choices.map(choice => {
+                  const isYou = scenarioChoice.id === choice.id
+                  const isExpanded = expandedOutcome === choice.id
+                  return (
+                    <div key={choice.id}>
+                      <button
+                        onClick={() => setExpandedOutcome(isExpanded ? null : choice.id)}
+                        className="w-full text-left p-4 rounded-2xl border-2 transition-all"
+                        style={{
+                          borderColor: isYou ? '#E8A820' : isExpanded ? '#3B7AD8' : '#E4E0D8',
+                          background: isYou ? '#FFFEF0' : isExpanded ? '#F0F6FF' : '#fff'
+                        }}>
+                        <div className="flex items-start gap-3">
+                          <span className="text-2xl flex-shrink-0">{choice.icon}</span>
                           <div className="flex-1 min-w-0">
-                            <div className="font-bold text-xs text-text1 flex items-center gap-1">
-                              {choice.label}
-                              {isYou && <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-gold text-white">YOU</span>}
-                              {choice.isOptimal && !isYou && <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-green-600 text-white">OPTIMAL</span>}
+                            <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                              <div className="font-bold text-sm text-text1">{choice.label}</div>
+                              {isYou && <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-gold text-white">YOUR CHOICE</span>}
                             </div>
-                            <div className="text-[10px] text-text3">{choice.emotionalLabel}</div>
+                            <div className="text-xs font-bold" style={{ color: choice.isOptimal ? '#3A9E5C' : '#E8453A' }}>
+                              {choice.investorType || choice.emotionalLabel}
+                            </div>
                           </div>
                           <div className="flex items-center gap-2 flex-shrink-0">
-                            <div className={`font-black text-sm ${choice.portfolioImpact >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                            <div className={`font-black text-base ${choice.portfolioImpact >= 0 ? 'text-green-600' : 'text-red-500'}`}>
                               {choice.portfolioImpact >= 0 ? '+' : ''}{choice.portfolioImpact}%
                             </div>
-                            <div className="text-text3 text-xs">{isExpanded ? '▲' : '▼'}</div>
+                            <span className="text-text3 text-xs">{isExpanded ? '▲' : '▼'}</span>
                           </div>
-                        </button>
+                        </div>
 
-                        {isExpanded && (
-                          <div className={`mx-1 rounded-b-xl p-3 border border-t-0 -mt-1 ${
-                            choice.isOptimal ? 'bg-green-bg border-green-bd' : 'bg-red-50 border-red-200'
-                          }`}>
-                            {/* Consequence */}
-                            <div className="mb-3">
-                              <div className="text-[10px] font-bold uppercase tracking-wider mb-1"
-                                style={{ color: choice.isOptimal ? '#2d7a45' : '#c0392b' }}>
-                                ⏱ {choice.timeframe}
-                              </div>
-                              <p className="text-xs leading-relaxed"
-                                style={{ color: choice.isOptimal ? '#2d7a45' : '#9B2335' }}>
-                                {choice.consequence}
-                              </p>
+                        {/* Trade-offs always visible */}
+                        {choice.tradeoff && (
+                          <div className="mt-3 pt-2 border-t border-border grid grid-cols-3 gap-2">
+                            <div className="text-center">
+                              <div className="text-[9px] font-bold text-green-600 uppercase mb-0.5">Benefit</div>
+                              <div className="text-[10px] text-text2 leading-tight">{choice.tradeoff.benefit.split(' ').slice(0,5).join(' ')}…</div>
                             </div>
-                            {/* Aldric feedback */}
-                            <div className="flex items-start gap-2 pt-2 border-t"
-                              style={{ borderColor: choice.isOptimal ? '#88D4A4' : '#F5A0A0' }}>
-                              <span className="text-base flex-shrink-0">🧙</span>
-                              <p className="text-xs italic leading-relaxed"
-                                style={{ color: choice.isOptimal ? '#2d7a45' : '#9B2335' }}>
-                                "{choice.aldricFeedback}"
-                              </p>
+                            <div className="text-center">
+                              <div className="text-[9px] font-bold text-orange-500 uppercase mb-0.5">Risk</div>
+                              <div className="text-[10px] text-text2 leading-tight">{choice.tradeoff.risk.split(' ').slice(0,5).join(' ')}…</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-[9px] font-bold text-red-400 uppercase mb-0.5">Cost</div>
+                              <div className="text-[10px] text-text2 leading-tight">{choice.tradeoff.cost.split(' ').slice(0,5).join(' ')}…</div>
                             </div>
                           </div>
                         )}
-                      </div>
-                    )
-                  })}
-                </div>
+                      </button>
+
+                      {/* Expanded detail */}
+                      {isExpanded && (
+                        <div className="mx-2 p-4 rounded-b-2xl border border-t-0 -mt-1"
+                          style={{ background: '#F8FAFF', borderColor: '#B8D0FF' }}>
+                          {/* Phase 1 */}
+                          <div className="mb-3">
+                            <div className="text-[10px] font-bold text-blue-700 uppercase tracking-wider mb-1">📅 Immediately after</div>
+                            <p className="text-xs text-text2 leading-relaxed italic">
+                              "{choice.phase1 || 'The next days bring uncertainty regardless of your choice.'}"
+                            </p>
+                          </div>
+                          {/* Final consequence */}
+                          <div className="mb-3">
+                            <div className="text-[10px] font-bold text-text3 uppercase tracking-wider mb-1">⏱ {choice.timeframe}</div>
+                            <p className="text-xs text-text2 leading-relaxed">{choice.consequence}</p>
+                          </div>
+                          {/* Identity */}
+                          <div className="flex items-start gap-2 pt-2 border-t border-border">
+                            <span className="text-sm flex-shrink-0">🧙</span>
+                            <p className="text-xs text-text2 italic leading-relaxed">
+                              "{choice.aldricFeedback}"
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
+
+              {/* Key insight */}
+              <div className="card p-4 border-l-4 border-gold">
+                <div className="text-xs font-bold text-gold-dk uppercase tracking-wider mb-2">💡 The Bigger Picture</div>
+                <p className="text-sm text-text2 leading-relaxed">{sd.reflection}</p>
+              </div>
+
+              {/* Stat */}
+              <div className="rounded-2xl p-4" style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: 'rgba(245,188,56,0.7)' }}>📊 Real World Data</div>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.75)' }}>{sd.statFact}</p>
+              </div>
+
+              {/* Skill */}
               <div className="rounded-xl p-3 flex items-center gap-3" style={{ background: '#EEF4FF', border: '1.5px solid #B8D0FF' }}>
                 <div className="text-2xl">🔓</div>
                 <div>
-                  <div className="text-xs font-bold text-blue-700">Skill Unlocked</div>
+                  <div className="text-xs font-bold text-blue-700">Skill Developed</div>
                   <div className="text-sm font-bold text-text1">{sd.skillUnlocked}</div>
                 </div>
               </div>
 
-              {/* Affiliate CTA — only show for relevant quests */}
-              {(questId === 15 || questId === 24 || questId === 25 || (scenarioChoice && scenarioChoice.isOptimal)) && (
-                <div className="rounded-2xl overflow-hidden" style={{ border: '1.5px solid rgba(58,158,92,0.4)' }}>
-                  <div className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-center"
-                    style={{ background: 'linear-gradient(135deg, #1a3a12, #2a5a22)', color: 'rgba(111,207,151,0.8)' }}>
-                    🚀 Ready to invest for real?
-                  </div>
-                  <div className="p-4 bg-white">
-                    <p className="text-xs text-text2 text-center mb-3">Open a free account and start your real savings plan today.</p>
-                    <div className="flex flex-col gap-2">
-                      <a href="YOUR_TRADE_REPUBLIC_AFFILIATE_LINK" target="_blank" rel="noopener noreferrer"
-                        className="flex items-center justify-between p-3 rounded-xl border-2 transition-all hover:shadow-md"
-                        style={{ borderColor: '#E8453A20', background: '#FFF8F8' }}>
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black"
-                            style={{ background: '#E8453A', color: 'white' }}>T</div>
-                          <div>
-                            <div className="font-bold text-sm text-text1">Trade Republic</div>
-                            <div className="text-xs text-text3">€0 fees · Mobile-first · BaFin regulated</div>
-                          </div>
-                        </div>
-                        <div className="text-xs font-bold text-green-600 flex-shrink-0">Free →</div>
-                      </a>
-                      <a href="YOUR_SCALABLE_AFFILIATE_LINK" target="_blank" rel="noopener noreferrer"
-                        className="flex items-center justify-between p-3 rounded-xl border-2 transition-all hover:shadow-md"
-                        style={{ borderColor: '#3B7AD820', background: '#F8FAFF' }}>
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg font-black"
-                            style={{ background: '#3B7AD8', color: 'white' }}>S</div>
-                          <div>
-                            <div className="font-bold text-sm text-text1">Scalable Capital</div>
-                            <div className="text-xs text-text3">€0 fees · Web + mobile · More ETFs</div>
-                          </div>
-                        </div>
-                        <div className="text-xs font-bold text-green-600 flex-shrink-0">Free →</div>
-                      </a>
-                    </div>
-                    <p className="text-[10px] text-text3 text-center mt-2">* Affiliate links — we may earn a small commission at no cost to you</p>
-                  </div>
-                </div>
-              )}
-              {!scenarioChoice.isOptimal && (
-                <button onClick={() => setScenarioPhase('rebuild')}
-                  className="w-full py-3 rounded-2xl font-black text-sm text-[#1A1200] transition-all active:scale-95"
-                  style={{ background: 'linear-gradient(135deg, #c4870a, #E8A820)' }}>
-                  🔄 Try Again With New Knowledge →
-                </button>
-              )}
               <button onClick={() => completeQuest()}
-                className={`w-full py-3 rounded-2xl font-black text-sm transition-all active:scale-95 ${scenarioChoice.isOptimal ? 'text-white' : 'bg-bg3 text-text2 border border-border'}`}
-                style={scenarioChoice.isOptimal ? { background: 'linear-gradient(135deg, #2d7a45, #3A9E5C)' } : {}}>
-                {completing ? 'Saving...' : scenarioChoice.isOptimal ? `✅ Complete → +${quest.xp} XP · +${quest.gold} 🪙` : 'Skip and Complete'}
+                className="w-full py-3 rounded-2xl font-black text-sm text-white transition-all active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #2d7a45, #3A9E5C)' }}>
+                {completing ? 'Saving...' : `✅ Complete → +${quest.xp} XP · +${quest.gold} 🪙`}
               </button>
             </div>
           )}
 
+          {/* ── REBUILD ── */}
           {scenarioPhase === 'rebuild' && (
             <div className="flex flex-col gap-4">
               <div className="text-center">
                 <div className="text-3xl mb-2">🔄</div>
-                <div className="font-bold text-lg text-text1">Rebuild Your Decision</div>
-                <div className="text-sm text-text2">Now that you know the outcome — what would you choose?</div>
+                <div className="font-bold text-lg text-text1">Replay with New Knowledge</div>
+                <div className="text-sm text-text2">Which strategy would you choose now?</div>
               </div>
-              <div className="rounded-xl p-3 bg-bg3 border border-border text-sm text-text2 italic">{sd.situation}</div>
+              <div className="rounded-xl p-3 bg-bg3 border border-border text-sm text-text2 italic text-center">{sd.situation}</div>
               <div className="flex flex-col gap-3">
                 {sd.choices.map((choice) => (
                   <button key={choice.id}
                     onClick={() => { setScenarioChoice(choice); completeQuest() }}
-                    className={`text-left p-4 rounded-2xl border-2 transition-all active:scale-[0.98] ${choice.isOptimal ? 'border-green-bd bg-green-bg' : 'border-border bg-white hover:border-gold-bd'}`}>
+                    className="text-left p-4 rounded-2xl border-2 transition-all active:scale-[0.98]"
+                    style={{
+                      borderColor: choice.isOptimal ? '#88D4A4' : '#E4E0D8',
+                      background: choice.isOptimal ? '#EDFAF2' : '#fff'
+                    }}>
                     <div className="flex items-start gap-3">
-                      <span className="text-3xl flex-shrink-0">{choice.icon}</span>
+                      <span className="text-2xl flex-shrink-0">{choice.icon}</span>
                       <div className="flex-1">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mb-0.5">
                           <div className="font-bold text-text1">{choice.label}</div>
-                          {choice.isOptimal && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-green-600 text-white">Optimal</span>}
                         </div>
-                        <div className="text-sm text-text2">{choice.desc}</div>
+                        <div className="text-xs font-bold" style={{ color: choice.isOptimal ? '#3A9E5C' : '#888' }}>
+                          {choice.investorType || choice.emotionalLabel}
+                        </div>
+                        <div className="text-xs text-text3 mt-1">{choice.desc}</div>
+                      </div>
+                      <div className={`font-black text-sm flex-shrink-0 ${choice.portfolioImpact >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                        {choice.portfolioImpact >= 0 ? '+' : ''}{choice.portfolioImpact}%
                       </div>
                     </div>
                   </button>
