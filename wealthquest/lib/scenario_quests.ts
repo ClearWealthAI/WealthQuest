@@ -263,7 +263,7 @@ export const SCENARIO_QUESTS: ScenarioData[] = [
       {
         id: 'wait', label: 'Wait for a Correction', icon: '⏳',
         desc: 'Hold cash until markets dip, then invest',
-        tradeoff: { benefit: 'Avoids immediate market risk', risk: 'Cash loses 3%+ to inflation annually', cost: 'Markets may never 'correct' to your target entry' },
+        tradeoff: { benefit: 'Avoids immediate market risk', risk: 'Cash loses 3%+ to inflation annually', cost: 'Markets may never reach your target entry point' },
         investorType: 'Market Timer',
         phase1: 'Markets rise 3% in the month after you decide to wait. The entry point keeps moving away.',
         identityLabel: 'You searched for certainty in an uncertain market.',
