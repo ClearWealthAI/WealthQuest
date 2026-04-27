@@ -116,15 +116,14 @@ export function SkillTreeCard({ completedQuests }: { completedQuests: number[] }
 
   const totalLevel = Object.values(progress).reduce((sum, p) => sum + p.level, 0)
   const maxLevel = SKILLS.length * 4
+  const levelLabels = ['Recognition', 'Application', 'Pressure', 'Integration']
 
   return (
     <div className="card mb-4">
       <div className="flex items-center justify-between mb-3">
         <div>
           <div className="font-bold text-sm text-text1">🌳 Skill Tree</div>
-          <div className="text-xs text-text2">
-            Investor Level {totalLevel} / {maxLevel}
-          </div>
+          <div className="text-xs text-text2">Investor Level {totalLevel} / {maxLevel}</div>
         </div>
         <button onClick={() => setExpanded(!expanded)} className="text-xs font-bold text-gold-dk hover:underline">
           {expanded ? 'Collapse' : 'View All'}
@@ -135,7 +134,7 @@ export function SkillTreeCard({ completedQuests }: { completedQuests: number[] }
       <div className="grid grid-cols-5 gap-1.5 mb-2">
         {SKILLS.map(skill => {
           const p = progress[skill.id]
-          const pct = p.level > 0 ? (p.completed / p.nextLevelAt) * 100 : 0
+          const pct = p.completedNodes > 0 ? (p.completedNodes / p.totalNodes) * 100 : 0
           return (
             <div key={skill.id} className="flex flex-col items-center gap-1">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg relative"
@@ -162,12 +161,7 @@ export function SkillTreeCard({ completedQuests }: { completedQuests: number[] }
         <div className="flex flex-col gap-3 mt-3 pt-3 border-t border-border">
           {SKILLS.map(skill => {
             const p = progress[skill.id]
-            const currentLevelData = skill.levels[p.level - 1]
-            const nextLevelData = skill.levels[p.level]
-            const pct = p.level > 0
-              ? ((p.completed - (skill.levels[p.level - 1]?.questsRequired || 0)) /
-                 ((nextLevelData?.questsRequired || p.total) - (skill.levels[p.level - 1]?.questsRequired || 0))) * 100
-              : (p.completed / skill.levels[0].questsRequired) * 100
+            const pct = p.totalNodes > 0 ? (p.completedNodes / p.totalNodes) * 100 : 0
 
             return (
               <div key={skill.id} className="rounded-xl p-3" style={{ background: skill.bgColor, border: `1px solid ${skill.color}20` }}>
@@ -177,7 +171,7 @@ export function SkillTreeCard({ completedQuests }: { completedQuests: number[] }
                     {skill.icon}
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <div className="font-bold text-sm text-text1">{skill.name}</div>
                       {p.level > 0 && (
                         <div className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
@@ -186,21 +180,15 @@ export function SkillTreeCard({ completedQuests }: { completedQuests: number[] }
                         </div>
                       )}
                     </div>
-                    <div className="text-xs text-text2 mt-0.5">{skill.description}</div>
+                    <div className="text-xs text-text2 mt-0.5">{skill.tagline}</div>
                   </div>
                 </div>
 
-                {/* Level progress */}
-                <div className="mb-2">
+                {/* Node progress bar */}
+                <div className="mb-3">
                   <div className="flex justify-between text-[10px] text-text3 mb-1">
-                    <span>
-                      {p.level < 4
-                        ? `${p.completed} / ${nextLevelData?.questsRequired || p.total} quests → Level ${p.level + 1}`
-                        : `Max level reached · ${p.completed} quests`}
-                    </span>
-                    <span style={{ color: skill.color }}>
-                      {p.level < 4 ? (nextLevelData?.label || 'Max') : '🏆 Mastered'}
-                    </span>
+                    <span>{p.completedNodes} / {p.totalNodes} nodes unlocked</span>
+                    <span style={{ color: skill.color }}>{p.level === 4 ? '🏆 Mastered' : p.levelLabel}</span>
                   </div>
                   <div className="h-2 bg-white rounded-full overflow-hidden border border-border">
                     <div className="h-full rounded-full transition-all duration-500"
@@ -208,21 +196,36 @@ export function SkillTreeCard({ completedQuests }: { completedQuests: number[] }
                   </div>
                 </div>
 
-                {/* Current level description */}
-                {currentLevelData && (
-                  <div className="text-[10px] text-text2 italic">"{currentLevelData.description}"</div>
-                )}
+                {/* Node list */}
+                <div className="flex flex-col gap-1.5">
+                  {p.nodeDetails.map(({ node, completed, unlocked }) => (
+                    <div key={node.id} className={`flex items-center gap-2 text-xs rounded-lg px-2 py-1.5 ${
+                      completed ? 'opacity-100' : unlocked ? 'opacity-60' : 'opacity-30'
+                    }`} style={{ background: completed ? skill.color + '20' : 'rgba(0,0,0,0.04)' }}>
+                      <span className="text-sm flex-shrink-0">
+                        {completed ? '✅' : unlocked ? '🔓' : '🔒'}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-text1 text-[11px]">{node.name}</div>
+                        <div className="text-text3 text-[10px] leading-tight">{node.description}</div>
+                      </div>
+                      <div className="text-[9px] font-bold flex-shrink-0" style={{ color: skill.color }}>
+                        Lvl {node.level}
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
                 {/* Level markers */}
                 <div className="flex gap-1 mt-2">
-                  {skill.levels.map(lvl => (
-                    <div key={lvl.level}
+                  {levelLabels.map((label, i) => (
+                    <div key={label}
                       className="flex-1 py-1 rounded text-center text-[9px] font-bold"
                       style={{
-                        background: p.level >= lvl.level ? skill.color : 'rgba(0,0,0,0.06)',
-                        color: p.level >= lvl.level ? 'white' : '#A89E90'
+                        background: p.level >= i + 1 ? skill.color : 'rgba(0,0,0,0.06)',
+                        color: p.level >= i + 1 ? 'white' : '#A89E90'
                       }}>
-                      {lvl.label}
+                      {label}
                     </div>
                   ))}
                 </div>
